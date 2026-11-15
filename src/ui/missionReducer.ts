@@ -1,10 +1,11 @@
-import gameStormsData from '../data/gameStorms.json'
 import type { StormBadge } from '../data/loadStorms'
 import { createMission, missionResult, playSol } from '../engine/sim'
+import type { MissionConfig } from '../engine/types'
 import type {
   ClockMove,
   Difficulty,
   MissionState,
+  Prediction,
   Result,
   Site,
   SolPlan,
@@ -13,7 +14,7 @@ import type {
 } from '../engine/types'
 import type { InfoPageId } from './components/InfoNav'
 
-export type ScreenName = 'picker' | 'briefing' | 'sol' | 'clock' | 'debrief'
+export type ScreenName = 'picker' | 'collection' | 'briefing' | 'sol' | 'clock' | 'debrief'
 
 export interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>
@@ -35,6 +36,8 @@ export interface AppState {
   finalResult: Result | null
   worldResults: Record<string, { moon?: Result; mars?: Result }>
   muted: boolean
+  challengeStars: number | null
+  prediction: Prediction | null
   isOffline: boolean
   installPrompt: BeforeInstallPromptEvent | null
 }
@@ -45,6 +48,9 @@ export type AppAction =
   | { type: 'SET_STORM'; id: string }
   | { type: 'SET_DIFFICULTY'; difficulty: Difficulty }
   | { type: 'GO_BRIEFING' }
+  | { type: 'DAILY_MISSION'; config: MissionConfig }
+  | { type: 'OPEN_COLLECTION' }
+  | { type: 'SET_PREDICTION'; prediction: Prediction }
   | {
       type: 'START_MISSION'
       seed?: number
@@ -82,55 +88,6 @@ function recordWorldResult(
   }
 }
 
-export function createInitialState(): AppState {
-  const savedStorms = (gameStormsData.storms as Storm[]).map((s) => ({
-    ...s,
-    source: 'saved' as const,
-  }))
-  const params =
-    typeof window !== 'undefined'
-      ? new URLSearchParams(window.location.search)
-      : new URLSearchParams()
-
-  const siteParam = params.get('site') === 'mars' ? 'mars' : 'moon'
-  const diffParam =
-    params.get('difficulty') === 'commander' ? 'commander' : 'cadet'
-  const seedRaw = params.get('seed')
-  const stormParam = params.get('storm')
-  const matchedStorm =
-    savedStorms.find((s) => s.id === stormParam) ?? savedStorms[0]
-  const parsedSeed =
-    seedRaw !== null && Number.isFinite(Number(seedRaw)) ? Number(seedRaw) : 101
-  const hasUrlTest = seedRaw !== null
-
-  const cfg = {
-    site: siteParam as Site,
-    storm: matchedStorm,
-    seed: parsedSeed,
-    difficulty: diffParam as Difficulty,
-  }
-
-  return {
-    screen: hasUrlTest ? 'sol' : 'picker',
-    infoPage: null,
-    storms: savedStorms,
-    badge: { kind: 'SAVED', date: gameStormsData.fetchedAt.slice(0, 10) },
-    site: siteParam,
-    stormId: matchedStorm.id,
-    difficulty: diffParam,
-    seed: parsedSeed,
-    mission: hasUrlTest ? createMission(cfg) : null,
-    solPlan: defaultPlanFor(diffParam),
-    solPlans: [],
-    pendingClockOutcome: null,
-    finalResult: null,
-    worldResults: {},
-    muted: false,
-    isOffline: typeof navigator !== 'undefined' ? !navigator.onLine : false,
-    installPrompt: null,
-  }
-}
-
 export function missionReducer(state: AppState, action: AppAction): AppState {
   switch (action.type) {
     case 'LOADED_STORMS': {
@@ -157,6 +114,21 @@ export function missionReducer(state: AppState, action: AppAction): AppState {
       return { ...state, difficulty: action.difficulty }
     case 'GO_BRIEFING':
       return { ...state, screen: 'briefing', infoPage: null }
+    case 'DAILY_MISSION':
+      return {
+        ...state,
+        screen: 'briefing',
+        infoPage: null,
+        site: action.config.site,
+        stormId: action.config.storm.id,
+        difficulty: action.config.difficulty,
+        seed: action.config.seed,
+        prediction: null,
+      }
+    case 'OPEN_COLLECTION':
+      return { ...state, screen: 'collection', infoPage: null }
+    case 'SET_PREDICTION':
+      return { ...state, prediction: action.prediction }
     case 'START_MISSION': {
       const site = action.site ?? state.site
       const difficulty = action.difficulty ?? state.difficulty
@@ -178,6 +150,7 @@ export function missionReducer(state: AppState, action: AppAction): AppState {
         solPlans: [],
         pendingClockOutcome: null,
         finalResult: null,
+        prediction: null,
       }
     }
     case 'SET_SOL_PLAN':

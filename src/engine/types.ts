@@ -11,6 +11,8 @@ export type TextParams = Record<string, TextParam>
 
 export type ClockMove = 'work' | 'shelter'
 export type ClockOutcome = 'sheltered' | 'caught' | 'false_alarm'
+export type GoalId = 'boldCall' | 'leanMachine' | 'safeHands' | 'scienceSprint' | 'ironCrew'
+export type Prediction = 'yes' | 'no' | 'unsure'
 
 export interface Storm {
   id: string
@@ -53,6 +55,7 @@ export interface ClockResult {
   oldMessage: boolean
   K: number
   A: number | null
+  shelterBlock: number | null
   outcome: ClockOutcome
   scienceGained: number
   stormDose: number
@@ -65,6 +68,7 @@ export interface PlayClockResult {
   scienceGained: number
   stormDose: number
   outcome: ClockOutcome
+  shelterBlock: number | null
   log: string[]
   outcomeText: string
   outcomeTextKey: string
@@ -78,6 +82,7 @@ export interface Result {
   air: number
   health: number
   science: number
+  minAir: number
   endedOnSol: number
   stormSol: number
   dustSol?: number | null

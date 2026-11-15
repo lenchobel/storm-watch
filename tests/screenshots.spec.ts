@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test'
+import { choosePredictionIfShown } from './helpers'
 
 /**
  * Captures every screen at the two reference sizes from BLUEPRINT section 7
@@ -41,6 +42,7 @@ async function playToDebrief(page: Page) {
       continue
     }
     if (await endBtn.isVisible()) {
+      await choosePredictionIfShown(page)
       await endBtn.click()
       await page.waitForTimeout(200)
       continue
@@ -59,7 +61,10 @@ async function playOromoToDebrief(page: Page) {
     else if (await shelterBtn.isVisible() && await shelterBtn.isEnabled()) {
       await shelterBtn.click()
     }
-    else if (await endBtn.isVisible()) await endBtn.click()
+    else if (await endBtn.isVisible()) {
+      await choosePredictionIfShown(page)
+      await endBtn.click()
+    }
     await page.waitForTimeout(120)
   }
 }
@@ -76,6 +81,7 @@ async function captureOromoScreens(page: Page, size: string) {
   for (let i = 0; i < 12; i++) {
     const endBtn = page.getByTestId('end-day')
     if (!(await endBtn.isVisible())) break
+    await choosePredictionIfShown(page)
     await endBtn.click()
   }
   await page.getByTestId('shelter-now').waitFor()
@@ -95,6 +101,16 @@ for (const size of SIZES) {
     await page.goto('/')
     await page.getByRole('heading', { name: 'Storm Watch' }).waitFor()
     await shot(page, `${size.name}-01-picker`)
+
+    await page.getByRole('button', { name: 'Storm collection' }).click()
+    await page.getByTestId('collection').waitFor()
+    await shot(page, `${size.name}-01d-collection`)
+    await page.getByRole('button', { name: 'Back to mission' }).click()
+
+    await page.getByRole('button', { name: 'Play daily mission' }).click()
+    await page.getByTestId('briefing').waitFor()
+    await shot(page, `${size.name}-01e-daily-briefing`)
+    await page.getByRole('button', { name: 'Pick another storm' }).click()
 
     // 1b. The sound toggle, in both states.
     const muteBtn = page.getByRole('button', { name: 'Mute sound' })
@@ -141,6 +157,7 @@ for (const size of SIZES) {
       await page.getByRole('button', { name: 'End the day' }).click()
       await page.waitForTimeout(150)
     }
+    await choosePredictionIfShown(page)
     await page.getByRole('button', { name: 'End the day' }).click()
     await page.waitForTimeout(400)
     await shot(page, `${size.name}-${String(step).padStart(2, '0')}-storm-clock`)

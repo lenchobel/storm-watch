@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test'
-import { assertAxeClean, auditSentences, playToDebrief } from './helpers'
+import { assertAxeClean, auditSentences, choosePredictionIfShown, playToDebrief } from './helpers'
 
 const PARTICLE_FAST_ID = '2024-05-11T01:10:00-FLR-001'
 const FALSE_ALARM_ID = '2023-11-28T19:35:00-FLR-001'
@@ -15,6 +15,7 @@ test('Storm Clock covers sheltered, caught, and false_alarm plus reduced motion'
     `/?seed=1&storm=${PARTICLE_FAST_ID}&site=moon&difficulty=cadet`
   )
   while (await page.getByRole('button', { name: 'End the day' }).isVisible()) {
+    await choosePredictionIfShown(page)
     await page.getByRole('button', { name: 'End the day' }).click()
   }
   await page.getByRole('button', { name: 'Shelter now' }).waitFor()
@@ -34,6 +35,7 @@ test('Storm Clock covers sheltered, caught, and false_alarm plus reduced motion'
     `/?seed=1&storm=${PARTICLE_FAST_ID}&site=moon&difficulty=cadet`
   )
   while (await page.getByRole('button', { name: 'End the day' }).isVisible()) {
+    await choosePredictionIfShown(page)
     await page.getByRole('button', { name: 'End the day' }).click()
   }
   await page.getByRole('button', { name: 'Work one more block' }).click()
@@ -46,6 +48,7 @@ test('Storm Clock covers sheltered, caught, and false_alarm plus reduced motion'
     `/?seed=1&storm=${FALSE_ALARM_ID}&site=moon&difficulty=cadet`
   )
   while (await page.getByRole('button', { name: 'End the day' }).isVisible()) {
+    await choosePredictionIfShown(page)
     await page.getByRole('button', { name: 'End the day' }).click()
   }
   await page.getByRole('button', { name: 'Shelter now' }).click()

@@ -139,6 +139,7 @@ export function playClock(
   const log: string[] = []
   let scienceGained = 0
   let outcome: ClockOutcome = 'false_alarm'
+  let shelterBlock: number | null = null
 
   const effectiveMoves = moves ?? ['shelter']
 
@@ -147,6 +148,7 @@ export function playClock(
 
     if (move === 'shelter') {
       outcome = 'sheltered'
+      shelterBlock = b
       log.push(`Block ${b}: sheltered safely.`)
       break
     }
@@ -182,6 +184,7 @@ export function playClock(
     scienceGained,
     stormDose,
     outcome,
+    shelterBlock,
     log,
     ...clockOutcomeText(setup, outcome, scienceGained, stormDose),
   }

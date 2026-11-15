@@ -1,4 +1,4 @@
-export type SoundName = 'tick' | 'warning' | 'hit' | 'door' | 'success'
+export type SoundName = 'tick' | 'warning' | 'hit' | 'door' | 'success' | 'best'
 
 let ctx: AudioContext | null = null
 let muted = false
@@ -72,9 +72,10 @@ export function playSound(name: SoundName): void {
     osc.frequency.setValueAtTime(523, now)
     osc.frequency.setValueAtTime(659, now + 0.09)
     osc.frequency.setValueAtTime(784, now + 0.18)
+    if (name === 'best') osc.frequency.setValueAtTime(988, now + 0.27)
     gain.gain.setValueAtTime(0.1, now)
-    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.34)
+    gain.gain.exponentialRampToValueAtTime(0.001, now + (name === 'best' ? 0.44 : 0.34))
     osc.start(now)
-    osc.stop(now + 0.34)
+    osc.stop(now + (name === 'best' ? 0.44 : 0.34))
   }
 }

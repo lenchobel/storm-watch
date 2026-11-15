@@ -2,11 +2,11 @@ import { useMemo } from 'react'
 import { previewClock } from '../../engine/clock'
 import { affordableBolts } from '../../engine/rules'
 import { warningSolFor } from '../../engine/sim'
-import type { MissionState, SolPlan, TextParams } from '../../engine/types'
+import type { MissionState, Prediction, SolPlan, TextParams } from '../../engine/types'
 import { useI18n } from '../../i18n'
 import { Icon } from '../components/Icon'
 import { Orbi } from '../components/Orbi'
-import { SceneSvg } from '../components/SceneSvg'
+import { SceneView } from '../components/SceneView'
 import { TopHud } from '../components/TopHud'
 import { starGoalLine } from '../copy'
 
@@ -15,6 +15,9 @@ interface SolScreenProps {
   solPlan: SolPlan
   onChangePlan: (next: SolPlan) => void
   onEndDay: () => void
+  prediction: Prediction | null
+  onPredict: (prediction: Prediction) => void
+  simpleView: boolean
 }
 
 const PRESETS: Array<{ id: string; labelKey: string; plan: SolPlan }> = [
@@ -32,6 +35,9 @@ export function SolScreen({
   solPlan,
   onChangePlan,
   onEndDay,
+  prediction,
+  onPredict,
+  simpleView,
 }: SolScreenProps) {
   const { t } = useI18n()
   const maxBolts = affordableBolts(state.power)
@@ -96,13 +102,14 @@ export function SolScreen({
         sol={state.sol}
       />
 
-      <SceneSvg
+      <SceneView
         site={state.cfg.site}
         seed={state.cfg.seed}
         shieldLevel={solPlan.shield}
         isDustSol={isDustSol}
         showSignal={showWarning}
         flareGlow={showWarning}
+        simpleView={simpleView}
       />
 
       <div className="orbi-bubble" aria-live="polite">
@@ -189,10 +196,27 @@ export function SolScreen({
         })}
       </div>
 
+      {state.sol === state.stormSol && (
+        <section className="card" aria-label={t('predict.title')}>
+          <h2 className="h2-title">{t('predict.title')}</h2>
+          <div className="toggle-row">
+            {(['yes', 'no', 'unsure'] as Prediction[]).map((choice) => (
+              <button key={choice} type="button" aria-pressed={prediction === choice}
+                data-testid={`predict-${choice}`}
+                className={prediction === choice ? 'is-selected' : ''}
+                onClick={() => onPredict(choice)}>
+                {t(`predict.${choice}`)}
+              </button>
+            ))}
+          </div>
+        </section>
+      )}
+
       <button
         type="button"
         className="cta-btn"
         data-testid="end-day"
+        disabled={state.sol === state.stormSol && prediction === null}
         onClick={onEndDay}
       >
         {t('sol.endDay')}

@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test'
+import { choosePredictionIfShown } from './helpers'
 
 /**
  * Demo moments for the 30 second video.
@@ -22,6 +23,7 @@ async function playToStormSol(page: Page) {
 
 /** On the storm sol, one "End the day" opens the Storm Clock. */
 async function openClock(page: Page) {
+  await choosePredictionIfShown(page, 'yes')
   await page.getByRole('button', { name: 'End the day' }).click()
   await page.waitForTimeout(200)
 }

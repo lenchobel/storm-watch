@@ -40,6 +40,11 @@ export async function assertAxeClean(page: Page, label: string) {
   expect(bad, `Axe serious/critical on ${label}`).toEqual([])
 }
 
+export async function choosePredictionIfShown(page: Page, choice = 'unsure') {
+  const button = page.getByTestId(`predict-${choice}`)
+  if (await button.isVisible()) await button.click()
+}
+
 /**
  * Fails when any sentence a child can read is longer than `maxWords`.
  * Glossary entries are allowed up to 16 words.
@@ -88,6 +93,7 @@ export async function playToDebrief(
       continue
     }
     if (await endBtn.isVisible()) {
+      await choosePredictionIfShown(page)
       await endBtn.click()
       continue
     }

@@ -30,6 +30,7 @@
     "test": "vitest run",
     "balance": "tsx scripts/balance-bot.ts",
     "stars": "tsx scripts/star-reach.ts",
+    "goals": "tsx scripts/goals-reach.ts",
     "storms": "tsx scripts/print-storm-table.ts",
     "facts": "tsx scripts/check-facts.ts",
     "live": "tsx scripts/check-live-donki.ts",
@@ -38,7 +39,8 @@
   },
   "dependencies": {
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "three": "^0.187.0"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.14.0",
@@ -46,6 +48,7 @@
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "@types/three": "^0.187.0",
     "@vitejs/plugin-react": "^4.3.4",
     "tsx": "^4.23.15",
     "typescript": "^5.7.2",

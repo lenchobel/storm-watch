@@ -1,14 +1,25 @@
+import { useState } from 'react'
 import type { StormBadge } from '../../data/loadStorms'
+import type { MissionConfig } from '../../engine/types'
 import factsData from '../../data/facts.json'
 import { useI18n } from '../../i18n'
 import { GLOSSARY, SIMPLIFIED_POINTS, TEACHER_PLAN } from '../copy'
 import type { InfoPageId } from '../components/InfoNav'
+import { SimpleViewToggle } from '../components/SimpleViewToggle'
 
 interface InfoScreenProps {
   page: InfoPageId
   badge: StormBadge
   onSelectPage: (page: InfoPageId) => void
   onClose: () => void
+  vibration: boolean
+  onToggleVibration: () => void
+  onClearProgress: () => void
+  classroomMode: boolean
+  onToggleClassroom: () => void
+  daily: MissionConfig
+  simpleView: boolean
+  onToggleSimpleView: () => void
 }
 
 export function InfoScreen({
@@ -16,8 +27,17 @@ export function InfoScreen({
   badge,
   onSelectPage,
   onClose,
+  vibration,
+  onToggleVibration,
+  onClearProgress,
+  classroomMode,
+  onToggleClassroom,
+  daily,
+  simpleView,
+  onToggleSimpleView,
 }: InfoScreenProps) {
   const { t } = useI18n()
+  const [confirmClear, setConfirmClear] = useState(false)
 
   return (
     <main className="screen-stack" data-testid="info">
@@ -77,7 +97,7 @@ export function InfoScreen({
       )}
 
       {page === 'teacher' && (
-        <section className="card">
+        <section className="card teacher-plan">
           <h1 className="brand-title">{t(TEACHER_PLAN.titleKey)}</h1>
           <p>{t(TEACHER_PLAN.goalKey)}</p>
           <p>{t('teacher.bases')}</p>
@@ -99,6 +119,26 @@ export function InfoScreen({
               <li key={key}>{t(key)}</li>
             ))}
           </ul>
+          <h2 className="h2-title">{t('teacher.learningTitle')}</h2>
+          <ul className="info-list">
+            {[1, 2, 3].map((n) => <li key={n}>{t(`teacher.learning${n}`)}</li>)}
+          </ul>
+          <h2 className="h2-title">{t('teacher.classChallenge')}</h2>
+          <label className="setting-row no-print">
+            <input type="checkbox" checked={classroomMode} onChange={onToggleClassroom} />
+            {t('classroom.title')}
+          </label>
+          <p>{t('teacher.predictFirst')} {t('teacher.useCollection')}</p>
+          <p><a href={`/?storm=${encodeURIComponent(daily.storm.id)}&site=${daily.site}&difficulty=${daily.difficulty}&seed=${daily.seed}`}>{t('teacher.seedLink', { seed: daily.seed })}</a></p>
+          <table className="class-results" aria-label={t('teacher.classResults')}>
+            <thead><tr>{[1, 2, 3].map((n) => <th key={n}>{t(`teacher.resultHead${n}`)}</th>)}</tr></thead>
+            <tbody>{[1, 2, 3, 4, 5].map((n) => <tr key={n}>
+              <td><input aria-label={t('teacher.groupName', { n })} /></td>
+              <td><input aria-label={t('teacher.stars', { n })} inputMode="numeric" /></td>
+              <td><input aria-label={t('teacher.goals', { n })} /></td>
+            </tr>)}</tbody>
+          </table>
+          <button type="button" className="secondary-btn no-print" onClick={() => window.print()}>{t('teacher.printResults')}</button>
           <button
             type="button"
             className="secondary-btn no-print"
@@ -117,6 +157,20 @@ export function InfoScreen({
           <p>{t('info.about.ai')}</p>
           <p>{t('info.about.placeNames')}</p>
           <p>{t('info.about.branding')}</p>
+          <label className="setting-row">
+            <input type="checkbox" checked={vibration} onChange={onToggleVibration} />
+            {t('debrief.vibration')}
+          </label>
+          <SimpleViewToggle enabled={simpleView} onToggle={onToggleSimpleView} />
+          {confirmClear ? (
+            <div className="row-between">
+              <span>{t('debrief.clearConfirm')}</span>
+              <button type="button" onClick={() => { onClearProgress(); setConfirmClear(false) }}>{t('debrief.clearYes')}</button>
+              <button type="button" onClick={() => setConfirmClear(false)}>{t('debrief.clearNo')}</button>
+            </div>
+          ) : (
+            <button type="button" className="secondary-btn" onClick={() => setConfirmClear(true)}>{t('debrief.clearProgress')}</button>
+          )}
         </section>
       )}
 

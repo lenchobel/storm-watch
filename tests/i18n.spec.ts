@@ -5,6 +5,7 @@ import {
   assertMeterLabelsFit,
   assertNoHorizontalOverflow,
   auditSentences,
+  choosePredictionIfShown,
 } from './helpers'
 
 const OUT = 'screenshots'
@@ -59,6 +60,7 @@ test('Afaan Oromoo: layout, targets, axe, lang, full mission, info, screenshots'
   for (let i = 0; i < 12; i++) {
     const endBtn = page.getByTestId('end-day')
     if (!(await endBtn.isVisible())) break
+    await choosePredictionIfShown(page)
     await endBtn.click()
     await page.waitForTimeout(100)
   }
@@ -71,6 +73,7 @@ test('Afaan Oromoo: layout, targets, axe, lang, full mission, info, screenshots'
 
   await page.getByTestId('shelter-now').click()
   await page.getByTestId('continue').waitFor()
+  await assertAxeClean(page, 'clock outcome-om')
   for (let i = 0; i < 24; i++) {
     if (await page.getByTestId('debrief').isVisible()) break
     const continueBtn = page.getByTestId('continue')
@@ -83,6 +86,7 @@ test('Afaan Oromoo: layout, targets, axe, lang, full mission, info, screenshots'
       await shelterBtn.click()
       await page.waitForTimeout(700)
     } else if (await endBtn.isVisible()) {
+      await choosePredictionIfShown(page)
       await endBtn.click()
       await page.waitForTimeout(100)
     } else {

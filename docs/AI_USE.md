@@ -116,3 +116,16 @@
   - Expanded the browser screenshot coverage to the requested five screens, two languages, and two viewport sizes. Added an Oromo meter-fit assertion without changing any existing expected values.
 - **Human Verification**: Unit tests and build passed. The 13-test Playwright suite passed with screenshots at 360x640 and 1280x800. `npm run i18n:check` passed. Screenshots were visually reviewed in English and Afaan Oromoo. No AI-generated media was used.
 
+## Stages B–D: Progress, classroom, and optional 3D (2026-11-15)
+- **Tool**: OpenAI Codex assistant; no external translation or image service used.
+- **Scope**:
+  - Added seeded daily missions, goals, local progress, ranks, challenge links, and storm collection.
+  - Added prediction-before-clock, debrief learning cards, forecaster score, classroom mode, teacher lesson, class challenge, and printable group table.
+  - Added an optional procedural Three.js scene with SVG loading and failure fallback. The Earth texture is drawn in code; no external imagery or audio was added.
+  - Added English and Afaan Oromoo catalogue entries. Translation remains a draft requiring fluent-speaker review.
+- **Choices**: Goal thresholds stayed unchanged after the 100,000-plan reachability search. False-alarm teaching uses a plainly labeled game note because `facts.json` has no general flare false-alarm rate. Classroom records stay on-device; no student data is uploaded.
+- **Existing tests**: No existing expected values or assertions were altered. Existing mission helpers now answer “Not sure” before the storm-sol action when prompted. Screenshot coverage adds the collection and daily briefing. New Stage B, C, and D tests cover the added flows.
+- **Visual review**: Generated 96 paired screenshots for 2D and 3D, Moon and Mars, sheltered/caught/false-alarm clock states, and debriefs at 360x640 and 1280x800. Reviewed representative pairs for scene meaning and layout. The in-app Chrome session chose the 2D fallback; Playwright SwiftShader rendered and tested 3D.
+- **Verification**: 67 unit tests passed; build passed; 334 catalogue keys and placeholders match. All 27 Playwright tests passed, including screen accessibility in English and Afaan Oromoo, keyboard-only play, 3D gameplay and fallback, screenshot comparisons, and a one-page lesson PDF. Goal reachability passed the 70% bar without threshold changes.
+- **Review still needed**: A fluent Afaan Oromoo speaker should review the draft. The local app used its saved NASA snapshot; live NASA fetching and deployment were not checked in this pass.
+

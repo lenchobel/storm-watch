@@ -11,7 +11,20 @@ export default defineConfig({
   timeout: 45_000,
   use: {
     baseURL: 'http://127.0.0.1:4173',
-    ...(executablePath ? { launchOptions: { executablePath } } : {}),
+    storageState: {
+      cookies: [],
+      origins: [{
+        origin: 'http://127.0.0.1:4173',
+        localStorage: [{ name: 'storm-watch-v1', value: JSON.stringify({
+          version: 1, bestStars: {}, runs: [], daysPlayed: [], forecaster: { right: 0, guesses: 0 },
+          settings: { language: 'en', muted: false, vibration: true, classroom: false, simpleView: true },
+        }) }],
+      }],
+    },
+    launchOptions: {
+      ...(executablePath ? { executablePath } : {}),
+      args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'],
+    },
   },
   webServer: {
     command: 'npm run build && npx vite preview --host 127.0.0.1 --port 4173',

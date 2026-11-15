@@ -1,14 +1,14 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import factsData from '../../data/facts.json'
-import { TOTAL_SOLS } from '../../engine/rules'
 import { findSaver } from '../../engine/saver'
-import type { MissionConfig, Plan, Result } from '../../engine/types'
+import type { MissionConfig, Plan, Prediction, Result } from '../../engine/types'
+import { evaluateGoals } from '../../engine/goals'
+import { conceptFor } from '../../engine/learning'
 import { useI18n } from '../../i18n'
 import { CompareCard } from '../components/CompareCard'
 import { InfoNav, type InfoPageId } from '../components/InfoNav'
 import { Orbi } from '../components/Orbi'
 import { QuizCheck } from '../components/QuizCheck'
-import { starGoalLine } from '../copy'
 
 interface DebriefScreenProps {
   cfg: MissionConfig
@@ -20,6 +20,10 @@ interface DebriefScreenProps {
   onFlyOtherWorld: () => void
   onPickAnother: () => void
   onOpenInfo: (page: InfoPageId) => void
+  bestStars: number
+  rankUp: string | null
+  newBest: boolean
+  prediction: Prediction | null
 }
 
 function StarIcon({ lit }: { lit: boolean }) {
@@ -51,8 +55,13 @@ export function DebriefScreen({
   onFlyOtherWorld,
   onPickAnother,
   onOpenInfo,
+  bestStars,
+  rankUp,
+  newBest,
+  prediction,
 }: DebriefScreenProps) {
   const { lang, t } = useI18n()
+  const [shareMessage, setShareMessage] = useState('')
   const saver = useMemo(() => findSaver(cfg, plan, result), [cfg, plan, result])
   const fact = factsData[Math.abs(cfg.seed) % factsData.length]
 
@@ -68,22 +77,46 @@ export function DebriefScreen({
   const date = cfg.storm.flarePeak.slice(0, 10)
   const siteName = t(cfg.site === 'moon' ? 'site.moonBase' : 'site.marsBase')
   const otherWorldLabel = t(cfg.site === 'moon' ? 'site.marsBase' : 'site.moonBase')
-  const goal = starGoalLine(cfg.site)
 
-  const orbiLines = [
-    result.survived
-      ? t('debrief.survived', { site: siteName, n: TOTAL_SOLS })
-      : t('debrief.failed', { site: siteName, sol: result.endedOnSol }),
-    t('debrief.healthAir', { health: result.health, air: result.air }),
-    t('debrief.sciencePower', { science: result.science, power: result.power }),
-    t(goal.key, goal.params),
-  ]
+  const orbiLine = result.survived ? t('debrief.orbiWin') : t('debrief.orbiFailed')
+  const goals = evaluateGoals(cfg, result)
+  const concept = conceptFor(cfg, result)
+  const predictionResult = prediction ? t('debrief.prediction', {
+    prediction: t(`predict.${prediction}`),
+    actual: t(cfg.storm.gapHours === undefined ? 'predict.didNot' : 'predict.came'),
+  }) : null
+  const shareChallenge = async () => {
+    const url = new URL(window.location.href)
+    url.search = new URLSearchParams({
+      storm: cfg.storm.id,
+      site: cfg.site,
+      difficulty: cfg.difficulty,
+      seed: String(cfg.seed),
+      beat: String(result.stars),
+    }).toString()
+    try {
+      const base = t(cfg.site === 'moon' ? 'site.moonBase' : 'site.marsBase')
+      const shareText = t('debrief.shareText', { n: result.stars, base })
+      if (navigator.share) await navigator.share({ title: t('debrief.challenge'), text: shareText, url: url.toString() })
+      else {
+        await navigator.clipboard.writeText(url.toString())
+        setShareMessage(t('debrief.copied'))
+      }
+    } catch {
+      try {
+        await navigator.clipboard.writeText(url.toString())
+        setShareMessage(t('debrief.copied'))
+      } catch {
+        setShareMessage(url.toString())
+      }
+    }
+  }
 
   return (
     <main className="screen-stack" data-testid="debrief">
       <section className="card debrief-head">
         <div
-          className="star-row"
+          className="star-row stars-pop"
           role="img"
           aria-label={t('debrief.stars', { n: result.stars })}
         >
@@ -127,15 +160,24 @@ export function DebriefScreen({
         </div>
       </section>
 
+      {predictionResult && <section className="card"><p className="zero-margin">{predictionResult}</p></section>}
+      {concept && <section className="card" aria-label={t('learn.title')}>
+        <h2 className="h2-title">{t('learn.title')}</h2>
+        <p className="zero-margin">{t(`learn.${concept}`)}</p>
+        <h3 className="h2-title">{t('learn.talk')}</h3>
+        <p className="zero-margin">{t(`learn.ask.${concept}`)}</p>
+      </section>}
+
+      <section className="card" aria-label={t('debrief.goals')}>
+        <div className="row-between"><h2 className="h2-title">{t('debrief.goals')}</h2><span>{t('debrief.bestStars', { n: bestStars })}</span></div>
+        {newBest && <p className="rank-up">{t('debrief.newBest')}</p>}
+        {rankUp && <p className="rank-up">{t('debrief.rankUp', { rank: t(`rank.${rankUp}`) })}</p>}
+        {goals.map((goal) => <p className="zero-margin" key={goal.id}>{goal.done ? '✓' : '□'} {t(`goal.${goal.id}`)}</p>)}
+      </section>
+
       <div className="orbi-bubble">
         <Orbi mood={result.survived ? 'calm' : 'worried'} />
-        <div>
-          {orbiLines.map((line, i) => (
-            <p key={i} className="zero-margin">
-              {line}
-            </p>
-          ))}
-        </div>
+        <p className="zero-margin">{orbiLine}</p>
       </div>
 
       <section className="card" aria-label={t('debrief.saverTitle')}>
@@ -161,6 +203,9 @@ export function DebriefScreen({
       </section>
 
       <QuizCheck />
+
+      <button type="button" className="secondary-btn" onClick={() => void shareChallenge()}>{t('debrief.share')}</button>
+      {shareMessage && <p role="status">{shareMessage}</p>}
 
       <div className="controls-stack">
         <button

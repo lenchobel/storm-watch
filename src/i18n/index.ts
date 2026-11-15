@@ -9,6 +9,7 @@ import {
   type ReactNode,
 } from 'react'
 import type { TextParams } from '../engine/types'
+import { loadProgress, PROGRESS_KEY, updateSettings } from '../ui/progress'
 import { translate, type Language } from './translate'
 
 const STORAGE_KEY = 'stormwatch.language'
@@ -24,6 +25,11 @@ const I18nContext = createContext<I18nValue | null>(null)
 function initialLanguage(): Language {
   if (typeof window !== 'undefined') {
     try {
+      const raw = window.localStorage.getItem(PROGRESS_KEY)
+      if (raw) {
+        const stored = loadProgress().settings.language
+        if (stored === 'en' || stored === 'om') return stored
+      }
       const saved = window.localStorage.getItem(STORAGE_KEY)
       if (saved === 'en' || saved === 'om') return saved
     } catch {
@@ -39,6 +45,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   const setLang = useCallback((next: Language) => {
     setLangState(next)
+    updateSettings({ language: next })
     try {
       window.localStorage.setItem(STORAGE_KEY, next)
     } catch {

@@ -15,11 +15,13 @@ NASA Space Apps 2026 · Junior Astronaut Mission Trainer
 Children learn space facts. They rarely practice the trade-offs astronauts make
 when power is short, forecasts can be wrong, and a storm is hours away.
 
-## Three ideas make it ours
+## Five ideas make it ours
 
 1. **The Storm Clock** — Real flare-to-particle gaps set a K-block countdown (`1–4` blocks). Each block, choose **Work** (`+1` science) or **Shelter** (safe inside).
 2. **Same storm, two worlds** — Fly the exact same storm and seed on the Moon, then Mars. Lower sunlight, a dust sol, and a 3–22 minute radio delay change the outcome.
 3. **What would have saved you** — Any run under 3 stars searches 1- and 2-step edits through the deterministic engine and proves a minimal fix.
+4. **Daily classroom practice** — Seeded goals, storm collection, predictions, and printable class challenges support repeat play.
+5. **Optional 3D outpost** — A procedural scene loads on capable devices; simple view keeps the original SVG scene.
 
 ## How to play
 
@@ -36,10 +38,12 @@ Requires Node.js 20+.
 ```bash
 npm install        # install dependencies
 npm run dev        # start Vite dev server on port 3000
-npm test           # run Vitest unit tests (39 tests)
+npm test           # run Vitest unit tests (67 tests)
 npm run build      # TypeScript check + Vite PWA production build
 npm run balance    # run 5,000-run seeded balance verification
+npm run goals      # sample goal reachability across storms, sites, and levels
 npm run e2e        # run Playwright mobile, a11y, reduced-motion, and offline tests
+npm run i18n:check # check English and Afaan Oromoo catalogues
 ```
 
 URL test mode starts any scenario directly:

@@ -1,4 +1,4 @@
-import type { Difficulty, Site, Storm } from '../../engine/types'
+import type { Difficulty, GoalId, Site, Storm } from '../../engine/types'
 import { useI18n } from '../../i18n'
 import { Icon } from '../components/Icon'
 import { Orbi } from '../components/Orbi'
@@ -8,6 +8,8 @@ interface BriefingScreenProps {
   site: Site
   storm: Storm
   difficulty: Difficulty
+  bestStars: number
+  goals: GoalId[]
   onBegin: () => void
   onChangePlan: () => void
 }
@@ -16,6 +18,8 @@ export function BriefingScreen({
   site,
   storm,
   difficulty,
+  bestStars,
+  goals,
   onBegin,
   onChangePlan,
 }: BriefingScreenProps) {
@@ -65,6 +69,12 @@ export function BriefingScreen({
           {site === 'mars' && (
             <p className="muted zero-margin">{t('briefing.marsNote')}</p>
           )}
+        </div>
+
+        <div className="brief-card">
+          <div className="meter-head"><span>{t('briefing.bonusGoals')}</span></div>
+          <p>{t('briefing.bestStars', { n: bestStars })}</p>
+          {goals.map((id) => <p key={id} className="zero-margin">□ {t(`goal.${id}`)}</p>)}
         </div>
       </section>
 

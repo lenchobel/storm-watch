@@ -4,6 +4,7 @@ import {
   assertMinButtonSize,
   assertNoHorizontalOverflow,
   auditSentences,
+  choosePredictionIfShown,
   playToDebrief,
 } from './helpers'
 
@@ -68,6 +69,7 @@ test('sentence audit covers every sol, the clock, the debrief and both worlds', 
     await auditSentences(page, `sol-${sol}`)
     const endBtn = page.getByRole('button', { name: 'End the day' })
     if (await endBtn.isVisible()) {
+      await choosePredictionIfShown(page)
       await endBtn.click()
       continue
     }
@@ -78,9 +80,11 @@ test('sentence audit covers every sol, the clock, the debrief and both worlds', 
   const shelterBtn = page.getByRole('button', { name: 'Shelter now' })
   if (await shelterBtn.isVisible()) {
     await auditSentences(page, 'clock')
+    await assertAxeClean(page, 'clock')
     await shelterBtn.click()
     await page.waitForTimeout(800)
     await auditSentences(page, 'clock-outcome')
+    await assertAxeClean(page, 'clock outcome')
   }
 
   // Debrief.

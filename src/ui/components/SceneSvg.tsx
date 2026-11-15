@@ -3,7 +3,7 @@ import { mulberry32 } from '../../engine/rng'
 import type { Site } from '../../engine/types'
 import { useI18n } from '../../i18n'
 
-interface SceneSvgProps {
+export interface SceneSvgProps {
   site: Site
   seed: number
   shieldLevel: number

@@ -173,3 +173,14 @@
 2. **Fallbacks**: Product names, NASA source labels, and the existing English `common.back` test value remain English. Empty or missing Oromo values still fall back to English.
 3. **Mobile labels**: Oromo meter words stay whole at narrow widths. Orbi status remains visual through its light and face.
 4. **Review status**: The translated copy is a draft. A fluent Afaan Oromoo speaker must review it before release.
+
+## 2026-11-15 — Stages B–D
+
+1. **Goals**: Thresholds remain the requested values. A 100,000-plan seeded search found `safeHands` reachable in 26/32 offered combinations (81.3%); every other goal reached 30/32 or more. No threshold relaxation was needed.
+2. **Daily missions**: The local calendar day selects the saved storm, site, and deterministic seed. The challenge stores no class accounts or names.
+3. **Forecast teaching**: The game checks the saved flare-to-SEP link. False-alarm copy is explicitly a game note because the facts catalogue does not establish a universal false-alarm rate.
+4. **Classroom mode**: Enabling it mutes sound and disables vibration. Both preferences persist locally. The teacher print view isolates the lesson and class results to one page.
+5. **3D view**: Three.js and its type declarations are the only added packages. The 2D SVG remains the loading, reduced-motion, low-power, unavailable-WebGL, URL, and context-loss fallback. The 3D planet texture is drawn locally and is not NASA imagery.
+6. **Existing tests**: Existing expected values and assertions were not changed. Test helpers now choose “Not sure” before ending a day when the new prediction prompt appears. Screenshot coverage adds the collection and daily briefing. Playwright’s shared saved preference keeps the established suite on 2D; Stage D tests turn 3D on explicitly.
+7. **Performance**: Production output keeps Three.js in a separate lazy chunk. The initial gzip bundle increased by about 1 KB; total precache output remained below 1 MB.
+8. **Visual coverage**: A Playwright screenshot matrix compares 2D and 3D for both sites, all three clock outcomes, and debrief at phone and desktop sizes. Representative pairs were inspected after correcting terrain orientation and impact visibility.

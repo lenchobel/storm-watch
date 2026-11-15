@@ -6,6 +6,7 @@ import { App } from './ui/App'
 import './ui/tokens.css'
 import './ui/styles.css'
 import './ui/screens.css'
+import './ui/meters.css'
 import './ui/debrief.css'
 
 registerSW({ immediate: true })

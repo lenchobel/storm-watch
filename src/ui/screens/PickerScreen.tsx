@@ -1,7 +1,11 @@
 import type { StormBadge } from '../../data/loadStorms'
 import type { Difficulty, Site, Storm } from '../../engine/types'
+import type { MissionConfig } from '../../engine/types'
 import { useI18n } from '../../i18n'
+import { localDayKey, type Progress } from '../progress'
+import { rankFor, totalStars } from '../ranks'
 import { Icon } from '../components/Icon'
+import { SimpleViewToggle } from '../components/SimpleViewToggle'
 import { InfoNav, type InfoPageId } from '../components/InfoNav'
 import { Orbi } from '../components/Orbi'
 import { TriLine } from '../components/TriLine'
@@ -19,6 +23,14 @@ interface PickerScreenProps {
   onSelectDifficulty: (diff: Difficulty) => void
   onStart: () => void
   onOpenInfo: (page: InfoPageId) => void
+  progress: Progress
+  daily: MissionConfig
+  onPlayDaily: () => void
+  onOpenCollection: () => void
+  classroomMode: boolean
+  onToggleClassroom: () => void
+  simpleView: boolean
+  onToggleSimpleView: () => void
 }
 
 export function PickerScreen({
@@ -34,8 +46,20 @@ export function PickerScreen({
   onSelectDifficulty,
   onStart,
   onOpenInfo,
+  progress,
+  daily,
+  onPlayDaily,
+  onOpenCollection,
+  classroomMode,
+  onToggleClassroom,
+  simpleView,
+  onToggleSimpleView,
 }: PickerScreenProps) {
   const { lang, t } = useI18n()
+  const stars = totalStars(progress, storms)
+  const rank = rankFor(stars)
+  const localDay = localDayKey()
+  const playedToday = progress.daysPlayed.includes(localDay)
 
   return (
     <main className="screen-stack picker-screen" data-testid="picker">
@@ -47,6 +71,21 @@ export function PickerScreen({
           <p className="muted zero-margin">{t('app.tagline')}</p>
         </div>
       </div>
+
+      <section className="card daily-card">
+        <div className="row-between">
+          <h2 className="h2-title">{t('picker.dailyTitle')}</h2>
+          <strong>{t('picker.rank', { rank: t(`rank.${rank.current.name}`), stars })}</strong>
+        </div>
+        {rank.next && <p className="muted">{t('picker.rankProgress', { n: rank.remaining, rank: t(`rank.${rank.next.name}`) })}</p>}
+        <progress aria-label={t('picker.rank', { rank: t(`rank.${rank.current.name}`), stars })} value={stars} max="30" />
+        <p className="muted">{daily.storm.flareClass} · {t(daily.site === 'moon' ? 'site.moon' : 'site.mars')}</p>
+        <button type="button" className="secondary-btn" onClick={onPlayDaily}>
+          {playedToday ? `✓ ${t('picker.dailyPlayed')}` : t('picker.dailyPlay')}
+        </button>
+      </section>
+
+      <SimpleViewToggle enabled={simpleView} onToggle={onToggleSimpleView} />
 
       <section className="card" aria-label={t('picker.worldSection')}>
         <h2 className="h2-title">{t('picker.worldTitle')}</h2>
@@ -145,6 +184,12 @@ export function PickerScreen({
           </button>
         </div>
       </section>
+
+      <button type="button" className="secondary-btn" onClick={onOpenCollection}>{t('picker.collection')}</button>
+      <label className="setting-row card">
+        <input type="checkbox" checked={classroomMode} onChange={onToggleClassroom} />
+        {t('classroom.title')}
+      </label>
 
       <button
         type="button"

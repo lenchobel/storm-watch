@@ -1,6 +1,7 @@
 import { useI18n } from '../../i18n'
 import { TOTAL_SOLS } from '../../engine/rules'
 import { Icon } from './Icon'
+import { AnimatedNumber } from './AnimatedNumber'
 
 interface TopHudProps {
   power: number
@@ -39,7 +40,7 @@ export function TopHud({ power, air, health, science, sol }: TopHudProps) {
           <span>{t('meter.power')}</span>
         </div>
         <MeterBar value={power} color="var(--power)" />
-        <div className="meter-val">{power}</div>
+        <div className="meter-val"><AnimatedNumber value={power} /></div>
       </div>
 
       <div
@@ -52,7 +53,7 @@ export function TopHud({ power, air, health, science, sol }: TopHudProps) {
           <span>{t('meter.air')}</span>
         </div>
         <MeterBar value={air} color="var(--air)" />
-        <div className="meter-val">{air}</div>
+        <div className="meter-val"><AnimatedNumber value={air} /></div>
       </div>
 
       <div
@@ -65,7 +66,7 @@ export function TopHud({ power, air, health, science, sol }: TopHudProps) {
           <span>{t('meter.health')}</span>
         </div>
         <MeterBar value={health} color="var(--health)" />
-        <div className="meter-val">{health}</div>
+        <div className="meter-val"><AnimatedNumber value={health} /></div>
       </div>
 
       <div className="sol-counter" aria-live="polite">
@@ -75,7 +76,7 @@ export function TopHud({ power, air, health, science, sol }: TopHudProps) {
           aria-label={t('meter.scienceValue', { n: science })}
         >
           <Icon name="flask" size={16} />
-          <span>{science}</span>
+          <span><AnimatedNumber value={science} /></span>
         </div>
       </div>
     </header>

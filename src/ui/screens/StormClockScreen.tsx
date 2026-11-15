@@ -3,7 +3,7 @@ import { clockStep, previewClock } from '../../engine/clock'
 import type { ClockMove, MissionState, SolReport } from '../../engine/types'
 import { useI18n } from '../../i18n'
 import { Orbi } from '../components/Orbi'
-import { SceneSvg } from '../components/SceneSvg'
+import { SceneView } from '../components/SceneView'
 import { TopHud } from '../components/TopHud'
 import { playSound } from '../sound'
 
@@ -14,6 +14,7 @@ interface StormClockScreenProps {
   outcomeReport: SolReport | null
   onCompleteClock: (moves: ClockMove[]) => void
   onContinue: () => void
+  simpleView: boolean
 }
 
 function segmentPath(index: number, total: number, r: number): string {
@@ -39,6 +40,7 @@ export function StormClockScreen({
   outcomeReport,
   onCompleteClock,
   onContinue,
+  simpleView,
 }: StormClockScreenProps) {
   const { lang, t } = useI18n()
   const setup = useMemo(() => previewClock(state.cfg), [state.cfg])
@@ -108,7 +110,7 @@ export function StormClockScreen({
         sol={state.sol}
       />
 
-      <SceneSvg
+      <SceneView
         site={state.cfg.site}
         seed={state.cfg.seed}
         shieldLevel={shieldLevel}
@@ -117,6 +119,9 @@ export function StormClockScreen({
         sunPulse={animating}
         flareGlow={true}
         waveActive={caughtWave}
+        simpleView={simpleView}
+        stormActive={!outcomeReport && state.cfg.storm.gapHours !== undefined}
+        outcome={state.cfg.storm.gapHours === undefined ? 'false_alarm' : outcomeReport?.clock?.outcome}
       />
 
       <section className="card clock-panel" aria-label={t('screen.clock')}>

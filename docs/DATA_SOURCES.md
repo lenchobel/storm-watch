@@ -74,3 +74,11 @@ particle storms and 2 false alarms — each present in that snapshot.
 | Storm Clock uncertainty | `K = clamp(ceil(visibleHours / 2), 1, 4)` and arrival block `A in [ceil(K/2), K]` are game design choices teaching forecast uncertainty. |
 | Sunlight income | Moon `42`, Mars `24` power per sol are game numbers chosen for balance. The real Mars/Earth sunlight ratio is about 43% (NASA Mars Fact Sheet); the game uses `24 / 42 = 57%` so a Mars crew can still reach two stars. |
 | Two-star science goal | Moon `8`, Mars `3`. The lower Mars goal exists because Mars income is lower, not because NASA reports a different science target. |
+
+## Classroom and scene notes
+
+- Forecast questions use each saved NASA flare record and its linked SEP record. The question is a game exercise, not a live forecast or probability estimate.
+- Some saved flares have no linked SEP in the NASA snapshot. The game labels these as false alarms. This is a game note about this saved set, not a claim about all flares.
+- Daily missions use the saved storm set, local calendar date, and deterministic seed. No extra NASA data is fetched for the classroom challenge.
+- The optional 3D outpost is procedural artwork. Its Earth texture, terrain, particles, and planet colors are illustrative, not NASA imagery or measurements.
+- Goals, stars, class results, and prediction scores are game records stored on the device. They are not NASA measurements or accounts.
