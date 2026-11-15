@@ -9,17 +9,36 @@ export interface WorldState {
 const cssColor = (name: string) =>
   getComputedStyle(document.documentElement).getPropertyValue(name).trim() || '#ffffff'
 
-function seededStars(seed: number): THREE.Points {
+function seededStars(seed: number, count: number, size: number, color: string): THREE.Points {
   const random = mulberry32((seed ^ 0x517cc1b7) >>> 0)
-  const positions = new Float32Array(240)
+  const positions = new Float32Array(count * 3)
   for (let i = 0; i < positions.length; i += 3) {
-    positions[i] = (random() - 0.5) * 22
-    positions[i + 1] = random() * 12 - 1
-    positions[i + 2] = (random() - 0.5) * 12 - 5
+    positions[i] = (random() - 0.5) * 30
+    positions[i + 1] = random() * 16 - 2
+    positions[i + 2] = -3 - random() * 20
   }
   const geometry = new THREE.BufferGeometry()
   geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
-  return new THREE.Points(geometry, new THREE.PointsMaterial({ color: cssColor('--text'), size: 0.07 }))
+  return new THREE.Points(geometry, new THREE.PointsMaterial({ color, size, transparent: true, opacity: 0.82, sizeAttenuation: true }))
+}
+
+function nebulaTexture(): THREE.CanvasTexture {
+  const canvas = document.createElement('canvas')
+  canvas.width = 256
+  canvas.height = 128
+  const ctx = canvas.getContext('2d')!
+  ctx.fillStyle = cssColor('--navy')
+  ctx.fillRect(0, 0, 256, 128)
+  for (let i = 0; i < 12; i++) {
+    const x = 30 + (i * 67) % 230
+    const y = 12 + (i * 43) % 105
+    const gradient = ctx.createRadialGradient(x, y, 2, x, y, 22 + (i % 4) * 9)
+    gradient.addColorStop(0, i % 2 ? 'rgba(87,163,255,.11)' : 'rgba(255,184,66,.09)')
+    gradient.addColorStop(1, 'rgba(8,14,35,0)')
+    ctx.fillStyle = gradient
+    ctx.fillRect(0, 0, 256, 128)
+  }
+  return new THREE.CanvasTexture(canvas)
 }
 
 function ground(site: SceneSvgProps['site'], seed: number): THREE.Mesh {
@@ -130,15 +149,33 @@ function addOutpost(scene: THREE.Scene, props: SceneSvgProps & { stormActive: bo
 
 export function createSceneWorld(scene: THREE.Scene, props: SceneSvgProps & { stormActive: boolean; outcome?: string }): WorldState {
   scene.add(new THREE.HemisphereLight(cssColor('--text'), cssColor('--dust'), 1.1))
-  const stars = seededStars(props.seed)
-  scene.add(stars)
+  const sky = new THREE.Mesh(new THREE.PlaneGeometry(42, 22), new THREE.MeshBasicMaterial({ map: nebulaTexture(), depthWrite: false }))
+  sky.position.set(0, 3, -24)
+  scene.add(sky)
+  const starLayers = [
+    seededStars(props.seed, 360, 0.055, cssColor('--text')),
+    seededStars(props.seed ^ 0x2ab, 180, 0.09, cssColor('--air')),
+    seededStars(props.seed ^ 0x9e3, 90, 0.12, cssColor('--gold')),
+  ]
+  starLayers.forEach((layer, index) => { layer.userData.drift = 0.0004 + index * 0.0004; scene.add(layer) })
   const { antenna } = addOutpost(scene, props)
   const gold = cssColor('--gold')
-  const sun = new THREE.Mesh(new THREE.SphereGeometry(0.48, 12, 8), new THREE.MeshBasicMaterial({ color: gold }))
-  sun.position.set(4.6, 3.2, -2); scene.add(sun)
-  const light = new THREE.DirectionalLight(gold, 2); light.position.copy(sun.position); scene.add(light)
-  const earth = new THREE.Mesh(new THREE.SphereGeometry(0.5, 16, 10), new THREE.MeshBasicMaterial({ map: earthTexture() }))
+  const sun = new THREE.Group()
+  const corona = new THREE.Mesh(new THREE.SphereGeometry(0.95, 20, 16), new THREE.MeshBasicMaterial({ color: gold, transparent: true, opacity: 0.1, depthWrite: false }))
+  const coronaInner = new THREE.Mesh(new THREE.SphereGeometry(0.68, 20, 16), new THREE.MeshBasicMaterial({ color: gold, transparent: true, opacity: 0.18, depthWrite: false }))
+  const sunBody = new THREE.Mesh(new THREE.SphereGeometry(0.48, 24, 18), new THREE.MeshBasicMaterial({ color: gold }))
+  sun.add(corona, coronaInner, sunBody)
+  sun.position.set(4.6, 3.2, -2)
+  scene.add(sun)
+  const light = new THREE.PointLight(gold, 35, 24); light.position.copy(sun.position); scene.add(light)
+  const flare = new THREE.Mesh(new THREE.PlaneGeometry(2.6, 0.08), new THREE.MeshBasicMaterial({ color: gold, transparent: true, opacity: 0.25, depthWrite: false, blending: THREE.AdditiveBlending }))
+  flare.position.copy(sun.position); flare.rotation.z = -0.25; scene.add(flare)
+  const earth = new THREE.Mesh(new THREE.SphereGeometry(0.5, 24, 16), new THREE.MeshStandardMaterial({ map: earthTexture(), roughness: 0.95 }))
   earth.position.set(-4.8, 2.8, -2); scene.add(earth)
+  const earthGlow = new THREE.Mesh(new THREE.SphereGeometry(0.62, 20, 12), new THREE.MeshBasicMaterial({ color: cssColor('--air'), transparent: true, opacity: 0.12, side: THREE.BackSide, depthWrite: false }))
+  earth.add(earthGlow)
+  const moonlet = new THREE.Mesh(new THREE.SphereGeometry(0.11, 12, 8), new THREE.MeshStandardMaterial({ color: cssColor('--moon'), roughness: 1 }))
+  scene.add(moonlet)
   const dot = new THREE.Mesh(new THREE.SphereGeometry(0.09, 8, 6), new THREE.MeshBasicMaterial({ color: gold }))
   scene.add(dot)
   const ringPositions = new Float32Array(600)
@@ -159,6 +196,21 @@ export function createSceneWorld(scene: THREE.Scene, props: SceneSvgProps & { st
     update(seconds) {
       dot.position.set(-4.8 + seconds % 4 * 2.35, 2.8 - seconds % 4 * 0.82, -1.2)
       antenna.rotation.y = Math.sin(seconds) * 0.08
+      starLayers.forEach((layer, index) => {
+        layer.rotation.y = seconds * layer.userData.drift
+        layer.position.x = Math.sin(seconds * (0.025 + index * 0.008)) * (0.12 + index * 0.05)
+        const material = layer.material as THREE.PointsMaterial
+        material.opacity = 0.58 + (Math.sin(seconds * (0.7 + index * 0.2)) + 1) * 0.18
+      })
+      sun.position.y = 3.2 + Math.sin(seconds * 0.15) * 0.12
+      const pulse = 1 + (Math.sin(seconds * 0.7) + 1) * 0.045
+      corona.scale.setScalar(pulse)
+      coronaInner.scale.setScalar(1 + Math.sin(seconds * 0.7 + 1) * 0.04)
+      light.intensity = 30 + Math.sin(seconds * 0.7) * 3
+      flare.material.opacity = 0.16 + (Math.sin(seconds * 0.55) + 1) * 0.08
+      earth.rotation.y += 0.0012
+      moonlet.position.set(-4.8 + Math.cos(seconds * 0.12) * 0.78, 2.8 + Math.sin(seconds * 0.12) * 0.34, -1.8)
+      moonlet.rotation.y += 0.003
       if (props.stormActive) {
         const position = particlesGeometry.attributes.position as THREE.BufferAttribute
         for (let i = 0; i < 200; i++) {
@@ -168,7 +220,6 @@ export function createSceneWorld(scene: THREE.Scene, props: SceneSvgProps & { st
         }
         position.needsUpdate = true
       }
-      stars.rotation.y = seconds * 0.002
     },
   }
 }

@@ -117,6 +117,7 @@ export function SolScreen({
         <p>{t(orbiLine.key, orbiLine.params)}</p>
       </div>
 
+      <section className="sol-controls-scroll" aria-label={t('sol.presets')}>
       <p className="afford-line zero-margin" aria-live="polite">
         {t('sol.afford', { n: maxBolts, left: remaining })}
       </p>
@@ -211,6 +212,7 @@ export function SolScreen({
           </div>
         </section>
       )}
+      </section>
 
       <button
         type="button"

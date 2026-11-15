@@ -141,3 +141,17 @@ The picker fit review found classroom-mode flex styles overriding its grid and a
 
 Follow-up screenshot review found overlapping desktop picker grid rows and a flex override. The picker grid now reserves separate rows for header, hero, daily mission, options, and launch. Only options scroll within the frame. Browser access was unavailable during this correction; final visual confirmation remains outstanding.
 
+
+Responsive pass: applied fluid shared spacing, compact phone header and cards, tablet two-column picker, and bounded desktop scene sizing. Existing game rules and test assertions were left unchanged.
+
+
+Screenshot feedback showed tablet world buttons wrapping one word into many fragments. Removed the tablet two-column picker; under 1024px it stays one column as specified.
+
+
+AI-assisted scene update adds procedural nebula texture, layered seeded stars, sun corona/light/flare animation, and slow celestial body motion. The scene remains generated locally without external assets.
+
+
+Bolt-planning update keeps the scene and meters fixed while affordability, presets, and controls scroll within their own panel. Adjusted shield level continues to feed the live scene renderer.
+
+
+The original local port 3000 was occupied, so the updated app dev server started on port 3001. This explains why earlier code changes did not appear in the existing browser tab.

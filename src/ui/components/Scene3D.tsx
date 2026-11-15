@@ -33,7 +33,7 @@ export function Scene3D({ onContextLost, stormActive, outcome, ...props }: Scene
     camera.position.set(0, 1.9, 13)
     camera.lookAt(0, 0, 0)
     const world = createSceneWorld(scene, { ...props, stormActive, outcome })
-    const animate = stormActive || props.showSignal || props.sunPulse || props.flareGlow
+    const animate = true
     let frame = 0
     let last = 0
     const resize = new ResizeObserver(() => {
@@ -51,7 +51,8 @@ export function Scene3D({ onContextLost, stormActive, outcome, ...props }: Scene
         last = now
         const seconds = now / 1000
         world.update(seconds)
-        if (animate) camera.position.x = Math.sin(seconds * 0.5) * 1.8
+        camera.position.x = Math.sin(seconds * 0.12) * 0.18
+        camera.position.y = 1.9 + Math.sin(seconds * 0.18) * 0.05
         camera.lookAt(0, 0, 0)
         renderer.render(scene, camera)
       }

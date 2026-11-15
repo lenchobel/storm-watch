@@ -198,3 +198,17 @@
 
 - Picker fit correction: use one five-row game frame at every viewport height; keep only mission options scrollable. Desktop picker uses non-overlapping assigned rows and columns.
 
+
+- Responsive layout pass: use fluid padding and type, a wider tablet frame, and a two-column picker at tablet width; retain scroll only in choice panels.
+
+
+- Tablet-width picker stays single-column below 1024px; the earlier tablet split made world labels unreadable.
+
+
+- Procedural scene atmosphere: seeded star layers drift and twinkle; a canvas nebula, pulsing corona, point light, and flare animate with slowly rotating Earth and orbiting moonlet. The scene uses no external image assets.
+
+
+- Sol interaction: keep the scene outside the scrolling bolt controls so shield changes are visible immediately.
+
+
+- Local Vite server on port 3000 was already occupied and inaccessible from this environment; latest edits are served on port 3001.
