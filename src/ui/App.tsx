@@ -121,6 +121,8 @@ export function App() {
         }
       />
 
+      <p className="landscape-hint" role="status">{t('game.landscapeHint')}</p>
+
       {state.challengeStars !== null && state.screen !== 'picker' && (
         <p className="challenge-banner">{t('debrief.challengeBanner', { n: state.challengeStars })}</p>
       )}

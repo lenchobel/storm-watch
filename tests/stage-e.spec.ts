@@ -52,3 +52,28 @@ test('Stage E mobile storm clock keeps both choices visible', async ({ page }) =
   }
   await assertAxeClean(page, 'mobile storm clock')
 })
+
+test('landscape keeps the scene visible while shield bolts change', async ({ page }) => {
+  await page.setViewportSize({ width: 640, height: 360 })
+  await page.goto('/')
+  await page.getByTestId('start-mission').click()
+  await page.getByTestId('begin-sol').click()
+  const scene = page.locator('.scene-frame').first()
+  const controls = page.locator('.sol-controls-scroll')
+  const sceneBox = await scene.boundingBox()
+  const controlsBox = await controls.boundingBox()
+  expect(sceneBox).not.toBeNull()
+  expect(controlsBox).not.toBeNull()
+  expect(sceneBox!.x).toBeLessThan(controlsBox!.x)
+  await page.getByRole('button', { name: 'Add bolt to Shield' }).click()
+  await expect(scene).toBeVisible()
+  const afterBox = await scene.boundingBox()
+  expect(afterBox!.y).toBe(sceneBox!.y)
+  await expect(page.getByTestId('end-day')).toBeVisible()
+})
+
+test('portrait phone explains landscape play', async ({ page }) => {
+  await page.setViewportSize({ width: 360, height: 640 })
+  await page.goto('/')
+  await expect(page.getByRole('status').filter({ hasText: 'Turn your device sideways' })).toBeVisible()
+})

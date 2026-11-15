@@ -101,7 +101,7 @@ export function StormClockScreen({
   const caughtWave = outcomeReport?.clock?.outcome === 'caught'
 
   return (
-    <main className="screen-stack" data-testid="clock">
+    <main className={`screen-stack ${outcomeReport ? 'clock-outcome' : ''}`} data-testid="clock">
       <TopHud
         power={outcomeReport ? outcomeReport.power : state.power}
         air={outcomeReport ? outcomeReport.air : state.air}

@@ -48,7 +48,7 @@ html,body,#root { min-height:100%; }
   .screen-stack[data-testid="sol"] > .cta-btn { grid-column:2; grid-row:4; }
 }
 @media (min-width:1024px) {
-  .app-shell { max-width:1200px; }
+  .app-shell { width:min(100%,1200px); max-width:1200px; }
   .screen-stack:not(.picker-screen) { max-width:100%; }
   .scene-frame { height:clamp(320px,48vh,520px); }
   .screen-stack[data-testid="sol"] .control-card { min-height:72px; }
@@ -63,4 +63,48 @@ html,body,#root { min-height:100%; }
   .screen-stack[data-testid="sol"] .orbi-bubble { grid-column:1; grid-row:3; }
   .screen-stack[data-testid="sol"] .sol-controls-scroll { grid-column:2; grid-row:1/4; }
   .screen-stack[data-testid="sol"] > .cta-btn { grid-column:2; grid-row:4; }
+}
+
+/* Landscape is the primary play orientation. */
+.landscape-hint { display:none; }
+@media (orientation:portrait) and (max-width:900px) {
+  .landscape-hint { display:block; position:fixed; top:64px; left:50%; transform:translateX(-50%); z-index:10; width:max-content; max-width:calc(100vw - 24px); margin:0; padding:8px 14px; border:1px solid var(--gold); border-radius:999px; background:var(--panel); color:var(--text); font-size:15px; text-align:center; box-shadow:0 4px 18px #0008; }
+}
+@media (orientation:landscape) and (max-height:600px) {
+  .app-shell:has(.picker-screen),.app-shell:has(.screen-stack[data-testid="sol"]),.app-shell:has(.screen-stack[data-testid="clock"]) { width:min(100%,1100px); max-width:1100px; height:100dvh; min-height:0; overflow:hidden; padding:6px 10px; gap:6px; }
+  .picker-screen { height:calc(100dvh - 78px); grid-template-columns:minmax(0,1fr) minmax(0,1fr); grid-template-rows:34px 72px minmax(0,1fr) 48px; gap:6px; }
+  .picker-screen>.hero-header { grid-column:1/-1; grid-row:1; }
+  .picker-screen>.picker-hero { grid-column:1; grid-row:2/4; }
+  .picker-screen>.picker-hero .scene-frame { height:100%; min-height:0; }
+  .picker-screen>.daily-card { grid-column:2; grid-row:2; }
+  .picker-screen>.picker-options { grid-column:2; grid-row:3; }
+  .picker-screen>.cta-btn { grid-column:1/-1; grid-row:4; height:48px; min-height:48px; }
+  .picker-screen .daily-card .secondary-btn { min-height:32px; }
+  .screen-stack[data-testid="sol"] { height:calc(100dvh - 76px); grid-template-columns:minmax(0,1.05fr) minmax(260px,.95fr); grid-template-rows:58px minmax(110px,1fr) 46px; gap:6px; }
+  .screen-stack[data-testid="sol"] .hud-bar { grid-column:1; grid-row:1; min-height:58px; }
+  .screen-stack[data-testid="sol"] .scene-frame { grid-column:1; grid-row:2; min-height:110px; height:100%; max-height:none; }
+  .screen-stack[data-testid="sol"] .orbi-bubble { grid-column:1; grid-row:3; min-height:46px; padding:4px 8px; }
+  .screen-stack[data-testid="sol"] .orbi-figure { flex-direction:row; }
+  .screen-stack[data-testid="sol"] .orbi-state { display:none; }
+  .screen-stack[data-testid="sol"] .sol-controls-scroll { grid-column:2; grid-row:1/4; padding:0 2px 2px 0; }
+  .screen-stack[data-testid="sol"] .control-card { min-height:64px; padding:6px 8px; }
+  .screen-stack[data-testid="sol"] .preset-row { grid-template-columns:repeat(4,minmax(0,1fr)); gap:4px; }
+  .screen-stack[data-testid="sol"] .preset-btn { min-height:40px; padding:4px; font-size:14px; }
+  .screen-stack[data-testid="sol"]>.cta-btn { position:sticky; bottom:0; min-height:48px; height:48px; }
+  .screen-stack[data-testid="clock"] { height:calc(100dvh - 76px); display:grid; grid-template-columns:minmax(0,1.1fr) minmax(250px,.9fr); grid-template-rows:58px minmax(100px,1fr) 56px; gap:6px; }
+  .screen-stack[data-testid="clock"] .hud-bar { grid-column:1/-1; grid-row:1; min-height:58px; }
+  .screen-stack[data-testid="clock"] .scene-frame { grid-column:1; grid-row:2/4; height:100%; max-height:none; min-height:100px; }
+  .screen-stack[data-testid="clock"] .clock-panel { grid-column:2; grid-row:2; display:flex; flex-direction:row; justify-content:flex-start; text-align:left; min-height:0; padding:4px; gap:8px; }
+  .screen-stack[data-testid="clock"] .ring-wrap svg { width:90px; height:90px; }
+  .screen-stack[data-testid="clock"] .controls-stack { grid-column:2; grid-row:3; display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+  .screen-stack[data-testid="clock"] .controls-stack button { min-height:52px; padding:4px; font-size:16px; }
+  .screen-stack[data-testid="clock"].clock-outcome { grid-template-rows:58px minmax(90px,1fr) 48px 52px; }
+  .screen-stack[data-testid="clock"].clock-outcome .scene-frame { grid-row:2/5; }
+  .screen-stack[data-testid="clock"].clock-outcome .orbi-bubble { grid-column:2; grid-row:3; min-height:48px; }
+  .screen-stack[data-testid="clock"].clock-outcome>.cta-btn { grid-column:2; grid-row:4; min-height:52px; }
+  .screen-stack[data-testid="briefing"] { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); grid-template-rows:minmax(0,1fr) 52px 48px; gap:6px; height:calc(100dvh - 76px); }
+  .screen-stack[data-testid="briefing"]>.card { grid-column:1; grid-row:1/4; overflow:auto; min-height:0; }
+  .screen-stack[data-testid="briefing"]>.orbi-bubble { grid-column:2; grid-row:1; }
+  .screen-stack[data-testid="briefing"]>[data-testid="begin-sol"] { grid-column:2; grid-row:2; min-height:52px; }
+  .screen-stack[data-testid="briefing"]>.secondary-btn { grid-column:2; grid-row:3; min-height:48px; }
 }

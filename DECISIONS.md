@@ -212,3 +212,5 @@
 
 
 - Local Vite server on port 3000 was already occupied and inaccessible from this environment; latest edits are served on port 3001.
+
+- Landscape-first play: landscape phone layout keeps scene left and controls right; storm actions are side by side. Portrait phones show a translated rotation hint while remaining usable.

@@ -155,3 +155,5 @@ Bolt-planning update keeps the scene and meters fixed while affordability, prese
 
 
 The original local port 3000 was occupied, so the updated app dev server started on port 3001. This explains why earlier code changes did not appear in the existing browser tab.
+
+Landscape-first pass adds landscape-specific layouts for picker, Sol, Storm Clock, and briefing. Sol keeps the scene beside a scrollable control panel; the shield level directly updates the displayed scene. Added landscape-play browser checks. Browser automation stalled before producing test results, so visual verification remains outstanding.
