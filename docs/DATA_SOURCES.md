@@ -10,7 +10,7 @@ supports the number, so a reviewer can find it without trusting the game.
 
 | Fact shown to the player | Source | Exact supporting sentence on the page | URL |
 |---|---|---|---|
-| Storm list, flare class, gap | NASA CCMC DONKI (`FLR`, `SEP`) | Live JSON: `classType`, `peakTime`, `eventTime`, `linkedEvents` → `gapHours = sepStart − flarePeak` | https://ccmc.gsfc.nasa.gov/DONKI-API/get |
+| Storm list, flare class, gap | NASA CCMC DONKI (`FLR`, `SEP`) | Live JSON: `classType`, `peakTime`, `eventTime`, `linkedEvents` → `gapHours = sepStart − flarePeak` | https://ccmc.gsfc.nasa.gov/DONKI-API/get/FLR |
 | `Curiosity measured 0.7 mSv per day on Mars.` | NASA NTRS Space Radiation Book Chapter, p. 4 | "Measurements obtained by NASA's Mars Science Laboratory's Radiation Assessment Detector (MSL-RAD) on the Curiosity rover were 1.84 mSv/day in transit and 0.7 mSv/day on the Mars surface (Zeitlin et al., 2013)." | https://ntrs.nasa.gov/api/citations/20250004252/downloads/Book%20Chapter.pdf |
 | `On the trip to Mars, Curiosity measured 1.84 mSv per day.` | NASA NTRS Space Radiation Book Chapter, p. 4 | "Measurements obtained by NASA's Mars Science Laboratory's Radiation Assessment Detector (MSL-RAD) on the Curiosity rover were 1.84 mSv/day in transit and 0.7 mSv/day on the Mars surface (Zeitlin et al., 2013)." | https://ntrs.nasa.gov/api/citations/20250004252/downloads/Book%20Chapter.pdf |
 | `Radio signals reach the Moon in about 1.3 seconds.` | NASA Science Human Spaceflight Hazards white paper, p. 2 | "At the Moon, the signal latency is about 1.3 seconds, one-way." | https://science.nasa.gov/wp-content/uploads/2023/05/188_fed0ad8278e728107533d509b24dc68b_SmithsimmonsDrew.pdf |
@@ -58,7 +58,7 @@ particle storms and 2 false alarms — each present in that snapshot.
 
 ## Live fetching vs. saved snapshot
 
-- In production on Vercel, `/api/donki` queries `https://ccmc.gsfc.nasa.gov/DONKI-API/get` (replacing legacy `api.nasa.gov/DONKI/` which returned HTTP 404 after 2026-09-30) with an optional server-side `NASA_API_KEY` header, 8s timeout, and 1h caching.
+- In production on Vercel, `/api/donki` queries `https://ccmc.gsfc.nasa.gov/DONKI-API/get/{FLR|SEP}` (replacing legacy `api.nasa.gov/DONKI/` which returned HTTP 404 after 2026-09-30) with an optional server-side `NASA_API_KEY` header, 8s timeout, and 1h caching.
 - Because CCMC enforces a 60-day range ceiling per query (verified: a 365-day window returns HTTP 400), `loadStorms.ts` queries the latest 55 days (`LIVE`) and falls back to `src/data/gameStorms.json` (`SAVED 2026-11-14`) whenever offline or unreachable.
 - Saved storms are never labeled `LIVE`. When the live proxy fails, the badge reads `SAVED 2026-11-14` — the date of the snapshot — and never `LIVE`. A Playwright test blocks every `/api/donki` request and asserts exactly that badge text.
 - `npm run live` exercises the real live path: it calls the Vercel proxy in `api/donki.ts` against the live CCMC API and prints the badge the browser would show. Last run on 2026-11-14: `FLR -> HTTP 200, 24 events`, `SEP -> HTTP 200, 0 events`, 24 linked storms (all false alarms, no SEPs in the window), badge `LIVE 2026-11-11`.

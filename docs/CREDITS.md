@@ -7,6 +7,7 @@ All application code, SVG scenes, icons, and synthesized audio in Storm Watch we
 | Package | Version | License | Purpose |
 |---|---|---|---|
 | React / React DOM | 19.x | MIT | UI rendering & reducer state |
+| Three.js | 0.187.x | MIT | Optional procedural 3D outpost scene |
 | Vite | 6.x | MIT | Bundler & dev server |
 | TypeScript | 5.7.x | Apache-2.0 | Static type checking |
 | Vitest | 3.x | MIT | Pure engine & data unit tests |
