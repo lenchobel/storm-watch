@@ -66,8 +66,8 @@ export function DebriefScreen({
         : t('debrief.hard')
 
   const date = cfg.storm.flarePeak.slice(0, 10)
-  const siteName = t(cfg.site === 'moon' ? 'site.moon' : 'site.mars')
-  const otherWorldLabel = t(cfg.site === 'moon' ? 'site.mars' : 'site.moon')
+  const siteName = t(cfg.site === 'moon' ? 'site.moonBase' : 'site.marsBase')
+  const otherWorldLabel = t(cfg.site === 'moon' ? 'site.marsBase' : 'site.moonBase')
   const goal = starGoalLine(cfg.site)
 
   const orbiLines = [

@@ -22,6 +22,17 @@ supports the number, so a reviewer can find it without trusting the game.
 No fact is shown without a URL that contains its number. Facts that could not be
 found on a NASA page were removed rather than softened.
 
+## Place-name references
+
+The base names are cultural references, not NASA data. Entoto Observatory and
+Research Center sits on Mount Entoto above Addis Ababa. Dallol is a hot,
+colorful site in Ethiopia's Afar region and a planetary analogue for Mars.
+
+| Reference | Source | URL |
+|---|---|---|
+| Entoto Base | Ethiopian Space Science Society, Entoto Observatory and Research Center | https://ethiosss.org/projects/eorc |
+| Dallol Base | *Astrobiology*, “The Dallol Geothermal Area, Northern Afar (Ethiopia)” | https://pubmed.ncbi.nlm.nih.gov/30653331/ |
+
 `npm run facts` re-checks all of this: it fetches every URL live, compares the
 SHA-256 of the served file against the copy the quote was read from, and searches
 the live text for the number. `npm run storms` prints the game storm table

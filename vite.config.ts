@@ -13,9 +13,6 @@ export default defineConfig({
         'fonts/atkinson-700.woff2',
         'icon.svg',
         'icon-maskable.svg',
-        'pwa-192x192.png',
-        'pwa-512x512.png',
-        'apple-touch-icon.png',
       ],
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,png,woff2,json}'],
@@ -42,16 +39,6 @@ export default defineConfig({
             sizes: 'any',
             type: 'image/svg+xml',
             purpose: 'maskable',
-          },
-          {
-            src: '/pwa-192x192.png',
-            sizes: '192x192',
-            type: 'image/png',
-          },
-          {
-            src: '/pwa-512x512.png',
-            sizes: '512x512',
-            type: 'image/png',
           },
         ],
       },

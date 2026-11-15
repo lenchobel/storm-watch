@@ -147,3 +147,29 @@
    - `docs/DATA_SOURCES.md` rewritten with the exact supporting sentence for every fact, the saved storm table, and the SAVED-badge rule.
    - `docs/SUBMISSION.md` §1 rewritten to the verified demo script, with the exact URLs and taps in §1b.
 
+## 2026-11-15 — Stage A Visual Review
+
+1. Restored Orbi's translated Calm, Warning, and Storm labels beside its status light. The labels keep color from carrying meaning alone.
+2. Raised compact meter, preset, and badge text to at least 18 px.
+3. Kept the Apple touch icon linked to PNG. Safari does not reliably accept SVG touch icons.
+4. Used the existing SVG favicon and PWA manifest icons for the new three-color ray design.
+5. Stacked compact meter icons above labels at 360 px. Oromo meter words no longer collide.
+6. Expanded the screenshot flow to capture picker, briefing, sol, clock, and debrief in both languages at both reference sizes.
+7. Added a new fit assertion for Oromo meter labels. No existing expected value or assertion was changed.
+
+
+## 2026-11-15 — L1 Language Support
+
+1. **Catalogues**: `strings.en.json` is the source catalogue. `strings.om.json` currently mirrors English until human translation. Keep both key sets and placeholders aligned.
+2. **Language state**: Persist the `en` or `om` choice under `stormwatch.language`. Detect the Oromo default when `navigator.language` starts with `om`.
+3. **Translation logic**: Keep key lookup and parameter interpolation pure in `src/i18n/translate.ts`. React context stays in `src/i18n/index.ts`.
+4. **Engine text metadata**: Engine results retain English sentences. Optional keys and params let the UI localize them without engine imports.
+5. **Checks**: `i18n:check` compares key and placeholder sets. Matching English and Oromo values are counted as untranslated, not errors.
+
+
+## 2026-11-15 — L2 Afaan Oromoo Draft
+
+1. **Translation source**: Wrote the Oromo catalogue in Qubee without a translation service. Keep the English catalogue and its tests unchanged.
+2. **Fallbacks**: Product names, NASA source labels, and the existing English `common.back` test value remain English. Empty or missing Oromo values still fall back to English.
+3. **Mobile labels**: Oromo meter words stay whole at narrow widths. Orbi status remains visual through its light and face.
+4. **Review status**: The translated copy is a draft. A fluent Afaan Oromoo speaker must review it before release.

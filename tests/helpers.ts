@@ -23,6 +23,15 @@ export async function assertMinButtonSize(page: Page) {
   expect(smallButtons).toEqual([])
 }
 
+export async function assertMeterLabelsFit(page: Page) {
+  const overflow = await page.locator('.meter-head').evaluateAll((heads) =>
+    heads
+      .filter((head) => head.scrollWidth > head.clientWidth)
+      .map((head) => head.textContent?.trim() ?? '')
+  )
+  expect(overflow).toEqual([])
+}
+
 export async function assertAxeClean(page: Page, label: string) {
   const res = await new AxeBuilder({ page }).analyze()
   const bad = res.violations.filter(

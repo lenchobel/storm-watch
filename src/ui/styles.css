@@ -217,7 +217,7 @@ a {
   font-weight: 700;
   line-height: 1.1;
   min-width: 0;
-  overflow-wrap: anywhere;
+  white-space: nowrap;
 }
 
 .meter-val {
@@ -234,6 +234,32 @@ a {
   background: var(--navy);
   border: 1px solid var(--line);
   display: block;
+}
+
+@media (max-width: 420px) {
+  .hud-bar {
+    gap: 4px;
+    padding: 6px;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1.7fr) minmax(0, 1.35fr) auto;
+  }
+  .meter-head {
+    display: grid;
+    grid-template-columns: 14px minmax(0, 1fr);
+    grid-template-rows: 14px auto;
+    gap: 0 2px;
+    font-size: 18px;
+  }
+  .meter-head svg {
+    width: 14px;
+    height: 14px;
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .meter-head span {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    overflow-wrap: anywhere;
+  }
 }
 
 .sol-counter {

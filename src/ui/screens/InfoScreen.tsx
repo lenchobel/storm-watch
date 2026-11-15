@@ -80,6 +80,7 @@ export function InfoScreen({
         <section className="card">
           <h1 className="brand-title">{t(TEACHER_PLAN.titleKey)}</h1>
           <p>{t(TEACHER_PLAN.goalKey)}</p>
+          <p>{t('teacher.bases')}</p>
           <h2 className="h2-title">{t(TEACHER_PLAN.activityTitleKey)}</h2>
           <ol className="info-list">
             {TEACHER_PLAN.activityKeys.map((key) => (
@@ -114,6 +115,7 @@ export function InfoScreen({
           <p>{t('info.about.team')}</p>
           <p>{t('info.about.data')}</p>
           <p>{t('info.about.ai')}</p>
+          <p>{t('info.about.placeNames')}</p>
           <p>{t('info.about.branding')}</p>
         </section>
       )}

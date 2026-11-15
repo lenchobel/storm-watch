@@ -79,3 +79,40 @@
   - Printed the game storm table from `data/storms.json` and confirmed every gap against the timestamps.
   - Opened the app at 360x640 and 1280x800 and compared every screen against the blueprint layout and copy.
 
+
+## Phase L1: English and Afaan Oromoo UI Support (2026-11-15)
+- **Tool**: OpenAI Codex assistant.
+- **Scope**:
+  - Added English and Afaan Oromoo catalogues with matching keys and English fallback values.
+  - Added language persistence, browser-language defaulting, document language metadata, and the top-bar switch.
+  - Routed visible UI copy and engine-generated saver, comparison, and Storm Clock messages through translation keys.
+  - Added translation consistency checks, engine text-key tests, and Playwright language/layout/accessibility coverage.
+  - Added wrapping fixes and requested mobile screenshots.
+- **Human Verification**: `npm test` passed (54 tests); `npm run build` passed; `npm run i18n:check` passed (243 keys, matching placeholders). `npm run e2e` passed all 13 browser tests, including language, layout, axe, and screenshots at 360x640 and 1280x800.
+
+
+
+## Phase P1: Engine Core Review (2026-11-15)
+- **Tool**: OpenAI Codex assistant.
+- **Scope**: Reviewed the existing Phase P1 engine files and test coverage. No engine or test changes were needed.
+- **Human Verification**: `npm test` passed (54 tests); `npm run build` passed.
+
+## Phase L2: Afaan Oromoo Translation Draft (2026-11-15)
+- **Tool**: OpenAI Codex assistant; no translation service used.
+- **Scope**:
+  - Drafted Oromo text for the catalogue while preserving keys and placeholders.
+  - Kept product and source names, plus the existing `common.back` test value, in English.
+  - Localized Moon and Mars site names, fixed narrow meter labels, and removed untranslated Orbi status keys from the visible UI.
+  - Added sentence-length checks for Oromo screens and a translation unit assertion.
+- **Verification**: 55 unit tests passed; build passed; 247 catalogue keys and placeholders match; 12 values remain English or shared names; 13 browser tests passed at 360x640 and 1280x800. Native-speaker review is still needed.
+
+## Stage A: Visual Identity Review (2026-11-15)
+- **Tool**: OpenAI Codex assistant.
+- **Scope**:
+  - Reviewed the existing visual changes against the upgrade brief and the compact layout in `BLUEPRINT.md`.
+  - Restored translated Orbi status labels so shape and color have words beside them.
+  - Raised compact text that fell below 18 px, prevented Oromo HUD label collisions, and clarified the verified place-name note.
+  - Kept the Apple touch icon on its supported PNG reference. The favicon and PWA manifest continue using the new SVG design.
+  - Expanded the browser screenshot coverage to the requested five screens, two languages, and two viewport sizes. Added an Oromo meter-fit assertion without changing any existing expected values.
+- **Human Verification**: Unit tests and build passed. The 13-test Playwright suite passed with screenshots at 360x640 and 1280x800. `npm run i18n:check` passed. Screenshots were visually reviewed in English and Afaan Oromoo. No AI-generated media was used.
+

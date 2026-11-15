@@ -33,4 +33,8 @@ describe('translate', () => {
     expect(getText('om', 'common.back')).toBe('Back')
     expect(getText('om', 'no.such.key')).toBe('no.such.key')
   })
+
+  it('reads translated Afaan Oromoo values', () => {
+    expect(getText('om', 'common.continue')).toBe('Itti fufi')
+  })
 })

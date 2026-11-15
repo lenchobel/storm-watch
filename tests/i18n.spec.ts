@@ -2,7 +2,9 @@ import { expect, test, type Page } from '@playwright/test'
 import {
   assertAxeClean,
   assertMinButtonSize,
+  assertMeterLabelsFit,
   assertNoHorizontalOverflow,
+  auditSentences,
 } from './helpers'
 
 const OUT = 'screenshots'
@@ -33,6 +35,7 @@ test('Afaan Oromoo: layout, targets, axe, lang, full mission, info, screenshots'
 
   await assertNoHorizontalOverflow(page)
   await assertMinButtonSize(page)
+  await auditSentences(page, 'picker-om')
   await assertAxeClean(page, 'picker-om')
   await shot(page, 'i18n-picker-om-360')
 
@@ -41,12 +44,15 @@ test('Afaan Oromoo: layout, targets, axe, lang, full mission, info, screenshots'
   await page.getByTestId('begin-sol').waitFor()
   await assertNoHorizontalOverflow(page)
   await assertMinButtonSize(page)
+  await auditSentences(page, 'briefing-om')
   await assertAxeClean(page, 'briefing-om')
 
   await page.getByTestId('begin-sol').click()
   await page.getByTestId('end-day').waitFor()
   await assertNoHorizontalOverflow(page)
   await assertMinButtonSize(page)
+  await assertMeterLabelsFit(page)
+  await auditSentences(page, 'sol-om')
   await assertAxeClean(page, 'sol-om')
   await shot(page, 'i18n-sol-om-360')
 
@@ -59,6 +65,7 @@ test('Afaan Oromoo: layout, targets, axe, lang, full mission, info, screenshots'
   await page.getByTestId('shelter-now').waitFor()
   await assertNoHorizontalOverflow(page)
   await assertMinButtonSize(page)
+  await auditSentences(page, 'clock-om')
   await assertAxeClean(page, 'clock-om')
   await shot(page, 'i18n-clock-om-360')
 
@@ -85,6 +92,7 @@ test('Afaan Oromoo: layout, targets, axe, lang, full mission, info, screenshots'
   await page.getByTestId('debrief').waitFor()
   await assertNoHorizontalOverflow(page)
   await assertMinButtonSize(page)
+  await auditSentences(page, 'debrief-om')
   await assertAxeClean(page, 'debrief-om')
   await shot(page, 'i18n-debrief-om-360')
 
@@ -97,6 +105,7 @@ test('Afaan Oromoo: layout, targets, axe, lang, full mission, info, screenshots'
     await expect(page.locator('html')).toHaveAttribute('lang', 'om')
     await assertNoHorizontalOverflow(page)
     await assertMinButtonSize(page)
+    await auditSentences(page, `info-${id}-om`)
     await assertAxeClean(page, `info-${id}-om`)
   }
   await page.getByTestId('info-back').click()

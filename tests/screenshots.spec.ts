@@ -49,8 +49,46 @@ async function playToDebrief(page: Page) {
   }
 }
 
+async function playOromoToDebrief(page: Page) {
+  for (let i = 0; i < 24; i++) {
+    if (await page.getByTestId('debrief').isVisible()) return
+    const continueBtn = page.getByTestId('continue')
+    const shelterBtn = page.getByTestId('shelter-now')
+    const endBtn = page.getByTestId('end-day')
+    if (await continueBtn.isVisible()) await continueBtn.click()
+    else if (await shelterBtn.isVisible() && await shelterBtn.isEnabled()) {
+      await shelterBtn.click()
+    }
+    else if (await endBtn.isVisible()) await endBtn.click()
+    await page.waitForTimeout(120)
+  }
+}
+
+async function captureOromoScreens(page: Page, size: string) {
+  await page.goto('/')
+  await page.getByTestId('lang-om').click()
+  await shot(page, `om-${size}-01-picker`)
+  await page.getByRole('button', { name: /2024-05-11/ }).click()
+  await page.getByTestId('start-mission').click()
+  await shot(page, `om-${size}-07-briefing`)
+  await page.getByTestId('begin-sol').click()
+  await shot(page, `om-${size}-08-sol-1`)
+  for (let i = 0; i < 12; i++) {
+    const endBtn = page.getByTestId('end-day')
+    if (!(await endBtn.isVisible())) break
+    await endBtn.click()
+  }
+  await page.getByTestId('shelter-now').waitFor()
+  await shot(page, `om-${size}-09-storm-clock`)
+  await page.getByTestId('shelter-now').click()
+  await playOromoToDebrief(page)
+  await page.getByTestId('debrief').waitFor()
+  await shot(page, `om-${size}-11-debrief`)
+}
+
 for (const size of SIZES) {
   test(`screenshots at ${size.name}`, async ({ page }) => {
+    test.setTimeout(120_000)
     await page.setViewportSize({ width: size.width, height: size.height })
 
     // 1. Mission picker
@@ -125,5 +163,7 @@ for (const size of SIZES) {
     const table = page.getByRole('table', { name: /Moon versus Mars results/i })
     await expect(table).toBeVisible()
     await shot(page, `${size.name}-${String(step).padStart(2, '0')}-two-worlds`)
+
+    await captureOromoScreens(page, size.name)
   })
 }
