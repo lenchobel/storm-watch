@@ -233,3 +233,13 @@
 - The scene remains procedural and code-drawn. It uses no external art or invented NASA measurements.
 - Scene work is staged: responsive play first; then terrain, shelter, astronaut, light, stars, and solar-particle visuals; then outcome feedback. Any future radiation or thermal mechanic must be added to the pure engine with tests before the UI describes it.
 - The astronaut is a visual crew representative. The existing engine outcome controls its protected, sheltered, or caught presentation; it does not add a new loss rule.
+
+## 2026-11-15 — Picker grid repair
+
+- Root cause: `src/ui/styles.css` set `align-items: start` on the desktop `.picker-screen` grid. Grid items then never filled their rows, so the scene card collapsed to its content and the scene frame drew 4 px tall. The daily card overflowed its row and the choice list ran past the pinned action, which read as a cropped screen.
+- Fix: the picker grid uses `align-items: stretch` at every width, and every row is sized so the whole frame fits the viewport.
+- Desktop is two columns. The outpost scene fills the left column, the daily card and the scrolling choices fill the right column, and the primary action spans the bottom.
+- Only the choice list scrolls, inside its own frame. Its cards keep their natural height, and the scrollbar stays visible so the list reads as scrollable instead of cut off.
+- Phone and tablet stay one column. Rows size to their content and the choice list takes what is left, so the primary action never leaves the screen.
+- The brand band at the top of the page is taken out of the flow, so the page itself never scrolls.
+- No engine rule, class name, or test assertion changed.

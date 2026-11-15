@@ -35,6 +35,7 @@
     "facts": "tsx scripts/check-facts.ts",
     "live": "tsx scripts/check-live-donki.ts",
     "i18n:check": "tsx scripts/i18n-check.ts",
+    "responsive": "node scripts/shot-responsive.mjs",
     "e2e": "playwright test"
   },
   "dependencies": {

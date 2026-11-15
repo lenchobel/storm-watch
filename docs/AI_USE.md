@@ -165,3 +165,19 @@ Final responsive review found unfinished CSS blocks in the responsive overrides.
 Verification completed: 67 unit tests passed; build passed; all 35 browser tests passed; English/Afaan Oromoo have 350 keys each with matching sets and placeholders. The catalogue has 12 equal-valued translations. Axe reported zero serious or critical issues in tested flows. Screenshots were generated at 360x640, 640x360, and 1280x800; representative English and Oromo screens were visually reviewed. The build retains its existing 534.39 kB 3D chunk warning. The native Chrome/browser bridge was unavailable, so no physical-device or native-browser check was possible.
 
 Landscape and scene follow-up: AI assistance used the supplied phone screenshots to identify that an 800x360 landscape viewport was inheriting desktop-scale spacing. The responsive cockpit now keeps three bolt steppers and the primary action visible. AI assistance also rewrote the procedural 3D scene using locally generated geometry, canvas texture, lighting, animated stars, an astronaut, terrain, a shelter, and storm particle effects. The changes do not claim a physical radiation or thermal simulation; visual outcome feedback remains driven by the existing tested engine result. Focused landscape and 3D Playwright checks passed. No outside images, music, or NASA branding were used.
+
+
+## Responsive picker repair (2026-11-15)
+
+- **Tool**: Mavis (MiniMax agent runtime, local workspace agent).
+- **Scope**:
+  - Diagnosed the reported desktop picker fault from a user screenshot and reproduced it locally: the outpost scene rendered 4 px tall and the choice list ran under the primary action.
+  - Found the cause in `src/ui/styles.css`: `align-items: start` on the desktop `.picker-screen` grid stopped grid items from filling their rows.
+  - Repaired the picker grid in `src/ui/responsive.css` and `src/ui/responsive-wide.css` for phone, tablet, desktop, and landscape phone, and removed the stale `align-items` rule in `src/ui/styles.css`.
+  - Kept the choice list as the only scrolling region, made its scrollbar visible, and stopped the top brand band from adding page height.
+  - Added `scripts/shot-responsive.mjs`, a layout audit that screenshots the picker, briefing, sol, and storm clock at eight viewports and fails on a collapsed scene, clipped content, overlapping cards, sideways scroll, or page scroll.
+- **Not changed**: No engine rule, game math, class name, copy string, or test assertion was changed. The Orbi and the tagline stay hidden on the picker, as the Stage E game-desk layout already decided.
+- **Media**: No AI-generated images, photography, video, or recorded audio were used. The outpost scene is drawn in code.
+- **Human Verification**: `npm test` passed with 67 tests. `npm run build` passed. The layout audit reported zero failing combinations across 32 screen and viewport pairs. A headed Chrome check confirmed the scrollbar is visible in a real browser, because headless Chrome draws overlay scrollbars only.
+  - The full Playwright suite is flaky on this machine under software WebGL. It timed out on 3 tests before the repair and on 1 test after it. Every failure was a 45-second test budget overrun on an already slow test, never a layout assertion, and the affected specs pass in isolation both before and after the repair. The CI workflow runs the unit tests and the build only.
+

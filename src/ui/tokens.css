@@ -53,6 +53,15 @@
 .tri-line span:nth-child(2) { background: var(--gold); }
 .tri-line span:nth-child(3) { background: var(--red); }
 
+/* The brand band floats over the app so it never adds page height. */
+#root > .tri-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 30;
+}
+
 .tri-line-title {
   width: 96px;
   margin-top: 8px;

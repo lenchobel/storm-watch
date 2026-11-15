@@ -87,7 +87,8 @@ button {
 .picker-screen {
   display: grid !important;
   grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: 36px 84px auto minmax(120px, 1fr) 56px;
+  grid-template-rows: auto auto auto minmax(0, 1fr) 56px;
+  align-items: stretch;
   gap: 8px;
 }
 
@@ -105,7 +106,7 @@ button {
 }
 
 .picker-screen > .hero-header { grid-row: 1; }
-.picker-screen > .picker-hero { grid-row: 2; padding: 4px; }
+.picker-screen > .picker-hero { grid-row: 2; padding: 0; min-height: 0; }
 .picker-screen .picker-hero .scene-frame { height: 88px; }
 .picker-screen > .daily-card { grid-row: 3; gap: 8px; }
 .picker-screen > .picker-options { grid-row: 4; }
@@ -129,6 +130,18 @@ button {
   flex-direction: column;
   gap: 8px;
   scrollbar-width: thin;
+}
+
+/* Cards keep their natural height; the list scrolls instead of squashing. */
+.picker-options > * {
+  flex: 0 0 auto;
+}
+
+/* Overlay scrollbars hide the fact that a list continues. Keep them visible. */
+.picker-options,
+.screen-stack[data-testid="sol"] .sol-controls-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
 }
 
 .picker-options .card {

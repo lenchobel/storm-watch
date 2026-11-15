@@ -39,7 +39,8 @@
   .picker-screen {
     height: calc(100dvh - 108px);
     grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
-    grid-template-rows: 48px 120px minmax(0, 1fr) 56px;
+    grid-template-rows: auto auto minmax(0, 1fr) 56px;
+    align-items: stretch;
   }
 
   .picker-screen > .hero-header { grid-column: 1 / -1; grid-row: 1; }
@@ -81,7 +82,8 @@
   .picker-screen {
     height: calc(100dvh - 66px);
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    grid-template-rows: 32px 94px minmax(0, 1fr) 52px;
+    grid-template-rows: auto auto minmax(0, 1fr) 52px;
+    align-items: stretch;
     gap: 6px;
   }
 
