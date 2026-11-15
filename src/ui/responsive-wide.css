@@ -117,7 +117,7 @@
   .screen-stack[data-testid="sol"] .orbi-figure { flex-direction: row; }
   .screen-stack[data-testid="sol"] .sol-controls-scroll { grid-column: 2; grid-row: 1 / 4; }
   .screen-stack[data-testid="sol"] > .cta-btn { grid-column: 2; grid-row: 4; min-height: 52px; height: 52px; }
-  .screen-stack[data-testid="sol"] .sol-controls-scroll { overflow: hidden; gap: 4px; }
+  .screen-stack[data-testid="sol"] .sol-controls-scroll { overflow-y: auto; gap: 4px; }
   .screen-stack[data-testid="sol"] .goal-line,
   .screen-stack[data-testid="sol"] .preset-row { display: none; }
   .screen-stack[data-testid="sol"] .afford-line { font-size: 16px; line-height: 20px; }
