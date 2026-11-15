@@ -1,5 +1,5 @@
 {
-  "app.name": "Storm Watch",   "scene.simpleView": "Simple 2D view",   "scene.viewOn": "On",   "scene.viewOff": "Off",
+  "app.name": "Storm Watch",   "scene.simpleView": "Simple 2D view",   "scene.view3d": "3D view",   "scene.viewOn": "On",   "scene.viewOff": "Off",
   "app.shortName": "Storm Watch",
   "app.description": "A junior astronaut mission trainer where real NASA solar storm data sets the clock.",
   "app.metaDescription": "Storm Watch: a junior astronaut mission trainer where real NASA solar storm data sets the clock.",

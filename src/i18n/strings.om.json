@@ -1,5 +1,5 @@
 {
-  "app.name": "Storm Watch",   "scene.simpleView": "Mul’ata salphaa 2D",   "scene.viewOn": "Banaa",
+  "app.name": "Storm Watch",   "scene.simpleView": "Mul’ata salphaa 2D",   "scene.view3d": "Buufata 3D",   "scene.viewOn": "Banaa",
   "scene.viewOff": "Cufaa",   "app.shortName": "Storm Watch",
   "app.description": "Tapha barnoota hawaa. Obomboleettiin aduu sa’aatii murteessa.",
   "app.metaDescription": "Storm Watch: tapha barnoota hawaa; obomboleettiin aduu sa’aatii murteessa.",

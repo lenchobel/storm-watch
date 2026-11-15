@@ -91,6 +91,12 @@ export function PickerScreen({
 
       <div className="picker-options">
 
+      {canInstall && (
+        <button type="button" className="secondary-btn" onClick={onInstallApp}>
+          {t('picker.install')}
+        </button>
+      )}
+
       <section className="card" aria-label={t('picker.worldSection')}>
         <h2 className="h2-title">{t('picker.worldTitle')}</h2>
         <div className="toggle-row">

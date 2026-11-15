@@ -9,7 +9,7 @@ export function SimpleViewToggle({ enabled, onToggle }: SimpleViewToggleProps) {
   const { t } = useI18n()
   return (
     <button type="button" className="secondary-btn" aria-pressed={enabled} data-testid="simple-view-toggle" onClick={onToggle}>
-      {t('scene.simpleView')} · {t(enabled ? 'scene.viewOn' : 'scene.viewOff')}
+      {t(enabled ? 'scene.simpleView' : 'scene.view3d')}
     </button>
   )
 }

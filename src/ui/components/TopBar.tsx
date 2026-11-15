@@ -98,7 +98,7 @@ export function TopBar({
             </button>
           </div>
           <button type="button" aria-pressed={!vibration} onClick={onToggleVibration}>{t('settings.vibration')}</button>
-          <button type="button" data-testid="simple-view-toggle" aria-pressed={simpleView} onClick={onToggleSimpleView}>{t('settings.simpleView')}</button>
+          <button type="button" data-testid="simple-view-toggle" aria-pressed={simpleView} onClick={onToggleSimpleView}>{t(simpleView ? 'scene.simpleView' : 'scene.view3d')}</button>
           <button type="button" onClick={onClearProgress}>{t('settings.clearProgress')}</button>
         </section>
       </div>}
