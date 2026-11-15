@@ -205,6 +205,5 @@
   "settings.clearProgress": "Clear progress",   "common.close": "Close",
   "result.0": "The crew did not make it. Try again.",   "result.1": "Crew safe",   "result.2": "Good mission",
   "result.3": "Perfect mission",   "common.done": "Done",   "common.todo": "To do",
-  "collection.bestMoon": "Moon: {n} stars",   "collection.bestMars": "Mars: {n} stars",   "common.backButton": "Back",
-  "game.landscapeHint": "Turn your device sideways to play."
+  "collection.bestMoon": "Moon: {n} stars",   "collection.bestMars": "Mars: {n} stars",   "common.backButton": "Back",   "game.landscapeHint": "Turn your phone sideways to play."
 }
