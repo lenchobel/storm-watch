@@ -4,6 +4,7 @@ import type { Plan } from '../engine/types'
 import { useI18n } from '../i18n'
 import { IconSprite } from './components/IconSprite'
 import { TopBar } from './components/TopBar'
+import { TriLine } from './components/TriLine'
 import {
   createInitialState,
   DEFAULT_SOL_PLAN,
@@ -78,9 +79,11 @@ export function App() {
   }
 
   return (
-    <div className="app-shell">
-      <IconSprite />
-      <TopBar
+    <>
+      <TriLine />
+      <div className="app-shell">
+        <IconSprite />
+        <TopBar
         title={t(state.infoPage ? 'screen.info' : titleMap[state.screen])}
         muted={state.muted}
         isOffline={state.isOffline}
@@ -189,6 +192,7 @@ export function App() {
           onOpenInfo={(page) => dispatch({ type: 'OPEN_INFO', page })}
         />
       ) : null}
-    </div>
+      </div>
+    </>
   )
 }

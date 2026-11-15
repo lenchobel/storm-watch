@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitest/config'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
+import strings from './src/i18n/strings.en.json'
 
 export default defineConfig({
   plugins: [
@@ -22,10 +23,9 @@ export default defineConfig({
         navigateFallbackDenylist: [/^\/api\//],
       },
       manifest: {
-        name: 'Storm Watch',
-        short_name: 'Storm Watch',
-        description:
-          'A junior astronaut mission trainer where real NASA solar storm data sets the clock.',
+        name: strings['app.name'],
+        short_name: strings['app.shortName'],
+        description: strings['app.description'],
         theme_color: '#0B1026',
         background_color: '#0B1026',
         display: 'standalone',

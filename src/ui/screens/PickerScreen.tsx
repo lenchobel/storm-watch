@@ -4,6 +4,7 @@ import { useI18n } from '../../i18n'
 import { Icon } from '../components/Icon'
 import { InfoNav, type InfoPageId } from '../components/InfoNav'
 import { Orbi } from '../components/Orbi'
+import { TriLine } from '../components/TriLine'
 
 interface PickerScreenProps {
   storms: Storm[]
@@ -37,11 +38,12 @@ export function PickerScreen({
   const { lang, t } = useI18n()
 
   return (
-    <main className="screen-stack" data-testid="picker">
+    <main className="screen-stack picker-screen" data-testid="picker">
       <div className="hero-header">
-        <Orbi mood="calm" />
+        <Orbi mood="calm" status="calm" />
         <div>
           <h1 className="brand-title">{t('app.name')}</h1>
+          <TriLine title />
           <p className="muted zero-margin">{t('app.tagline')}</p>
         </div>
       </div>
@@ -55,7 +57,11 @@ export function PickerScreen({
             aria-pressed={site === 'moon'}
             onClick={() => onSelectSite('moon')}
           >
-            <Icon name="house" size={18} /> {t('site.moon')}
+            <Icon name="house" size={18} filled={site === 'moon'} />
+            <span className="site-btn-text">
+              <span>{t('site.moon')}</span>
+              <span className="site-btn-base">{t('site.moonBase')}</span>
+            </span>
           </button>
           <button
             type="button"
@@ -63,7 +69,11 @@ export function PickerScreen({
             aria-pressed={site === 'mars'}
             onClick={() => onSelectSite('mars')}
           >
-            <Icon name="sun" size={18} /> {t('site.mars')}
+            <Icon name="sun" size={18} />
+            <span className="site-btn-text">
+              <span>{t('site.mars')}</span>
+              <span className="site-btn-base">{t('site.marsBase')}</span>
+            </span>
           </button>
         </div>
       </section>

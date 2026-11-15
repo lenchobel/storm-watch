@@ -5,7 +5,6 @@ import {
   assertNoHorizontalOverflow,
 } from './helpers'
 
-const PARTICLE_FAST_ID = '2024-05-11T01:10:00-FLR-001'
 const OUT = 'screenshots'
 
 async function shot(page: Page, name: string) {
@@ -19,9 +18,7 @@ test('Afaan Oromoo: layout, targets, axe, lang, full mission, info, screenshots'
   page,
 }) => {
   await page.setViewportSize({ width: 360, height: 640 })
-  await page.goto(
-    `/?seed=1&storm=${PARTICLE_FAST_ID}&site=moon&difficulty=cadet`
-  )
+  await page.goto('/')
   await page.getByRole('heading', { name: 'Storm Watch' }).waitFor()
 
   await page.getByTestId('lang-om').click()
@@ -39,6 +36,7 @@ test('Afaan Oromoo: layout, targets, axe, lang, full mission, info, screenshots'
   await assertAxeClean(page, 'picker-om')
   await shot(page, 'i18n-picker-om-360')
 
+  await page.getByRole('button', { name: /2024-05-11/ }).click()
   await page.getByTestId('start-mission').click()
   await page.getByTestId('begin-sol').waitFor()
   await assertNoHorizontalOverflow(page)

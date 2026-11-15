@@ -19,7 +19,7 @@ interface StormClockScreenProps {
 function segmentPath(index: number, total: number, r: number): string {
   const cx = 80
   const cy = 80
-  const gapDeg = total > 1 ? 8 : 0
+  const gapDeg = total > 1 ? 8 : 1
   const span = 360 / total
   const startDeg = -90 + index * span + gapDeg / 2
   const endDeg = -90 + (index + 1) * span - gapDeg / 2

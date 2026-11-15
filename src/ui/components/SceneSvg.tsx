@@ -58,9 +58,13 @@ export function SceneSvg({
     >
       <svg viewBox="0 0 360 240" aria-hidden="true" focusable="false">
         <defs>
+          <radialGradient id="sunGlowGrad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="var(--gold)" stopOpacity="0.38" />
+            <stop offset="100%" stopColor="var(--gold)" stopOpacity="0" />
+          </radialGradient>
           <radialGradient id="flareGlowGrad" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="var(--amber)" stopOpacity="0.8" />
-            <stop offset="100%" stopColor="var(--amber)" stopOpacity="0" />
+            <stop offset="0%" stopColor="var(--gold)" stopOpacity="0.8" />
+            <stop offset="100%" stopColor="var(--gold)" stopOpacity="0" />
           </radialGradient>
         </defs>
 
@@ -90,20 +94,21 @@ export function SceneSvg({
           <circle cx="44" cy="40" r="12" fill="var(--air)" />
           <path
             d="M37 35 Q43 32 45 38 T40 46 Z"
-            fill="var(--health)"
+            fill="var(--green)"
           />
           <path
             d="M47 33 Q52 36 51 43 L46 41 Z"
-            fill="var(--health)"
+            fill="var(--green)"
           />
         </g>
 
-        {/* Sun at (312, 36) */}
+        {/* Sun at (312, 36) with a soft gold glow */}
         <g className={sunPulse ? 'sun-pulsing' : undefined}>
+          <circle cx="312" cy="36" r="42" fill="url(#sunGlowGrad)" />
           {flareGlow && (
             <circle cx="312" cy="36" r="34" fill="url(#flareGlowGrad)" />
           )}
-          <circle cx="312" cy="36" r="16" fill="var(--amber)" />
+          <circle cx="312" cy="36" r="16" fill="var(--gold)" />
           {SUN_RAYS.map((deg) => {
             const rad = (deg * Math.PI) / 180
             const x1 = 312 + Math.cos(rad) * 20
@@ -117,7 +122,7 @@ export function SceneSvg({
                 y1={y1}
                 x2={x2}
                 y2={y2}
-                stroke="var(--amber)"
+                stroke="var(--gold)"
                 strokeWidth="2"
                 strokeLinecap="round"
               />
@@ -136,14 +141,14 @@ export function SceneSvg({
               strokeDasharray="4 4"
               opacity="0.55"
             />
-            <circle r="3.5" fill="var(--amber)" className="signal-dot" />
+            <circle r="3.5" fill="var(--gold)" className="signal-dot" />
           </g>
         )}
 
         {/* Ground across bottom 70px */}
         <path
           d="M0 170 L360 170 L360 240 L0 240 Z"
-          fill={isMars ? 'var(--mars-ground)' : 'var(--moon-ground)'}
+          fill={isMars ? 'var(--earth)' : 'var(--moon)'}
         />
         {isMars ? (
           <rect
@@ -151,8 +156,8 @@ export function SceneSvg({
             y="188"
             width="360"
             height="18"
-            fill="var(--power)"
-            opacity="0.22"
+            fill="var(--dust)"
+            opacity="0.7"
           />
         ) : (
           CRATERS.map((c, i) => (
@@ -212,10 +217,10 @@ export function SceneSvg({
           strokeWidth="1.5"
         />
         <line x1="180" y1="124" x2="180" y2="117" stroke="var(--text)" strokeWidth="2" />
-        <path d="M173 116 Q180 122 187 116" fill="none" stroke="var(--amber)" strokeWidth="2" strokeLinecap="round" />
-        <path d="M122 170 A58 58 0 0 1 238 170" fill="none" stroke="var(--air)" strokeWidth="3" strokeDasharray="7 5" opacity={shieldOpacity} />
-        {isDustSol && <rect x="0" y="0" width="360" height="240" fill="var(--mars-ground)" opacity="0.34" />}
-        {waveActive && <rect x="0" y="0" width="120" height="240" fill="var(--danger)" opacity="0.32" className="wave-sweep" />}
+        <path d="M173 116 Q180 122 187 116" fill="none" stroke="var(--gold)" strokeWidth="2" strokeLinecap="round" />
+        <path d="M122 170 A58 58 0 0 1 238 170" fill="none" stroke="var(--gold)" strokeWidth="3" strokeDasharray="7 5" opacity={shieldOpacity} />
+        {isDustSol && <rect x="0" y="0" width="360" height="240" fill="var(--dust)" opacity="0.34" />}
+        {waveActive && <rect x="0" y="0" width="120" height="240" fill="var(--red)" opacity="0.32" className="wave-sweep" />}
       </svg>
     </div>
   )
