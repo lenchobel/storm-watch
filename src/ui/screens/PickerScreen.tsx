@@ -5,10 +5,10 @@ import { useI18n } from '../../i18n'
 import { localDayKey, type Progress } from '../progress'
 import { rankFor, totalStars } from '../ranks'
 import { Icon } from '../components/Icon'
-import { SimpleViewToggle } from '../components/SimpleViewToggle'
 import { InfoNav, type InfoPageId } from '../components/InfoNav'
 import { Orbi } from '../components/Orbi'
 import { TriLine } from '../components/TriLine'
+import { SceneView } from '../components/SceneView'
 
 interface PickerScreenProps {
   storms: Storm[]
@@ -30,7 +30,6 @@ interface PickerScreenProps {
   classroomMode: boolean
   onToggleClassroom: () => void
   simpleView: boolean
-  onToggleSimpleView: () => void
 }
 
 export function PickerScreen({
@@ -53,7 +52,6 @@ export function PickerScreen({
   classroomMode,
   onToggleClassroom,
   simpleView,
-  onToggleSimpleView,
 }: PickerScreenProps) {
   const { lang, t } = useI18n()
   const stars = totalStars(progress, storms)
@@ -72,6 +70,10 @@ export function PickerScreen({
         </div>
       </div>
 
+      <section className="card picker-hero" aria-label={t('picker.dailyTitle')}>
+        <SceneView site={site} seed={daily.seed} shieldLevel={1} simpleView={simpleView} />
+      </section>
+
       <section className="card daily-card">
         <div className="row-between">
           <h2 className="h2-title">{t('picker.dailyTitle')}</h2>
@@ -85,7 +87,7 @@ export function PickerScreen({
         </button>
       </section>
 
-      <SimpleViewToggle enabled={simpleView} onToggle={onToggleSimpleView} />
+      {/* View preference lives in the shared settings sheet. */}
 
       <section className="card" aria-label={t('picker.worldSection')}>
         <h2 className="h2-title">{t('picker.worldTitle')}</h2>

@@ -129,3 +129,9 @@
 - **Verification**: 67 unit tests passed; build passed; 334 catalogue keys and placeholders match. All 27 Playwright tests passed, including screen accessibility in English and Afaan Oromoo, keyboard-only play, 3D gameplay and fallback, screenshot comparisons, and a one-page lesson PDF. Goal reachability passed the 70% bar without threshold changes.
 - **Review still needed**: A fluent Afaan Oromoo speaker should review the draft. The local app used its saved NASA snapshot; live NASA fetching and deployment were not checked in this pass.
 
+
+
+## Stage E work
+
+AI assistance updated the compact settings header, responsive scene layouts, collection cards, debrief labels, icons, and English/Afaan Oromoo strings. Tests and screenshots are being run; browser visual review and any differences must be recorded before release. The team name placeholder was not edited.
+

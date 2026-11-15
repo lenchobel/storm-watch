@@ -56,7 +56,7 @@ export function SceneSvg({
       role="img"
       aria-label={t(site === 'moon' ? 'scene.moonAlt' : 'scene.marsAlt')}
     >
-      <svg viewBox="0 0 360 240" aria-hidden="true" focusable="false">
+      <svg viewBox="0 0 360 240" preserveAspectRatio="none" aria-hidden="true" focusable="false">
         <defs>
           <radialGradient id="sunGlowGrad" cx="50%" cy="50%" r="50%">
             <stop offset="0%" stopColor="var(--gold)" stopOpacity="0.38" />
@@ -172,6 +172,9 @@ export function SceneSvg({
             />
           ))
         )}
+
+        <path d="M0 178 Q54 145 112 178 Q164 142 218 178 Q282 145 360 176 L360 240 L0 240Z" fill={isMars ? 'var(--dust)' : 'var(--line)'} opacity="0.55" />
+        <path d="M0 188 Q62 160 126 188 Q202 151 274 188 Q320 166 360 184 L360 240 L0 240Z" fill={isMars ? 'var(--earth)' : 'var(--moon)'} opacity="0.82" />
 
         {/* Three solar panels 28x6 at x=60, 100, 260 */}
         <g opacity={panelOpacity}>

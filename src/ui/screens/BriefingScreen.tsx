@@ -34,7 +34,7 @@ export function BriefingScreen({
     <main className="screen-stack" data-testid="briefing">
       <section className="card">
         <div className="row-between">
-          <h1 className="brand-title">{siteLabel}</h1>
+          <h1 className="brand-title briefing-title"><Icon name="house" size={26}/>{siteLabel}</h1>
           <span className={`badge ${badgeClass}`}>
             {t(storm.source === 'live' ? 'badge.live' : 'badge.saved')}
           </span>
@@ -74,7 +74,7 @@ export function BriefingScreen({
         <div className="brief-card">
           <div className="meter-head"><span>{t('briefing.bonusGoals')}</span></div>
           <p>{t('briefing.bestStars', { n: bestStars })}</p>
-          {goals.map((id) => <p key={id} className="zero-margin">□ {t(`goal.${id}`)}</p>)}
+          {goals.map((id) => <p key={id} className="zero-margin goal-row"><Icon name="empty-circle" size={20}/><span className="visually-hidden">{t('common.todo')}</span>{t(`goal.${id}`)}</p>)}
         </div>
       </section>
 

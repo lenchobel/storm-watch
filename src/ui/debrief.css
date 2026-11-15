@@ -168,6 +168,12 @@
   .cta-btn { min-height: 52px; }
 }
 
+@media (max-height:700px) {
+  .screen-stack[data-testid="sol"] .orbi-state { display:none; }
+  .screen-stack[data-testid="sol"] .scene-frame { height:150px; max-height:150px; }
+  .screen-stack[data-testid="clock"] .scene-frame { height:110px; max-height:110px; }
+}
+
 @media print {
   body { background: #ffffff; color: #000000; }
   .no-print { display: none !important; }

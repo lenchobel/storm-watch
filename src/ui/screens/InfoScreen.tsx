@@ -6,6 +6,11 @@ import { useI18n } from '../../i18n'
 import { GLOSSARY, SIMPLIFIED_POINTS, TEACHER_PLAN } from '../copy'
 import type { InfoPageId } from '../components/InfoNav'
 import { SimpleViewToggle } from '../components/SimpleViewToggle'
+import { Icon } from '../components/Icon'
+
+function InfoTitle({ children }: { children: string }) {
+  return <h1 className="brand-title info-title"><Icon name="book" size={24}/>{children}</h1>
+}
 
 interface InfoScreenProps {
   page: InfoPageId
@@ -43,7 +48,7 @@ export function InfoScreen({
     <main className="screen-stack" data-testid="info">
       {page === 'sources' && (
         <section className="card">
-          <h1 className="brand-title">{t('info.sources.title')}</h1>
+          <InfoTitle>{t('info.sources.title')}</InfoTitle>
           <p>{t('info.sources.intro')}</p>
           <p>
             {t('info.sources.status')}{' '}
@@ -71,7 +76,7 @@ export function InfoScreen({
 
       {page === 'simplified' && (
         <section className="card">
-          <h1 className="brand-title">{t('info.simplified.title')}</h1>
+          <InfoTitle>{t('info.simplified.title')}</InfoTitle>
           <ul className="info-list">
             {SIMPLIFIED_POINTS.map((pointKey) => (
               <li key={pointKey}>{t(pointKey)}</li>
@@ -82,7 +87,7 @@ export function InfoScreen({
 
       {page === 'glossary' && (
         <section className="card">
-          <h1 className="brand-title">{t('info.glossary.title')}</h1>
+          <InfoTitle>{t('info.glossary.title')}</InfoTitle>
           <dl className="glossary-list">
             {GLOSSARY.map((entry) => (
               <div key={entry.termKey} className="glossary-row">
@@ -98,7 +103,7 @@ export function InfoScreen({
 
       {page === 'teacher' && (
         <section className="card teacher-plan">
-          <h1 className="brand-title">{t(TEACHER_PLAN.titleKey)}</h1>
+          <InfoTitle>{t(TEACHER_PLAN.titleKey)}</InfoTitle>
           <p>{t(TEACHER_PLAN.goalKey)}</p>
           <p>{t('teacher.bases')}</p>
           <h2 className="h2-title">{t(TEACHER_PLAN.activityTitleKey)}</h2>
@@ -151,7 +156,7 @@ export function InfoScreen({
 
       {page === 'about' && (
         <section className="card">
-          <h1 className="brand-title">{t('info.about.title')}</h1>
+          <InfoTitle>{t('info.about.title')}</InfoTitle>
           <p>{t('info.about.team')}</p>
           <p>{t('info.about.data')}</p>
           <p>{t('info.about.ai')}</p>

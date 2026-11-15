@@ -104,6 +104,8 @@ export function IconSprite() {
           <path d="M11 5L6 9H3v6h3l5 4z" {...STROKE} />
           <path d="M16 9l5 6M21 9l-5 6" {...STROKE} />
         </symbol>
+        <symbol id="icon-check" viewBox="0 0 24 24"><path d="m4 12 5 5L20 6" {...STROKE}/></symbol>
+        <symbol id="icon-empty-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" {...STROKE}/></symbol>
       </defs>
     </svg>
   )

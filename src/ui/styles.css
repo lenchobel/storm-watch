@@ -189,3 +189,39 @@ a {
   opacity: 0.5;
   pointer-events: none;
 }
+.sheet-backdrop{position:fixed;inset:0;z-index:20;background:#07111ddd;display:flex;align-items:flex-end;justify-content:center;padding:12px}.settings-sheet{width:min(100%,480px);max-height:85dvh;overflow:auto}.settings-sheet>button{width:100%;justify-content:flex-start}
+
+/* Stage E: compact play screens and desktop mission split. */
+@media (max-height: 700px) {
+  .scene-frame { height: 150px; }
+  .app-shell { height: 100dvh; min-height: 0; overflow: hidden; }
+  .screen-stack[data-testid="sol"] { min-height: 0; height: calc(100dvh - 104px); }
+  .screen-stack[data-testid="sol"] > .controls-stack { min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
+  .screen-stack[data-testid="sol"] > .cta-btn { position: sticky; bottom: 0; flex: 0 0 56px; min-height: 56px; z-index: 2; }
+  .screen-stack[data-testid="clock"] { min-height: 0; }
+  .screen-stack[data-testid="clock"] .scene-frame { height: 112px; }
+  .screen-stack[data-testid="clock"] .clock-panel { flex-direction: row; gap: 8px; padding: 6px; }
+  .screen-stack[data-testid="clock"] .ring-wrap svg { width: 88px; height: 88px; }
+  .screen-stack[data-testid="clock"] .controls-stack { display: grid; grid-template-columns: 1fr 1fr; }
+}
+@media (min-width: 1024px) {
+  .app-shell { max-width: 1200px; }
+  .screen-stack[data-testid="sol"], .screen-stack[data-testid="clock"] { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); align-items: start; }
+  .screen-stack[data-testid="sol"] .scene-frame, .screen-stack[data-testid="clock"] .scene-frame { grid-column: 1; grid-row: 1 / span 3; height: 480px; }
+  .screen-stack[data-testid="sol"] .hud-bar { grid-column: 1; }
+  .screen-stack[data-testid="sol"] .orbi-bubble { grid-column: 1; }
+  .screen-stack[data-testid="sol"] > :not(.hud-bar):not(.scene-frame):not(.orbi-bubble) { grid-column: 2; }
+  .screen-stack[data-testid="clock"] .hud-bar { grid-column: 1; }
+  .screen-stack[data-testid="clock"] .clock-panel { grid-column: 2; grid-row: 1 / span 2; }
+  .screen-stack[data-testid="clock"] .controls-stack, .screen-stack[data-testid="clock"] > .cta-btn { grid-column: 2; }
+}
+.sheet-backdrop { position: fixed; inset: 0; z-index: 20; background: #07111ddd; display: flex; align-items: flex-end; justify-content: center; padding: 12px; }
+.settings-sheet { width: min(100%, 480px); max-height: 85dvh; overflow: auto; }
+.settings-sheet > button { width: 100%; justify-content: flex-start; }
+
+.goal-row{display:flex;align-items:center;gap:8px}.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.collection-screen{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}.collection-screen>section,.collection-screen>button{grid-column:1/-1}.collection-card{min-width:0;padding:12px 8px}.collection-card .row-between{justify-content:flex-start}.flare-badge{font-size:24px;background:var(--gold);color:var(--navy);padding:4px 8px;border-radius:8px}
+.brief-card{gap:12px}.storm-main{gap:12px}
+@media (min-width:1024px){.picker-screen{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}.picker-screen>.hero-header,.picker-screen>.cta-btn,.picker-screen>.nav-strip{grid-column:1/-1}.collection-screen>section{grid-column:1/-1}}
+@media (max-height:700px){.screen-stack[data-testid="sol"]{min-height:calc(100dvh - 110px)}.screen-stack[data-testid="sol"]>.controls-stack{overflow-y:auto;max-height:112px;min-height:76px}.screen-stack[data-testid="sol"]>.cta-btn{position:sticky;bottom:0;flex:0 0 56px;min-height:56px;z-index:3}.screen-stack[data-testid="sol"]>.afford-line,.screen-stack[data-testid="sol"]>.goal-line,.screen-stack[data-testid="sol"]>.preset-row{display:none}.screen-stack[data-testid="clock"] .ring-wrap svg{width:88px;height:88px}.screen-stack[data-testid="clock"] .clock-panel{flex-direction:row;gap:8px}.screen-stack[data-testid="clock"] .controls-stack{display:grid;grid-template-columns:1fr 1fr}}
+.info-title{display:flex;align-items:center;gap:8px}.meter-head{display:flex;align-items:center;gap:8px}.picker-hero .scene-frame{height:160px}

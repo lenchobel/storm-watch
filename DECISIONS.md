@@ -184,3 +184,11 @@
 6. **Existing tests**: Existing expected values and assertions were not changed. Test helpers now choose “Not sure” before ending a day when the new prediction prompt appears. Screenshot coverage adds the collection and daily briefing. Playwright’s shared saved preference keeps the established suite on 2D; Stage D tests turn 3D on explicitly.
 7. **Performance**: Production output keeps Three.js in a separate lazy chunk. The initial gzip bundle increased by about 1 KB; total precache output remained below 1 MB.
 8. **Visual coverage**: A Playwright screenshot matrix compares 2D and 3D for both sites, all three clock outcomes, and debrief at phone and desktop sizes. Representative pairs were inspected after correcting terrain orientation and impact visibility.
+
+
+## Stage E
+
+- Shared settings live in the gear sheet; language stays in the compact header.
+- Kept the existing common.back fallback unchanged for its unit test; the visible header uses common.backButton.
+- On short sol screens, hide secondary goal/preset text and scroll the control cards; pin the day action.
+- Collection cards use two columns at all widths. Locked cards reveal only the date and lock.

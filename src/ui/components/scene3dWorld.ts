@@ -87,6 +87,17 @@ function addOutpost(scene: THREE.Scene, props: SceneSvgProps & { stormActive: bo
   const gold = cssColor('--gold')
   const panel = cssColor('--panel')
   const air = cssColor('--air')
+  const groundColor = cssColor(props.site === 'mars' ? '--earth' : '--moon')
+  const fullGround = new THREE.Mesh(new THREE.PlaneGeometry(40, 24), new THREE.MeshBasicMaterial({ color: groundColor, side: THREE.DoubleSide }))
+  fullGround.rotation.x = -Math.PI / 2
+  fullGround.position.y = -1.3
+  scene.add(fullGround)
+  for (const hill of [{ x: -6, z: -4, color: '--line', scale: 1.8 }, { x: 6, z: -5, color: '--navy', scale: 1.4 }]) {
+    const silhouette = new THREE.Mesh(new THREE.SphereGeometry(5, 24, 8, 0, Math.PI * 2, 0, Math.PI / 2), new THREE.MeshBasicMaterial({ color: cssColor(hill.color), side: THREE.DoubleSide }))
+    silhouette.scale.set(hill.scale, 0.18, 0.8)
+    silhouette.position.set(hill.x, -1.15, hill.z)
+    scene.add(silhouette)
+  }
   scene.add(ground(props.site, props.seed))
   const mars = props.site === 'mars'
   if (mars && props.isDustSol) {

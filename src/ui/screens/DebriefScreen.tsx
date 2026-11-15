@@ -9,6 +9,7 @@ import { CompareCard } from '../components/CompareCard'
 import { InfoNav, type InfoPageId } from '../components/InfoNav'
 import { Orbi } from '../components/Orbi'
 import { QuizCheck } from '../components/QuizCheck'
+import { Icon } from '../components/Icon'
 
 interface DebriefScreenProps {
   cfg: MissionConfig
@@ -126,8 +127,8 @@ export function DebriefScreen({
         </div>
         <h1 className="brand-title">
           {result.survived
-            ? t('debrief.complete')
-            : t('debrief.failedTitle', { sol: result.endedOnSol })}
+            ? t(`result.${result.stars}`)
+            : t('result.0')}
         </h1>
         <div className="row-between">
           <span>
@@ -160,6 +161,10 @@ export function DebriefScreen({
         </div>
       </section>
 
+      <section className="card" aria-label={t('debrief.saverTitle')}>
+        <p data-testid="saver-text" className="zero-margin">{saverLine}</p>
+      </section>
+
       {predictionResult && <section className="card"><p className="zero-margin">{predictionResult}</p></section>}
       {concept && <section className="card" aria-label={t('learn.title')}>
         <h2 className="h2-title">{t('learn.title')}</h2>
@@ -172,20 +177,13 @@ export function DebriefScreen({
         <div className="row-between"><h2 className="h2-title">{t('debrief.goals')}</h2><span>{t('debrief.bestStars', { n: bestStars })}</span></div>
         {newBest && <p className="rank-up">{t('debrief.newBest')}</p>}
         {rankUp && <p className="rank-up">{t('debrief.rankUp', { rank: t(`rank.${rankUp}`) })}</p>}
-        {goals.map((goal) => <p className="zero-margin" key={goal.id}>{goal.done ? '✓' : '□'} {t(`goal.${goal.id}`)}</p>)}
+        {goals.map((goal) => <p className="zero-margin goal-row" key={goal.id}><Icon name={goal.done ? 'check' : 'empty-circle'} size={20}/><span className="visually-hidden">{t(goal.done ? 'common.done' : 'common.todo')}</span> {t(`goal.${goal.id}`)}</p>)}
       </section>
 
       <div className="orbi-bubble">
         <Orbi mood={result.survived ? 'calm' : 'worried'} />
         <p className="zero-margin">{orbiLine}</p>
       </div>
-
-      <section className="card" aria-label={t('debrief.saverTitle')}>
-        <h2 className="h2-title">{t('debrief.saverTitle')}</h2>
-        <p data-testid="saver-text" className="zero-margin">
-          {saverLine}
-        </p>
-      </section>
 
       {moonResult && marsResult && (
         <CompareCard moon={moonResult} mars={marsResult} />

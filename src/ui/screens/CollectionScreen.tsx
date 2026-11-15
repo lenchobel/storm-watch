@@ -1,6 +1,7 @@
 import type { Site, Storm } from '../../engine/types'
 import { useI18n } from '../../i18n'
 import { bestStarsKey, type Progress } from '../progress'
+import { Icon } from '../components/Icon'
 
 export function CollectionScreen({ storms, progress, onBack }: { storms: Storm[]; progress: Progress; onBack: () => void }) {
   const { t } = useI18n()
@@ -8,7 +9,7 @@ export function CollectionScreen({ storms, progress, onBack }: { storms: Storm[]
     progress.bestStars[bestStarsKey(stormId, site, 'cadet')] ?? 0,
     progress.bestStars[bestStarsKey(stormId, site, 'commander')] ?? 0
   )
-  return <main className="screen-stack" data-testid="collection">
+  return <main className="screen-stack collection-screen" data-testid="collection">
     <section className="card">
       <h1 className="brand-title">{t('collection.title')}</h1>
       <p className="muted">{t('collection.forecaster', { right: progress.forecaster.right, guesses: progress.forecaster.guesses })}</p>
@@ -16,16 +17,16 @@ export function CollectionScreen({ storms, progress, onBack }: { storms: Storm[]
       {storms.map((storm) => {
         const unlocked = progress.runs.some((run) => run.stormId === storm.id)
         const date = storm.flarePeak.slice(0, 10)
-        return <article className="brief-card" key={storm.id}>
+        return <article className={`brief-card collection-card ${unlocked ? '' : 'is-locked'}`} key={storm.id}>
           <div className="row-between">
-            <strong>{unlocked ? `${storm.flareClass} · ${date}` : date}</strong>
-            {unlocked && <span className={`badge ${storm.source === 'live' ? 'badge-live' : 'badge-saved'}`}>{t(storm.source === 'live' ? 'badge.live' : 'badge.saved')}</span>}
+            {unlocked ? <><Icon name="sun" size={22}/><strong className="flare-badge">{storm.flareClass}</strong><span className={`badge ${storm.source === 'live' ? 'badge-live' : 'badge-saved'}`}>{t(storm.source === 'live' ? 'badge.live' : 'badge.saved')}</span></> : <Icon name="lock" size={22}/>}
           </div>
-          {unlocked ? <>
-            <p>{t('collection.flare', { class: storm.flareClass, date })}</p>
-            <p>{storm.gapHours === undefined ? t('collection.falseAlarm') : t('collection.gap', { hours: storm.gapHours })}</p>
-            <p>{t('picker.collectionBest', { moon: best(storm.id, 'moon'), mars: best(storm.id, 'mars') })}</p>
-          </> : <p>{t('collection.locked')}</p>}
+          <p className="zero-margin">{date}</p>
+          {unlocked && <>
+            <p className="zero-margin">{storm.gapHours === undefined ? t('collection.falseAlarm') : t('collection.gap', { hours: storm.gapHours })}</p>
+            <p className="zero-margin">{t('collection.bestMoon', { n: best(storm.id, 'moon') })}</p>
+            <p className="zero-margin">{t('collection.bestMars', { n: best(storm.id, 'mars') })}</p>
+          </>}
         </article>
       })}
     </section>

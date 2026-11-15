@@ -21,6 +21,8 @@ export type IconName =
   | 'question'
   | 'speaker'
   | 'speaker-off'
+  | 'check'
+  | 'empty-circle'
 
 const FILLABLE = new Set<IconName>(['bolt', 'heart', 'shield', 'star'])
 

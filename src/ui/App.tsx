@@ -107,6 +107,11 @@ export function App() {
         muted={state.muted}
         isOffline={state.isOffline}
         onToggleMute={handleMute}
+        vibration={progress.settings.vibration}
+        onToggleVibration={() => setProgress((current) => updateSettings({ vibration: !current.settings.vibration }))}
+        simpleView={progress.settings.simpleView}
+        onToggleSimpleView={handleSimpleView}
+        onClearProgress={() => setProgress(clearProgress())}
         onBack={
           state.infoPage
             ? () => dispatch({ type: 'OPEN_INFO', page: null })
@@ -170,7 +175,6 @@ export function App() {
           classroomMode={progress.settings.classroom}
           onToggleClassroom={handleClassroom}
           simpleView={progress.settings.simpleView}
-          onToggleSimpleView={handleSimpleView}
         />
       ) : state.screen === 'briefing' ? (
         <BriefingScreen
