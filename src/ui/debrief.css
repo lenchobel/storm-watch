@@ -179,3 +179,46 @@
   .no-print { display: none !important; }
   .card { border-color: #333333; background: #ffffff; }
 }
+
+/* The picker is a game desk, with its choices inside the play frame. */
+.app-shell:has(.picker-screen) { height:100dvh; min-height:0; overflow:hidden; }
+.picker-screen { display:grid !important; height:calc(100dvh - 112px); min-height:0; overflow:hidden; grid-template-rows:44px 100px 116px minmax(0,1fr) 56px; gap:8px; }
+.picker-screen .hero-header { min-height:0; gap:8px; }
+.picker-screen .hero-header .orbi-figure { display:none; }
+.picker-screen .hero-header .brand-title { font-size:22px; }
+.picker-screen .hero-header .muted { display:none; }
+.picker-screen .picker-hero { min-height:0; padding:4px; }
+.picker-screen .picker-hero .scene-frame { height:90px; }
+.picker-screen .daily-card { min-height:0; padding:6px 8px; gap:4px; }
+.picker-screen .daily-card p { margin:0; }
+.picker-screen .daily-card .row-between+p { display:none; }
+.picker-screen .daily-card progress { height:6px; }
+.picker-screen .daily-card .secondary-btn { width:auto; min-height:36px; padding:4px 10px; }
+.picker-options { min-height:0; overflow-y:auto; display:flex; flex-direction:column; gap:8px; overscroll-behavior:contain; scrollbar-width:thin; }
+.picker-options .card { padding:8px; gap:6px; }
+.picker-options .storm-list { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+.picker-options .storm-btn { min-height:60px; padding:6px; gap:4px; font-size:14px; }
+.picker-options .storm-main { gap:4px; }
+.picker-options .storm-btn .badge { font-size:12px; padding:2px 4px; }
+.picker-options .setting-row.card { min-height:48px; }
+.picker-screen > .cta-btn { position:sticky; bottom:0; min-height:56px; height:56px; z-index:4; }
+@media (min-width:1024px) {
+  .picker-screen { height:calc(100dvh - 112px); grid-template-columns:minmax(0,3fr) minmax(0,2fr); grid-template-rows:44px 120px minmax(0,1fr) 56px; }
+  .picker-screen>.hero-header { grid-column:1/-1; }
+  .picker-screen>.picker-hero { grid-column:1; grid-row:2/4; }
+  .picker-screen>.picker-hero .scene-frame { height:100%; min-height:0; }
+  .picker-screen>.daily-card { grid-column:2; grid-row:2; }
+  .picker-screen>.picker-options { grid-column:2; grid-row:3; }
+  .picker-screen>.cta-btn { grid-column:1/-1; grid-row:4; }
+}
+
+.picker-screen .daily-card .row-between+p{display:none}.picker-screen .daily-card{padding:6px 8px;gap:4px}.picker-screen .daily-card progress{height:6px}.picker-screen .daily-card .secondary-btn{width:auto;min-height:40px;padding:4px 10px}.picker-screen .picker-options{scrollbar-width:thin}
+
+@media (max-height:700px) and (max-width:1023px) {
+  .picker-screen { grid-template-rows:38px 78px 94px minmax(0,1fr) 52px; gap:5px; }
+  .picker-screen .picker-hero .scene-frame { height:64px; border:0; }
+  .picker-screen .picker-options>[aria-label="picker.worldSection"], .picker-screen .picker-options>[aria-label="picker.stormSection"], .picker-screen .picker-options>[aria-label="picker.levelSection"] { padding:6px; }
+  .picker-screen .picker-options>[aria-label="picker.worldSection"] .toggle-row button { min-height:48px; padding:4px; }
+  .picker-screen>.cta-btn { height:52px; min-height:52px; }
+}
+

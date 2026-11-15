@@ -192,3 +192,9 @@
 - Kept the existing common.back fallback unchanged for its unit test; the visible header uses common.backButton.
 - On short sol screens, hide secondary goal/preset text and scroll the control cards; pin the day action.
 - Collection cards use two columns at all widths. Locked cards reveal only the date and lock.
+
+- Stage E game desk: picker keeps launch visible and scrolls mission choices inside the play frame, not the page.
+
+
+- Picker fit correction: use one five-row game frame at every viewport height; keep only mission options scrollable. Desktop picker uses non-overlapping assigned rows and columns.
+

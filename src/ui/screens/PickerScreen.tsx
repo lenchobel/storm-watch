@@ -89,6 +89,8 @@ export function PickerScreen({
 
       {/* View preference lives in the shared settings sheet. */}
 
+      <div className="picker-options">
+
       <section className="card" aria-label={t('picker.worldSection')}>
         <h2 className="h2-title">{t('picker.worldTitle')}</h2>
         <div className="toggle-row">
@@ -192,6 +194,13 @@ export function PickerScreen({
         <input type="checkbox" checked={classroomMode} onChange={onToggleClassroom} />
         {t('classroom.title')}
       </label>
+      {canInstall && (
+        <button type="button" className="secondary-btn" onClick={onInstallApp}>
+          {t('picker.install')}
+        </button>
+      )}
+      <InfoNav onOpen={onOpenInfo} />
+      </div>
 
       <button
         type="button"
@@ -202,13 +211,6 @@ export function PickerScreen({
         {t('picker.start')}
       </button>
 
-      {canInstall && (
-        <button type="button" className="secondary-btn" onClick={onInstallApp}>
-          {t('picker.install')}
-        </button>
-      )}
-
-      <InfoNav onOpen={onOpenInfo} />
     </main>
   )
 }

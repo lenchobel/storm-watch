@@ -23,7 +23,7 @@
 .classroom-mode { --muted: #e1e6ff; }
 .classroom-mode button { min-height: 64px; }
 .classroom-mode .scene-frame { height: 360px; }
-.classroom-mode .screen-stack { display: flex; flex-direction: column; }
+.classroom-mode .screen-stack:not(.picker-screen) { display: flex; flex-direction: column; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: .01ms !important;

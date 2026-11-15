@@ -135,3 +135,9 @@
 
 AI assistance updated the compact settings header, responsive scene layouts, collection cards, debrief labels, icons, and English/Afaan Oromoo strings. Tests and screenshots are being run; browser visual review and any differences must be recorded before release. The team name placeholder was not edited.
 
+
+The picker fit review found classroom-mode flex styles overriding its grid and a page-level scroll. AI-assisted CSS keeps its game frame fixed, scrolls choices inside, and pins Start mission.
+
+
+Follow-up screenshot review found overlapping desktop picker grid rows and a flex override. The picker grid now reserves separate rows for header, hero, daily mission, options, and launch. Only options scroll within the frame. Browser access was unavailable during this correction; final visual confirmation remains outstanding.
+
