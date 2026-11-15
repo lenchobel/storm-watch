@@ -1,0 +1,40 @@
+# Dependencies and build output
+node_modules/
+dist/
+dist-ssr/
+*.tsbuildinfo
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+*.local
+
+# Editors and operating systems
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Local agent tooling
+# These stay on the contributor machine and are not part of the public repo.
+.agent/
+.agents/
+GEMINI.md
+START-HERE.txt
+
+# Logs and coverage
+*.log
+npm-debug.log*
+coverage/
+.vitest/
+.playwright-cli/
+test-results/
+playwright-report/
+screenshots/

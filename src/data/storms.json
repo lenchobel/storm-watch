@@ -1,0 +1,657 @@
+{
+  "fetchedAt": "2026-11-14T14:51:55.048Z",
+  "source": "NASA DONKI",
+  "storms": [
+    {
+      "id": "2023-12-14T16:47:00-FLR-001",
+      "source": "saved",
+      "flareClass": "X2.8",
+      "flarePeak": "2023-12-14T17:02Z",
+      "sepStart": "2023-12-15T10:05Z",
+      "gapHours": 17.05,
+      "tier": "big"
+    },
+    {
+      "id": "2023-12-15T07:03:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M6.3",
+      "flarePeak": "2023-12-15T07:15Z",
+      "sepStart": "2023-12-15T10:05Z",
+      "gapHours": 2.83,
+      "tier": "medium"
+    },
+    {
+      "id": "2023-12-15T07:23:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M6.9",
+      "flarePeak": "2023-12-15T07:34Z",
+      "sepStart": "2023-12-15T10:05Z",
+      "gapHours": 2.52,
+      "tier": "medium"
+    },
+    {
+      "id": "2024-01-21T00:03:00-FLR-001",
+      "source": "saved",
+      "flareClass": "C4.0",
+      "flarePeak": "2024-01-21T00:27Z",
+      "sepStart": "2024-01-22T13:00Z",
+      "gapHours": 36.55,
+      "tier": "small"
+    },
+    {
+      "id": "2024-01-21T00:35:00-FLR-001",
+      "source": "saved",
+      "flareClass": "C5.3",
+      "flarePeak": "2024-01-21T00:41Z",
+      "sepStart": "2024-01-22T13:00Z",
+      "gapHours": 36.32,
+      "tier": "small"
+    },
+    {
+      "id": "2024-01-22T06:09:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M1.5",
+      "flarePeak": "2024-01-22T06:22Z",
+      "sepStart": "2024-01-22T13:00Z",
+      "gapHours": 6.63,
+      "tier": "medium"
+    },
+    {
+      "id": "2024-01-29T03:54:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M6.8",
+      "flarePeak": "2024-01-29T04:38Z",
+      "sepStart": "2024-01-29T05:11Z",
+      "gapHours": 0.55,
+      "tier": "medium"
+    },
+    {
+      "id": "2024-02-06T02:15:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M2.2",
+      "flarePeak": "2024-02-06T02:28Z",
+      "sepStart": "2024-02-06T05:25Z",
+      "gapHours": 2.95,
+      "tier": "medium"
+    },
+    {
+      "id": "2024-02-06T02:37:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M4.2",
+      "flarePeak": "2024-02-06T03:12Z",
+      "sepStart": "2024-02-06T05:25Z",
+      "gapHours": 2.22,
+      "tier": "medium"
+    },
+    {
+      "id": "2024-02-09T12:53:00-FLR-001",
+      "source": "saved",
+      "flareClass": "X3.3",
+      "flarePeak": "2024-02-09T13:14Z",
+      "sepStart": "2024-02-09T15:09Z",
+      "gapHours": 1.92,
+      "tier": "big"
+    },
+    {
+      "id": "2024-03-23T00:58:00-FLR-001",
+      "source": "saved",
+      "flareClass": "X1.1",
+      "flarePeak": "2024-03-23T01:33Z",
+      "sepStart": "2024-03-23T05:57Z",
+      "gapHours": 4.4,
+      "tier": "big"
+    },
+    {
+      "id": "2024-05-08T21:08:00-FLR-001",
+      "source": "saved",
+      "flareClass": "X1.0",
+      "flarePeak": "2024-05-08T21:40Z",
+      "sepStart": "2024-05-10T13:35Z",
+      "gapHours": 39.92,
+      "tier": "big"
+    },
+    {
+      "id": "2024-05-08T22:05:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M9.8",
+      "flarePeak": "2024-05-08T22:27Z",
+      "sepStart": "2024-05-10T13:35Z",
+      "gapHours": 39.13,
+      "tier": "medium"
+    },
+    {
+      "id": "2024-05-09T08:45:00-FLR-001",
+      "source": "saved",
+      "flareClass": "X2.2",
+      "flarePeak": "2024-05-09T09:13Z",
+      "sepStart": "2024-05-09T13:59Z",
+      "gapHours": 4.77,
+      "tier": "big"
+    },
+    {
+      "id": "2024-05-09T17:23:00-FLR-001",
+      "source": "saved",
+      "flareClass": "X1.1",
+      "flarePeak": "2024-05-09T17:44Z",
+      "sepStart": "2024-05-10T12:59Z",
+      "gapHours": 19.25,
+      "tier": "big"
+    },
+    {
+      "id": "2024-05-10T06:27:00-FLR-001",
+      "source": "saved",
+      "flareClass": "X3.9",
+      "flarePeak": "2024-05-10T06:54Z",
+      "sepStart": "2024-05-10T12:59Z",
+      "gapHours": 6.08,
+      "tier": "big"
+    },
+    {
+      "id": "2024-05-10T13:58:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M5.9",
+      "flarePeak": "2024-05-10T14:11Z",
+      "sepStart": "2024-05-10T14:50Z",
+      "gapHours": 0.65,
+      "tier": "medium"
+    },
+    {
+      "id": "2024-05-11T01:10:00-FLR-001",
+      "source": "saved",
+      "flareClass": "X5.8",
+      "flarePeak": "2024-05-11T01:23Z",
+      "sepStart": "2024-05-11T02:10Z",
+      "gapHours": 0.78,
+      "tier": "big"
+    },
+    {
+      "id": "2024-05-13T08:06:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M1.2",
+      "flarePeak": "2024-05-13T08:20Z",
+      "sepStart": "2024-05-13T12:44Z",
+      "gapHours": 4.4,
+      "tier": "medium"
+    },
+    {
+      "id": "2024-05-13T08:23:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M1.4",
+      "flarePeak": "2024-05-13T08:29Z",
+      "sepStart": "2024-05-13T12:44Z",
+      "gapHours": 4.25,
+      "tier": "medium"
+    },
+    {
+      "id": "2024-05-13T08:47:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M4.9",
+      "flarePeak": "2024-05-13T09:33Z",
+      "sepStart": "2024-05-13T12:44Z",
+      "gapHours": 3.18,
+      "tier": "medium"
+    },
+    {
+      "id": "2024-05-13T09:36:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M6.6",
+      "flarePeak": "2024-05-13T09:44Z",
+      "sepStart": "2024-05-13T12:44Z",
+      "gapHours": 3,
+      "tier": "medium"
+    },
+    {
+      "id": "2024-06-08T00:39:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M3.3",
+      "flarePeak": "2024-06-08T00:51Z",
+      "sepStart": "2024-06-08T02:25Z",
+      "gapHours": 1.57,
+      "tier": "medium"
+    },
+    {
+      "id": "2024-06-08T01:23:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M9.7",
+      "flarePeak": "2024-06-08T01:49Z",
+      "sepStart": "2024-06-08T02:25Z",
+      "gapHours": 0.6,
+      "tier": "medium"
+    },
+    {
+      "id": "2024-07-31T18:05:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M5.3",
+      "flarePeak": "2024-07-31T18:37Z",
+      "sepStart": "2024-07-31T20:10Z",
+      "gapHours": 1.55,
+      "tier": "medium"
+    },
+    {
+      "id": "2024-08-05T13:24:00-FLR-001",
+      "source": "saved",
+      "flareClass": "X1.7",
+      "flarePeak": "2024-08-05T13:40Z",
+      "sepStart": "2024-08-05T17:26Z",
+      "gapHours": 3.77,
+      "tier": "big"
+    },
+    {
+      "id": "2024-09-01T11:45:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M5.5",
+      "flarePeak": "2024-09-01T13:22Z",
+      "sepStart": "2024-09-01T23:14Z",
+      "gapHours": 9.87,
+      "tier": "medium"
+    },
+    {
+      "id": "2024-09-09T16:58:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M3.4",
+      "flarePeak": "2024-09-09T17:08Z",
+      "sepStart": "2024-09-09T20:55Z",
+      "gapHours": 3.78,
+      "tier": "medium"
+    },
+    {
+      "id": "2024-10-09T01:25:00-FLR-001",
+      "source": "saved",
+      "flareClass": "X1.8",
+      "flarePeak": "2024-10-09T01:56Z",
+      "sepStart": "2024-10-09T03:50Z",
+      "gapHours": 1.9,
+      "tier": "big"
+    },
+    {
+      "id": "2024-10-26T05:57:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M9.5",
+      "flarePeak": "2024-10-26T06:23Z",
+      "sepStart": "2024-10-26T16:45Z",
+      "gapHours": 10.37,
+      "tier": "medium"
+    },
+    {
+      "id": "2024-10-26T06:32:00-FLR-001",
+      "source": "saved",
+      "flareClass": "X1.8",
+      "flarePeak": "2024-10-26T07:19Z",
+      "sepStart": "2024-10-26T16:45Z",
+      "gapHours": 9.43,
+      "tier": "big"
+    },
+    {
+      "id": "2024-12-08T08:50:00-FLR-001",
+      "source": "saved",
+      "flareClass": "X2.2",
+      "flarePeak": "2024-12-08T09:06Z",
+      "sepStart": "2024-12-08T10:20Z",
+      "gapHours": 1.23,
+      "tier": "big"
+    },
+    {
+      "id": "2024-12-20T07:20:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M2.1",
+      "flarePeak": "2024-12-20T07:26Z",
+      "sepStart": "2024-12-21T16:12Z",
+      "gapHours": 32.77,
+      "tier": "medium"
+    },
+    {
+      "id": "2024-12-20T11:15:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M2.5",
+      "flarePeak": "2024-12-20T11:18Z",
+      "sepStart": "2024-12-21T16:12Z",
+      "gapHours": 28.9,
+      "tier": "medium"
+    },
+    {
+      "id": "2024-12-21T00:33:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M1.9",
+      "flarePeak": "2024-12-21T00:38Z",
+      "sepStart": "2024-12-21T16:12Z",
+      "gapHours": 15.57,
+      "tier": "medium"
+    },
+    {
+      "id": "2025-01-04T14:24:00-FLR-001",
+      "source": "saved",
+      "flareClass": "C9.3",
+      "flarePeak": "2025-01-04T15:08Z",
+      "sepStart": "2025-01-04T21:46Z",
+      "gapHours": 6.63,
+      "tier": "small"
+    },
+    {
+      "id": "2025-01-04T18:46:00-FLR-001",
+      "source": "saved",
+      "flareClass": "C7.6",
+      "flarePeak": "2025-01-04T19:15Z",
+      "sepStart": "2025-01-04T21:46Z",
+      "gapHours": 2.52,
+      "tier": "small"
+    },
+    {
+      "id": "2025-02-24T21:50:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M3.9",
+      "flarePeak": "2025-02-24T23:02Z",
+      "sepStart": "2025-02-25T00:11Z",
+      "gapHours": 1.15,
+      "tier": "medium"
+    },
+    {
+      "id": "2025-05-13T15:25:00-FLR-001",
+      "source": "saved",
+      "flareClass": "X1.2",
+      "flarePeak": "2025-05-13T15:38Z",
+      "sepStart": "2025-05-13T18:14Z",
+      "gapHours": 2.6,
+      "tier": "big"
+    },
+    {
+      "id": "2025-05-30T23:31:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M8.1",
+      "flarePeak": "2025-05-31T00:05Z",
+      "sepStart": "2025-05-31T15:00Z",
+      "gapHours": 14.92,
+      "tier": "medium"
+    },
+    {
+      "id": "2025-08-10T14:57:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M2.2",
+      "flarePeak": "2025-08-10T15:07Z",
+      "sepStart": "2025-08-10T16:25Z",
+      "gapHours": 1.3,
+      "tier": "medium"
+    },
+    {
+      "id": "2025-11-10T08:55:00-FLR-001",
+      "source": "saved",
+      "flareClass": "X1.2",
+      "flarePeak": "2025-11-10T09:19Z",
+      "sepStart": "2025-11-10T10:24Z",
+      "gapHours": 1.08,
+      "tier": "big"
+    },
+    {
+      "id": "2025-11-11T09:49:00-FLR-001",
+      "source": "saved",
+      "flareClass": "X5.1",
+      "flarePeak": "2025-11-11T10:04Z",
+      "sepStart": "2025-11-11T10:20Z",
+      "gapHours": 0.27,
+      "tier": "big"
+    },
+    {
+      "id": "2025-11-14T07:44:00-FLR-001",
+      "source": "saved",
+      "flareClass": "X4.0",
+      "flarePeak": "2025-11-14T08:30Z",
+      "sepStart": "2025-11-14T09:20Z",
+      "gapHours": 0.83,
+      "tier": "big"
+    },
+    {
+      "id": "2026-01-18T17:27:00-FLR-001",
+      "source": "saved",
+      "flareClass": "X1.9",
+      "flarePeak": "2026-01-18T18:09Z",
+      "sepStart": "2026-01-18T22:33Z",
+      "gapHours": 4.4,
+      "tier": "big"
+    },
+    {
+      "id": "2026-06-06T13:40:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M1.8",
+      "flarePeak": "2026-06-06T14:01Z",
+      "sepStart": "2026-06-06T15:14Z",
+      "gapHours": 1.22,
+      "tier": "medium"
+    },
+    {
+      "id": "2026-07-30T15:53:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M1.9",
+      "flarePeak": "2026-07-30T17:00Z",
+      "sepStart": "2026-07-30T18:20Z",
+      "gapHours": 1.33,
+      "tier": "medium"
+    },
+    {
+      "id": "2026-08-21T09:09:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M1.6",
+      "flarePeak": "2026-08-21T10:18Z",
+      "sepStart": "2026-08-21T17:33Z",
+      "gapHours": 7.25,
+      "tier": "medium"
+    },
+    {
+      "id": "2026-09-05T15:04:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M1.0",
+      "flarePeak": "2026-09-05T15:18Z",
+      "sepStart": "2026-09-05T15:45Z",
+      "gapHours": 0.45,
+      "tier": "medium"
+    },
+    {
+      "id": "2023-11-18T05:37:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M1.2",
+      "flarePeak": "2023-11-18T05:42Z",
+      "tier": "small"
+    },
+    {
+      "id": "2023-11-18T16:34:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M1.1",
+      "flarePeak": "2023-11-18T16:44Z",
+      "tier": "small"
+    },
+    {
+      "id": "2023-11-18T22:26:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M1.0",
+      "flarePeak": "2023-11-18T22:34Z",
+      "tier": "small"
+    },
+    {
+      "id": "2023-11-20T08:54:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M1.2",
+      "flarePeak": "2023-11-20T09:03Z",
+      "tier": "small"
+    },
+    {
+      "id": "2023-11-23T02:59:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M1.4",
+      "flarePeak": "2023-11-23T03:38Z",
+      "tier": "small"
+    },
+    {
+      "id": "2023-11-23T14:25:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M1.0",
+      "flarePeak": "2023-11-23T14:37Z",
+      "tier": "small"
+    },
+    {
+      "id": "2023-11-24T09:17:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M1.1",
+      "flarePeak": "2023-11-24T09:33Z",
+      "tier": "small"
+    },
+    {
+      "id": "2023-11-28T19:07:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M3.4",
+      "flarePeak": "2023-11-28T19:32Z",
+      "tier": "small"
+    },
+    {
+      "id": "2023-11-28T19:35:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M9.8",
+      "flarePeak": "2023-11-28T19:50Z",
+      "tier": "small"
+    },
+    {
+      "id": "2023-12-01T04:12:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M1.1",
+      "flarePeak": "2023-12-01T04:39Z",
+      "tier": "small"
+    },
+    {
+      "id": "2023-12-01T20:55:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M1.0",
+      "flarePeak": "2023-12-01T21:20Z",
+      "tier": "small"
+    },
+    {
+      "id": "2023-12-05T06:39:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M1.5",
+      "flarePeak": "2023-12-05T06:44Z",
+      "tier": "small"
+    },
+    {
+      "id": "2023-12-05T20:59:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M1.0",
+      "flarePeak": "2023-12-05T21:10Z",
+      "tier": "small"
+    },
+    {
+      "id": "2023-12-05T21:17:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M1.4",
+      "flarePeak": "2023-12-05T21:20Z",
+      "tier": "small"
+    },
+    {
+      "id": "2023-12-06T05:30:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M2.1",
+      "flarePeak": "2023-12-06T05:41Z",
+      "tier": "small"
+    },
+    {
+      "id": "2023-12-06T21:26:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M2.3",
+      "flarePeak": "2023-12-06T21:44Z",
+      "tier": "small"
+    },
+    {
+      "id": "2023-12-08T22:57:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M5.4",
+      "flarePeak": "2023-12-08T23:07Z",
+      "tier": "small"
+    },
+    {
+      "id": "2023-12-09T09:41:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M1.5",
+      "flarePeak": "2023-12-09T09:55Z",
+      "tier": "small"
+    },
+    {
+      "id": "2023-12-09T13:03:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M1.0",
+      "flarePeak": "2023-12-09T13:19Z",
+      "tier": "small"
+    },
+    {
+      "id": "2023-12-10T03:42:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M2.3",
+      "flarePeak": "2023-12-10T03:53Z",
+      "tier": "small"
+    },
+    {
+      "id": "2023-12-10T22:37:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M1.4",
+      "flarePeak": "2023-12-10T22:43Z",
+      "tier": "small"
+    },
+    {
+      "id": "2023-12-14T07:11:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M5.8",
+      "flarePeak": "2023-12-14T07:44Z",
+      "tier": "small"
+    },
+    {
+      "id": "2023-12-14T13:29:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M2.3",
+      "flarePeak": "2023-12-14T13:48Z",
+      "tier": "small"
+    },
+    {
+      "id": "2023-12-17T20:08:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M1.1",
+      "flarePeak": "2023-12-17T20:17Z",
+      "tier": "small"
+    },
+    {
+      "id": "2023-12-21T05:19:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M4.2",
+      "flarePeak": "2023-12-21T05:38Z",
+      "tier": "small"
+    },
+    {
+      "id": "2023-12-21T23:42:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M3.3",
+      "flarePeak": "2023-12-22T00:04Z",
+      "tier": "small"
+    },
+    {
+      "id": "2023-12-24T11:09:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M2.9",
+      "flarePeak": "2023-12-24T11:18Z",
+      "tier": "small"
+    },
+    {
+      "id": "2023-12-24T16:37:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M2.6",
+      "flarePeak": "2023-12-24T16:49Z",
+      "tier": "small"
+    },
+    {
+      "id": "2023-12-24T19:21:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M1.1",
+      "flarePeak": "2023-12-24T19:51Z",
+      "tier": "small"
+    },
+    {
+      "id": "2023-12-31T18:44:00-FLR-001",
+      "source": "saved",
+      "flareClass": "M1.0",
+      "flarePeak": "2023-12-31T19:12Z",
+      "tier": "small"
+    }
+  ]
+}

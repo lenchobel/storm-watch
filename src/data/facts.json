@@ -1,0 +1,51 @@
+[
+  {
+    "id": "curiosity-rad-mars",
+    "text": "Curiosity measured 0.7 mSv per day on Mars.",
+    "sourceName": "NASA NTRS (MSL RAD)",
+    "sourceUrl": "https://ntrs.nasa.gov/api/citations/20250004252/downloads/Book%20Chapter.pdf",
+    "dateChecked": "2026-11-14"
+  },
+  {
+    "id": "curiosity-rad-cruise",
+    "text": "On the trip to Mars, Curiosity measured 1.84 mSv per day.",
+    "sourceName": "NASA NTRS (MSL RAD)",
+    "sourceUrl": "https://ntrs.nasa.gov/api/citations/20250004252/downloads/Book%20Chapter.pdf",
+    "dateChecked": "2026-11-14"
+  },
+  {
+    "id": "moon-radio-delay",
+    "text": "Radio signals reach the Moon in about 1.3 seconds.",
+    "sourceName": "NASA Science (Human Spaceflight Hazards)",
+    "sourceUrl": "https://science.nasa.gov/wp-content/uploads/2023/05/188_fed0ad8278e728107533d509b24dc68b_SmithsimmonsDrew.pdf",
+    "dateChecked": "2026-11-14"
+  },
+  {
+    "id": "mars-radio-delay",
+    "text": "Radio signals to Mars take up to 22 minutes one way.",
+    "sourceName": "NASA NTRS Mars Comms",
+    "sourceUrl": "https://ntrs.nasa.gov/api/citations/20220013418/downloads/ASCEND-Communication%20Delays%2C%20Disruptions%2C%20and%20Blackouts%20for%20Crewed%20Mars%20Missions.pdf",
+    "dateChecked": "2026-11-14"
+  },
+  {
+    "id": "mars-radio-delay-close",
+    "text": "Mars radio delay is about 3 minutes at closest approach.",
+    "sourceName": "NASA Science (Human Spaceflight Hazards)",
+    "sourceUrl": "https://science.nasa.gov/wp-content/uploads/2023/05/188_fed0ad8278e728107533d509b24dc68b_SmithsimmonsDrew.pdf",
+    "dateChecked": "2026-11-14"
+  },
+  {
+    "id": "mars-sunlight",
+    "text": "Mars gets about 43 percent of Earth sunlight.",
+    "sourceName": "NASA Mars Fact Sheet",
+    "sourceUrl": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html",
+    "dateChecked": "2026-11-14"
+  },
+  {
+    "id": "shield-particles-vs-cosmic",
+    "text": "Shelters stop storm particles well, but cosmic rays pass through.",
+    "sourceName": "NASA NTRS (Space Radiation Book Chapter)",
+    "sourceUrl": "https://ntrs.nasa.gov/api/citations/20250004252/downloads/Book%20Chapter.pdf",
+    "dateChecked": "2026-11-14"
+  }
+]

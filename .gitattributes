@@ -1,0 +1,8 @@
+# Normalize line endings so every contributor sees the same diffs.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.woff2 binary
+*.mp3 binary

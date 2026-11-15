@@ -1,0 +1,225 @@
+.scene-frame {
+  width: 100%;
+  height: 240px;
+  border-radius: 14px;
+  border: 2px solid var(--line);
+  overflow: hidden;
+  background: var(--navy);
+  flex-shrink: 0;
+}
+
+.scene-frame svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.orbi-bubble {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--panel);
+  border: 2px solid var(--line);
+  border-radius: 14px;
+  padding: 8px 12px;
+  min-width: 0;
+}
+
+.orbi-svg {
+  flex-shrink: 0;
+}
+
+.orbi-bubble p {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.hero-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.row-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.toggle-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.storm-list,
+.controls-stack,
+.quiz-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.storm-btn {
+  width: 100%;
+  justify-content: space-between;
+  text-align: left;
+  padding: 10px 12px;
+  flex-wrap: wrap;
+}
+
+.storm-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-weight: 400;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.brief-card {
+  border-top: 1px solid var(--line);
+  padding-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.preset-row {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 6px;
+}
+
+@media (max-width: 420px) {
+  .preset-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.preset-btn {
+  padding: 6px 8px;
+  font-size: 18px;
+}
+
+.control-card {
+  min-height: 88px;
+  background: var(--panel);
+  border: 2px solid var(--line);
+  border-radius: 14px;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.control-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.control-name {
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.control-hint {
+  font-size: 18px;
+  overflow-wrap: anywhere;
+}
+
+.control-steppers {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.step-btn {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  font-size: 22px;
+}
+
+.bolt-val {
+  min-width: 24px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.cta-btn {
+  width: 100%;
+  min-height: 56px;
+  background: var(--amber);
+  color: var(--navy);
+  border-color: var(--amber);
+  font-size: 22px;
+  overflow-wrap: anywhere;
+}
+
+.air-btn {
+  width: 100%;
+  min-height: 56px;
+  background: var(--air);
+  color: var(--navy);
+  border-color: var(--air);
+  font-size: 22px;
+}
+
+.secondary-btn {
+  width: 100%;
+  min-height: 52px;
+}
+
+.is-selected {
+  background: var(--amber);
+  color: var(--navy);
+  border-color: var(--amber);
+}
+
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 18px;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.badge-live {
+  background: var(--health);
+  color: var(--navy);
+}
+
+.badge-saved {
+  background: var(--power);
+  color: var(--navy);
+}
+
+/* Compact mode (BLUEPRINT 4.4): short screens fit one page without scrolling back and forth. 64 HUD, 220 scene, 52 bubble, 76 cards, 52 CTA. */
+@media (max-height: 700px) {
+  .app-shell{padding:6px 10px 12px}
+  .screen-stack{gap:8px}
+  .card{padding:10px;gap:6px}
+  .h2-title{font-size:20px}
+  .brand-title{font-size:26px}
+  .hero-header{gap:8px}
+  .orbi-bubble{padding:6px 10px;gap:8px}
+  .storm-btn{padding:8px 10px}
+  .control-card{min-height:76px;padding:6px 10px}
+  .step-btn,.bolt-val{font-size:20px}
+  .step-btn{width:44px;height:44px}
+  .preset-btn{padding:5px 7px;font-size:17px}
+  .cta-btn,.air-btn{font-size:20px}
+  .cta-btn{min-height:52px}
+  .air-btn{min-height:52px}
+  .secondary-btn{min-height:48px}
+  .badge{font-size:17px;padding:2px 7px}
+}

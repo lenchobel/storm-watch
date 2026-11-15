@@ -1,0 +1,48 @@
+name: Bug report
+
+description: The engine or the interface behaves in a way the blueprint does not describe.
+
+labels: ["bug"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. Engine bugs are fastest to fix with a seed,
+        a site, and a difficulty level.
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+      description: What the blueprint says should happen.
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: What happened instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: How can we reproduce it?
+      description: Seed, site, difficulty, and the plan you used.
+      placeholder: |
+        site: moon
+        seed: 42
+        difficulty: cadet
+        plan: air 2, shield 1, lab 1
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Browser, operating system, and the commit you ran.
+    validations:
+      required: false

@@ -1,0 +1,347 @@
+# Storm Watch: prompts P3 to P10 (paste one after another, each in a NEW conversation)
+
+How to use: start a new conversation, Planning mode, strongest Gemini Pro option. Paste ONE block. Read the plan it shows. Approve only if it matches. When it finishes: run `npm test` and `npm run build` yourself, then `git commit`. Then the next block.
+Each block is self-contained. If BLUEPRINT.md disagrees with a block, the block wins.
+P2 (the Storm Clock) was given in chat. Do it before P3.
+
+====================================================================
+## P3. The saver and the two worlds
+====================================================================
+```
+PHASE P3: the saver ("what would have saved you") and the two-worlds comparison. Engine only, no UI. Build on src/engine (P1 runMission, P2 Storm Clock). All numbers go in rules.ts.
+
+NEW FILE src/engine/saver.ts
+Types:
+  Edit = { kind: 'bolt', sol: number, cat: 'air' | 'shield' | 'lab', delta: 1 | -1 } | { kind: 'clock', block: number | 'none' }
+  Saver = { edits: Edit[], cost: number, text: string, before: Result, after: Result }
+Export findSaver(cfg, plan, result): Saver | null.
+Rules:
+- Only look for a saver if result is not 3 stars.
+- Goal: if the mission failed (survived = false), find edits that make it survive. If it survived with under 3 stars, find edits that raise the star count.
+- Single edits first: for every sol 1..7, every category, delta +1 or -1, result must stay within 0..3. Plus clock edits on the storm sol: shelter at block b for each b in 1..K (clock array: work before b, shelter at b), or 'none' (work every block). Then all PAIRS of two different edits (never two edits on the same sol and category).
+- cost = 1 per bolt changed, 1 per clock edit. Choose the lowest cost that reaches the goal. Tie-break: fewer bolts moved, then earlier sol, then the order air, shield, lab.
+- VERIFY every candidate by re-running runMission with the edited plan and the same cfg (same seed, same storm). Never claim a result you did not re-run. Compare before and after to build the text.
+- text: one friendly sentence, 12 words or fewer, never blaming. Templates:
+  bolt -1: 'If you had used 1 less bolt on {thing} on sol {n}, {benefit}.'
+  bolt +1: 'If you had used 1 more bolt on {thing} on sol {n}, {benefit}.'
+  clock block b: 'If you had gone to shelter on block {b}, the crew would have stayed safe.'
+  clock none: 'If you had worked all blocks, you would have earned more science.'
+  thing: air -> 'the air machine', shield -> 'the shield', lab -> 'science'.
+  benefit: air failure fixed -> 'the air would have lasted'; health failure fixed -> 'the crew would have stayed safe'; stars gained -> 'you would have earned {n} stars'.
+  For two edits, join the two clauses with ' and ' after the first 'If you had', and keep it as short as possible.
+- If nothing works: return null. The UI will say 'This one was very hard. Try the Safe plan.'
+
+NEW FILE src/engine/compare.ts
+Export compareWorlds(a: { site: Site, result: Result }, b: { site: Site, result: Result }) returning { rows: Array<{ label: string, a: string, b: string }>, sentence: string }.
+Rows: Stars, Air left, Health left, Science, Warning time (visibleHours, or 'Old news' if oldMessage).
+sentence (12 words or fewer, uses real numbers), choose the first that applies:
+  1. work blocks (K) differ: 'On {site} the warning came {n} minutes late, so you had {m} fewer work blocks.'
+  2. one result has oldMessage true: 'On Mars the message was old news. Earth could not warn you in time.'
+  3. power left differs by 10 or more: '{site} gets less sunlight, so power ran lower.'
+  4. otherwise: 'Both worlds felt much the same this time.'
+Use exact numbers from the results, never invented ones.
+
+TESTS (src/engine/saver.test.ts and compare.test.ts, hand-computed values in comments)
+1. Build a plan that fails on air (air 0 bolts every sol). findSaver returns a saver, and re-running its edits survives.
+2. Build a plan that survives with 1 star (science too low). The saver raises it to 2 stars and the test re-runs it.
+3. A 3-star run returns null.
+4. A run where nothing helps returns null. Construct it by choosing a cfg where even the best single and pair edit cannot survive (for example, very low power and a big storm), or say in DECISIONS.md why you could not.
+5. Tie-break order: when two edits have the same cost, the earlier sol wins.
+6. The text has 12 words or fewer, and mentions the right sol number.
+7. Determinism: the same inputs give the same saver.
+8. Clock edit: a caught-outside run on a particle storm is saved by 'shelter at block b'.
+9. compareWorlds: K differs between Moon and Mars for a short-gap storm and the sentence names the minutes and the missing blocks.
+10. compareWorlds returns 5 rows with the right labels.
+
+COMMON RULES: Only read and edit files inside this project folder. Follow AGENTS.md. Never change an assertion or an expected value in an existing test to make it pass; if a test fails for a reason you cannot fix, stop and tell me. This runs on Windows, so use cross-platform commands and path.join. Keep every file under 250 lines. Finish by pasting the full output of npm test and npm run build, listing every file you changed and every edit to an existing test, writing your choices in DECISIONS.md, updating docs/AI_USE.md, and saying what you could not check.
+```
+
+====================================================================
+## P4. Balance bot
+====================================================================
+```
+PHASE P4: balance the game with a bot. Build on src/engine. Do not add new mechanics. You may add ONE dev dependency: tsx, to run TypeScript scripts. Note it in DECISIONS.md.
+
+Write scripts/balance-bot.ts. Run it with: npx tsx scripts/balance-bot.ts. Also add the npm script 'balance'.
+If the engine lacks helpers, you may export them (for example stormSolFor(cfg)) without changing any rule.
+
+Storm fixtures (synthetic, for balance only, not NASA data): 12 storms: 4 big, 3 medium, 2 small, all with gapHours in {0.5, 1.5, 4, 8, 20}; plus 3 false alarms (no gapHours). Say clearly in the script output that these are test fixtures.
+
+Strategies (each returns a Plan for a given cfg):
+- random: every sol, every category uniform 0..3; random clock moves.
+- sensible: every sol air 2, lab 1, shield 0; on the storm sol shield 3 and lab 0; the Moon player knows the storm sol 2 sols ahead (set lab 0 on the sol before the storm to save power), the Mars player only knows it on the storm sol. Clock: work until block max(1, K-1), then shelter.
+- allScience: every sol lab 3, air 1, shield 0; clock: work every block.
+- Clock strategies on the sensible plan: shelterFirst (shelter at block 1), waitLast (work blocks 1..K-1, shelter at block K), waitBeforeLast (shelter at block max(1, K-1)).
+
+Run 5,000 seeded runs per (site, difficulty, strategy), cycling through the storm fixtures. Print a table of win rate, average stars, average health, average science.
+
+TARGETS (do not change the targets)
+- Moon cadet: sensible win rate at least 90%, random win rate between 25% and 50%.
+- Mars commander: sensible win rate between 50% and 70%.
+- allScience loses (win rate under 20%) on both Moon and Mars.
+Print PROOF lines, each marked PASS or FAIL:
+ (a) shelterFirst earns less average science than working every block in false alarms.
+ (b) waitLast is caught outside in at least 15% of particle storms.
+ (c) the best clock strategy by average stars is not the same in all three tiers (small, medium, big).
+ (d) no single bolt choice is best on every sol (show that for each category, some situation makes 0, 1, 2 and 3 not all equal in effect; a short explanation of how you checked is fine).
+
+TUNING
+If a target fails, adjust ONLY constants in rules.ts (sunlight, air table, tier doses, cosmic base, shield factors, difficulty multiplier, clock range). Keep: small < medium < big dose; shield factors decreasing; cadet easier than commander. If a unit test hard-codes a constant that you had to change, you may update that expected value in the test, but only for a balance constant, and you must list each one in DECISIONS.md. If you cannot meet a target after reasonable tuning, stop and print the closest table. Do not hack the bot.
+
+COMMON RULES: Only read and edit files inside this project folder. Follow AGENTS.md. Never change an assertion or an expected value in an existing test to make it pass; if a test fails for a reason you cannot fix, stop and tell me. This runs on Windows, so use cross-platform commands and path.join. Keep every file under 250 lines. Finish by pasting the full output of npm test and npm run build, listing every file you changed and every edit to an existing test, writing your choices in DECISIONS.md, updating docs/AI_USE.md, and saying what you could not check.
+```
+
+====================================================================
+## P5. Real NASA data
+====================================================================
+```
+PHASE P5: real NASA data. Use the nasa-data skill. This phase needs network access. If your terminal cannot reach api.nasa.gov, say so and stop.
+
+DATA SOURCE: NASA DONKI at https://api.nasa.gov/DONKI/ . Endpoints: /FLR (solar flares), /SEP (solar energetic particle events). Query: ?startDate=YYYY-MM-DD&endDate=YYYY-MM-DD&api_key=KEY. Use process.env.NASA_API_KEY; fall back to DEMO_KEY (30 requests per hour, 50 per day) with backoff. DONKI sometimes returns 503 or is slow, so use an 8 second timeout and 2 retries with backoff.
+FIRST print ONE real sample of each response (trimmed) and look at the REAL field names before writing code. Do not assume them. Expected, but verify: flares have classType, peakTime, linkedEvents; SEP events have eventTime and linkedEvents with activityID values.
+
+1. src/data/donkiLink.ts: pure functions used by both the script and the app.
+   - linkStorms(flares, seps) -> Storm[] (the Storm type from src/engine/types.ts). Link a flare to a SEP when either one lists the other in linkedEvents.
+   - gapHours = (SEP time - flare peakTime) in hours. Keep as a particle storm if 0.25 <= gapHours <= 48. A flare with no linked SEP is a false alarm: leave gapHours undefined.
+   - tier for a particle storm: X-class = 'big', M-class = 'medium', anything lower = 'small'. For a false alarm: X = 'medium', else 'small' (tier does not matter for dose then). Write in DECISIONS.md that this refines the old rule, because dose now only happens when particles arrive.
+   - id: the flare's own DONKI id. flareClass, flarePeak (ISO string), sepStart (ISO string) as returned. source 'saved' or 'live'.
+2. scripts/fetch-donki.ts (run with npx tsx; allowed dev dependency tsx if not present). Fetch flares and SEP in chunks of at most 1 year (add a short delay) for: the last 3 years, plus May 2024 and October 2024. Print how many flares, SEPs and linked pairs you found. Save data/storms.json = { fetchedAt: ISO, source: 'NASA DONKI', storms: Storm[] } with ALL linked storms and up to 30 false alarms (M or X class), and copy it to src/data/storms.json.
+   If fewer than 3 particle storms with a usable gap exist, widen to 2012-present and report. If still fewer than 3, STOP and tell me, do not invent.
+3. Choose the 6 game storms and save them as src/data/gameStorms.json: 3 particle storms of different tiers (prefer May 2024 or October 2024 events if linked), 1 medium, 2 false alarms (X or M flare, no SEP). Never type a storm from memory; only pick from the fetched file.
+4. api/donki.ts: a Vercel serverless function. GET /api/donki?type=FLR|SEP&start=YYYY-MM-DD&end=YYYY-MM-DD. It reads NASA_API_KEY from process.env, never sends the key to the browser, validates type and dates, uses an 8 second timeout, an in-memory cache for 1 hour, and sets Cache-Control s-maxage=3600. No extra dependency; use minimal local types.
+5. src/data/loadStorms.ts: loadStorms(fetchImpl = fetch) -> { storms: Storm[], badge: { kind: 'LIVE' | 'SAVED', date: string } }. Try the live proxy for the last 90 days of FLR and SEP, link them with linkStorms, mark source 'live'. If it fails, times out (8 s) or returns no usable storms, use gameStorms.json with source 'saved' and badge SAVED with the fetchedAt date. The mission list is the 6 saved storms plus, when live works, the newest live storm labeled 'Latest from NASA'. Never label saved data as live.
+6. src/data/facts.json: a list of { id, text, sourceName, sourceUrl, dateChecked }. Each text is 12 words or fewer per sentence. You must find a real source URL for every fact. Candidates to verify (leave out any you cannot verify on a NASA or NASA-partner page): Curiosity rover measured about 0.64 mSv per day of radiation on the Mars surface and about 1.84 mSv per day on the trip to Mars; the radio delay from Earth to the Moon is about 1.3 seconds one way; from Earth to Mars it is roughly 3 to 22 minutes one way; Mars gets less than half the sunlight Earth gets (find the real percentage); shelters help against solar storm particles but cosmic rays are hard to stop. Optionally one verified NASA OSDR finding with its study ID; skip if not verifiable.
+7. Tests (src/data/*.test.ts): linkStorms with a small fixture built from the REAL sample you printed (say so in a comment); loadStorms with mocked fetch: live ok, live fails, live times out, live returns no storms; badge kinds; gap range filter (0.2 h and 60 h are rejected).
+
+COMMON RULES: Only read and edit files inside this project folder. Follow AGENTS.md. Never change an assertion or an expected value in an existing test to make it pass; if a test fails for a reason you cannot fix, stop and tell me. This runs on Windows, so use cross-platform commands and path.join. Keep every file under 250 lines. Finish by pasting the full output of npm test and npm run build, listing every file you changed and every edit to an existing test, writing your choices in DECISIONS.md, updating docs/AI_USE.md, and saying what you could not check.
+```
+
+====================================================================
+## P6. UI shell and the look
+====================================================================
+```
+PHASE P6: the game UI shell. Mobile first. Use the svg-scene-design and kid-ui-writing skills. Allowed new dev dependencies: @playwright/test and @axe-core/playwright. No UI library, no icon library, no CSS framework. Use plain CSS variables.
+
+ENGINE ADDITIONS FIRST (no rule changes; all existing tests must pass unchanged)
+- Add a step-by-step API in src/engine: createMission(cfg) -> MissionState; playSol(state, solPlan) -> { state, report }; clockStep(setup, movesSoFar) -> { status: 'continue' | 'sheltered' | 'caught' | 'done', block: number }. Implement runMission by looping playSol so rules live in ONE place.
+- Add warningSolFor(cfg): Moon = max(1, stormSol - 2), Mars = stormSol. The UI shows the Earth message from that sol until the storm sol (Mars: only on the storm sol).
+- New tests: stepwise play equals runMission for 200 random seeded plans; clockStep matches playClock; warningSolFor values.
+
+DESIGN (follow exactly)
+Identity: a night-shift mission desk: deep navy, one warm amber lamp, flat hand-built SVG. No purple-blue gradients, no glass blur, no emoji icons, no stock images, no template hero banner. The only glow is the solar flare.
+Tokens (CSS variables): navy #0B1026, panel #161D3F, line #2A3366, text #EEF0FF, muted #AEB4D6, amber #FFB703, air #6EC6FF, health #7BD88F, power #FFD166, danger #FF5D5D, moon ground #8D90A8, mars ground #B5543A, mars sky #24141C.
+Font: Atkinson Hyperlegible, self-hosted woff2 in /public/fonts (do not hotlink). If you cannot download the files, use system-ui and tell me. Sizes 18, 22, 28, 40. Weights 400 and 700 only. Body never below 18 px.
+Icons: draw ONE SVG sprite of 9 icons on a 24 px grid, 2 px stroke, round caps, currentColor: bolt, air, heart, flask, shield, sun, signal, clock, house.
+Orbi (the only character): rounded box body 64 x 72, one wide visor with two round eyes, a small antenna with an amber light. Draw it as an SVG component with two states: calm and worried.
+Layout (reference 360 x 640): top bar 72 px with three meters (icon, word, bar) and the sol counter; scene 240 px tall; Orbi's message bubble below the scene; three control cards, each 88 px tall with minus and plus buttons 48 x 48 px; main action button 56 px tall, full width, pinned at the bottom. Desktop: one centered column, max 480 px.
+Scene (SVG viewBox 0 0 360 240, drawn in code): flat sky rect; 40 stars from a seeded generator (radius 0.6 to 1.4, opacity 0.4 to 0.9); ground path across the bottom 70 px (Moon: 5 crater ellipses; Mars: a lighter dust band); habitat half-circle dome radius 46 centered at x 180 on the ground line, with a door and a small dish; three solar panels 28 x 6 at x 60, 100, 260 (Mars: 40% dimmer); shield dashed arc radius 58 around the dome with opacity 0.15 + 0.28 * shieldLevel; sun circle radius 16 at (312, 36) with 8 rays; Earth circle radius 12 at (44, 40) with two continent paths and a signal dot that travels to the dish; Mars dust sol: a translucent brown overlay and dimmer panels.
+Voice: calm, concrete, a little dry. 12 words or fewer per sentence. One exclamation mark per screen at most. Banned: unleash, epic, journey, galactic adventure, dive in, let's go.
+Copy examples: Briefing 'A real flare from 2024 is coming. Keep the air running.' Earth message 'Earth says particles in about 3 hours. Forecasts can be wrong.'
+
+BUILD
+- State with React useReducer (no extra library). Screens: Title and mission picker (site Moon or Mars, a storm from loadStorms with its LIVE or SAVED badge, difficulty Cadet or Commander); Briefing (site, storm card with date and class, goal); Sol screen.
+- Sol screen: meters, scene, Earth message from warningSolFor, three control cards. Cadet presets: Safe (air 2, shield 1, lab 0), Balanced (air 2, shield 1, lab 1), Science (air 2, shield 0, lab 2), and Custom (minus and plus per card). Commander uses minus and plus only. Enforce the bolt cap from the engine. Show 'You can afford N bolts today'. The End the day button calls playSol and updates the meters. For now, on the storm sol just apply the engine's result and show a plain message; the Storm Clock screen is built in P7.
+- The UI never computes game math. It only calls the engine.
+- A URL test mode: ?seed=123&storm=<id>&site=moon&difficulty=cadet starts the mission with those values.
+
+TESTS (Playwright, run against the dev server)
+- At 360 px width no screen scrolls sideways.
+- Every button is at least 48 x 48 px.
+- axe has zero serious or critical issues on the picker, briefing and sol screen.
+- Reduced motion: with prefers-reduced-motion the scene has no running animation.
+Add npm scripts: 'e2e' and 'dev'.
+
+LOOK CHECK (you have a browser tool)
+Run the dev server. Open it at 360x640 and at 1280x800. Screenshot every screen. List each difference from the design above and fix them. Repeat until there are none. Then list 8 things I should check by eye on my phone.
+
+COMMON RULES: Only read and edit files inside this project folder. Follow AGENTS.md. Never change an assertion or an expected value in an existing test to make it pass; if a test fails for a reason you cannot fix, stop and tell me. This runs on Windows, so use cross-platform commands and path.join. Keep every file under 250 lines. Finish by pasting the full output of npm test and npm run build, listing every file you changed and every edit to an existing test, writing your choices in DECISIONS.md, updating docs/AI_USE.md, and saying what you could not check.
+```
+
+====================================================================
+## P7. Storm Clock screen, debrief, two worlds
+====================================================================
+```
+PHASE P7: the signature screens. Build on P6. Use the svg-scene-design and kid-ui-writing skills.
+
+STORM CLOCK SCREEN (shown on the storm sol, after the player taps End the day)
+- Full screen, same design tokens as P6. A ring split into K segments (K from previewClock, 1 to 4). Center text: 'Particles expected in about {H} hours.' and under it 'Forecasts can be wrong.' If oldMessage: 'Earth's message is old. Particles may already be here.' Show the radio delay: 'Earth's message took {n} minutes.' on Mars.
+- Two huge buttons: 'Work one more block' (amber) and 'Shelter now' (air blue). Each tap advances one segment over 600 ms (the sun pulses) and calls clockStep. Moves are collected, then passed to the engine. The UI never decides the outcome.
+- When the result is 'caught': a wave sweeps across the scene, Orbi worried, text 'The shield only protects the shelter. Next time, go in sooner.' When 'sheltered' with particles: 'The shelter held. The crew took {n} damage.' When false alarm: 'No particles came. You lost {n} science. That is the price of caution.' (n = science you would have earned by working the rest of the blocks; if none lost, say 'No particles came. Good call.')
+- With prefers-reduced-motion: no ring animation, no wave, no pulse; show the same steps as static states.
+- Sound: five short sounds made with WebAudio (tick, warning, storm hit, shelter door, success). Nothing plays before the first tap. A mute button on every screen. No audio files.
+
+DEBRIEF SCREEN (end of mission)
+- Stars (1 to 3 icons drawn in SVG), meters left, science, and the storm used: date, class, and the LIVE or SAVED badge.
+- Orbi says what happened in 2 or 3 short lines using real numbers from the result log.
+- The saver sentence from findSaver. If it returns null: 'This one was very hard. Try the Safe plan.' If the run was 3 stars: 'Perfect run. Try the other world.'
+- A 'Did you know?' card with one fact from src/data/facts.json and its source name and link.
+- Buttons: 'Try again' (same storm, new seed), 'Fly this exact storm on the other world' (same storm and same seed, other site).
+
+TWO WORLDS
+- Keep finished results in memory keyed by storm id + site + seed. When both worlds exist for the same storm and seed, show a comparison card using compareWorlds: five rows in two columns, plus the sentence.
+
+TESTS (Playwright)
+- A full mission with fixed seed and storm (use the URL test mode from P6) runs from the picker to the debrief. Use a plan that does not reach 3 stars and check that the saver sentence appears.
+- The Storm Clock buttons advance the ring and end on 'sheltered', 'caught' or 'false alarm' (cover all three using three seeds/storms).
+- Fly on the other world, then the comparison card appears with 5 rows.
+- axe zero serious or critical issues on the Storm Clock and debrief.
+- With reduced motion, the Storm Clock still works and nothing animates.
+
+LOOK CHECK (browser tool)
+Play one mission on the Moon and one on Mars at 360x640 and 1280x800. Screenshot the Storm Clock (each result), the debrief and the comparison. Fix every difference from the P6 design. List what I should check by eye on my phone.
+
+COMMON RULES: Only read and edit files inside this project folder. Follow AGENTS.md. Never change an assertion or an expected value in an existing test to make it pass; if a test fails for a reason you cannot fix, stop and tell me. This runs on Windows, so use cross-platform commands and path.join. Keep every file under 250 lines. Finish by pasting the full output of npm test and npm run build, listing every file you changed and every edit to an existing test, writing your choices in DECISIONS.md, updating docs/AI_USE.md, and saying what you could not check.
+```
+
+====================================================================
+## P8. Teaching, data pages, offline
+====================================================================
+```
+PHASE P8: teaching layer, honest data pages, offline. Allowed dev dependency: vite-plugin-pwa. Keep the same design and voice as P6 (12 words or fewer per sentence, no banned words).
+
+PAGES (reachable from a small menu on the picker and the debrief)
+1. Where does this come from? Lists every real number a child can see, with source name, link and date checked (read from src/data/facts.json), and the storm data from NASA DONKI with the LIVE or SAVED badge and fetch date.
+2. What is simplified? Plain words. Must say: bolts, power, air and health numbers are game numbers, not NASA numbers; the Storm Clock forecast error range (the real arrival can come earlier than the forecast) is a game choice, not a NASA number; flares are light and the particles are what harm crews; the damage numbers are not medical doses.
+3. Glossary: radiation, solar flare, solar storm, particles, cosmic rays, shield, sol, radio delay. One short sentence each.
+4. Teacher mode: a one-page printable lesson plan (title, goal, 10-minute activity, 3 discussion questions, the seeds and storms to try), with a print stylesheet.
+5. About: who made it (leave a placeholder for the team name), data sources, and an honest AI-use statement: AI coding tools helped write code and text; it was reviewed and tested by the builder. State that the game uses no NASA logos or branding and that it is not an official NASA product.
+6. A 3-question check after the debrief (tappable answers, no scores stored): the main idea is that shields help against solar storm particles but not much against cosmic rays; the Storm Clock idea is that forecasts can be wrong and waiting costs something; why Mars decisions are harder (radio delay). Each question gives a one-line explanation after the answer.
+
+OFFLINE
+Make the app work offline after the first load with vite-plugin-pwa: precache the app, fonts and gameStorms.json. If live data cannot load, use the saved storms and show SAVED. Total first load at most 1.5 MB. A manifest with name, short name and simple SVG icons you draw yourself (no images from the internet).
+
+TESTS
+- Playwright offline test: load once, go offline, reload, play to the first debrief.
+- Every page opens and has no axe serious or critical issues.
+- A test that finds any visible sentence over 12 words on the main screens and prints it (warn, not fail, for long glossary text).
+- Report Lighthouse accessibility, performance and PWA scores if you can run Lighthouse; if not, say so.
+
+COMMON RULES: Only read and edit files inside this project folder. Follow AGENTS.md. Never change an assertion or an expected value in an existing test to make it pass; if a test fails for a reason you cannot fix, stop and tell me. This runs on Windows, so use cross-platform commands and path.join. Keep every file under 250 lines. Finish by pasting the full output of npm test and npm run build, listing every file you changed and every edit to an existing test, writing your choices in DECISIONS.md, updating docs/AI_USE.md, and saying what you could not check.
+```
+
+====================================================================
+## P9. Audit, fix, README, deploy prep
+====================================================================
+```
+PHASE P9: strict audit and release prep. Use the qa-audit skill. Run /verify and /audit if the workflows exist; otherwise do the same checks by hand.
+
+1. Run npm test, npm run build, npm run e2e, npm run balance. Paste the results. Fix every failure honestly. Never change an assertion to hide a failure.
+2. Judge the project like a strict NASA Space Apps judge. Score Impact, Creativity, Validity, Relevance, Presentation from 1 to 10, one reason each. List defects as high, medium, low and fix all high ones.
+3. Hunt for: any invented NASA number, any saved data labeled live, sentences over 12 words, choices with no cost, broken links, console errors, offline failures, banned words, NASA logos, emoji icons, outside images or audio, hotlinked fonts or scripts.
+4. Use the browser tool: play one Moon mission and one Mars mission start to finish and say anything confusing for a 7-year-old.
+5. Write README.md (what it is, who it is for, the three ideas, how to play, how to run, scripts, data sources, license MIT, credits), docs/DATA_SOURCES.md (every NASA source and how it is used and simplified), docs/AI_USE.md (what AI tools did, honestly), docs/CREDITS.md (every library, the font and its license).
+6. Deployment prep: add vercel.json if needed, a .env.example with NASA_API_KEY, and write exact steps for me to (a) push to a public GitHub repo, (b) deploy to Vercel with the NASA_API_KEY environment variable, (c) test the live link in a private window. You cannot deploy for me; do not claim it is deployed.
+7. End with: what you could not check, and a final list of any rules from the submission that I must verify myself (30-second video or 7 slides maximum, public links with no login, AI use disclosed, no NASA logos, no people under 18 identifiable).
+
+COMMON RULES: Only read and edit files inside this project folder. Follow AGENTS.md. Never change an assertion or an expected value in an existing test to make it pass; if a test fails for a reason you cannot fix, stop and tell me. This runs on Windows, so use cross-platform commands and path.join. Keep every file under 250 lines. Finish by pasting the full output of npm test and npm run build, listing every file you changed and every edit to an existing test, writing your choices in DECISIONS.md, updating docs/AI_USE.md, and saying what you could not check.
+```
+
+====================================================================
+## P10. Words for the demo and the form
+====================================================================
+```
+PHASE P10: write the submission words. Use only claims the repository really proves; check the code before you claim a feature. Do not change game code.
+
+Write docs/SUBMISSION.md with:
+1. A 30-second video script with timing, spoken lines under 70 words total, on-screen text, and English subtitles. Beats: 0:00-0:03 name, team and tagline 'Storm Watch: the real Sun sets the clock.'; 0:03-0:07 the problem (kids learn space facts but not the choices astronauts make); 0:07-0:15 screen recording of a real storm with the LIVE or SAVED NASA DONKI badge, Earth says particles in about 3 hours, tap Work, Work, Shelter; 0:15-0:22 the twist: one run caught outside, one saved, then the 'If you had...' line; 0:22-0:27 the same storm on Mars with a late warning, and one line: shields stop storm particles, not cosmic rays; 0:27-0:30 future (classrooms, offline phones) and the play link. No children on camera, no children's names or voices, no NASA logos.
+2. A 7-slide alternative outline (one line per slide), in case a deck is easier than a video.
+3. Every field of the Space Apps project form: project name; one-paragraph high-level summary (what it is, who it is for, the three ideas, the constraint it teaches, the NASA data used); detailed description (how a sol works, how a real DONKI storm becomes a Storm Clock, the saver sentence, the two-worlds comparison, who benefits, tools used); NASA data and how it is used (DONKI FLR and SEP, how the gap is computed, the Curiosity radiation facts if verified, OSDR only if verified, with links); other data and resources (libraries, font and licenses); AI use (honest; use brackets for the exact tool names I must fill in; mention that no AI images or audio were used if that is true; recommend a visible watermark if any AI media exists).
+4. A checklist of every link to test in a private window (play link, repository, video), and a last-hour checklist: freeze code, record, subtitles, fill form, submit, reopen to confirm.
+5. A list of the 6 differences from other entries, as one line each, for the video and the form: shield works on particles not cosmic rays; real DONKI storms graded by whether particles followed; Storm Clock with forecast error and radio delay; replay that finds the smallest fix and proves it; same storm on two worlds; real data changes what happens.
+
+COMMON RULES: Only read and edit files inside this project folder. Follow AGENTS.md. Never change an assertion or an expected value in an existing test to make it pass; if a test fails for a reason you cannot fix, stop and tell me. This runs on Windows, so use cross-platform commands and path.join. Keep every file under 250 lines. Finish by pasting the full output of npm test and npm run build, listing every file you changed and every edit to an existing test, writing your choices in DECISIONS.md, updating docs/AI_USE.md, and saying what you could not check.
+```
+Phase P3: The Saver and Two-Worlds Comparison — Completed
+1. Files Changed & Created
+src/engine/saver.ts
+: Implemented findSaver(cfg, plan, result) searching single edits then pair edits across all sols and storm-sol clock moves, with strict candidate ranking, tie-breaking, replay verification, and text template generation. (222 lines)
+src/engine/compare.ts
+: Implemented compareWorlds(a, b) returning the 5 required metric rows (Stars, Air left, Health left, Science, Warning time) and priority-based comparative sentence generation. (57 lines)
+src/engine/saver.test.ts
+: Unit tests covering scenarios 1–8 with hand-computed values in comments. (216 lines)
+src/engine/compare.test.ts
+: Unit tests covering scenarios 9–10 with hand-computed values in comments. (100 lines)
+DECISIONS.md
+: Documented search hierarchy, tie-break priorities, text formatting, and comparison rules.
+docs/AI_USE.md
+: Recorded AI scope and human verification for Phase P3.
+Every file in src/engine/ is strictly under the 250-line limit.
+
+2. Test Output (npm test)
+
+
+> storm-watch@0.1.0 test
+> vitest run
+ RUN  v3.2.7 C:/Users/TechNest computers/StormWatch
+ ✓ src/engine/compare.test.ts (3 tests) 10ms
+ ✓ src/engine/saver.test.ts (8 tests) 21ms
+ ✓ src/engine/sim.test.ts (9 tests) 22ms
+ ✓ src/engine/clock.test.ts (10 tests) 32ms
+ Test Files  4 passed (4)
+      Tests  30 passed (30)
+   Start at  16:46:40
+   Duration  996ms (transform 245ms, setup 0ms, collect 478ms, tests 85ms, environment 1ms, prepare 864ms)
+3. Build Output (npm run build)
+
+
+> storm-watch@0.1.0 build
+> tsc -b && vite build
+vite v6.4.6 building for production...
+transforming...
+✓ 27 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                  0.32 kB │ gzip:  0.23 kB
+dist/assets/index-zvWfTaMb.js  224.05 kB │ gzip: 69.59 kB
+✓ built in 1.59s
+4. Edits to Existing Tests
+None. All previous tests in sim.test.ts (9 tests) and clock.test.ts (10 tests) passed without modification.
+5. Items Not Checked (Out of Scope for P3)
+Multi-thousand run balance simulations (reserved for Phase P4).
+DONKI live API fetching & data integration (reserved for Phase P5).
+UI debrief and comparison cards rendering (reserved for Phase P7).
+how do i run it and whats left
+How to Run It Right Now
+Run the Unit Test Suite (30 tests across all engine modules):
+bash
+
+
+npm test
+Run the Production Build & Type Check:
+bash
+
+
+npm run build
+Start the Local Dev Server:
+bash
+
+
+npm run dev
+(Note: The full interactive visual screens are built in Phases P6 and P7; right now, src/main.tsx contains the initial placeholder.)
+What We Have Completed
+P0: Setup Check — Repository scaffold, agent guidelines, and skill integrations verified.
+P1: Engine Core — Deterministic mulberry32 PRNG, power/air/health mechanics, solar cycles, Mars dust storms, and difficulty tiers.
+P2: Storm Clock — Warning blocks (
+K
+K), Earth-Mars radio delays, particle arrival blocks, and work vs. shelter mechanics.
+P3: The Saver & Two Worlds — Algorithmic replay search finding minimal 1- or 2-step fixes, and cross-planetary comparison metrics.
+What's Left (Phases P4 – P10)
+P4. Balance Bot: Monte Carlo simulator playing 5,000 seeded runs per strategy to balance win rates and prove game design claims.
+P5. Real NASA Data: Fetching and caching live NASA DONKI flare/SEP storm data and Curiosity Mars radiation baselines.
+P6. UI Shell & SVG Scene: Mobile-first layout (360×640), 9-icon SVG sprite, Orbi robot character, HUD meters, and control cards.
+P7. Storm Clock Screen & Debrief: Interactive clock ring UI, WebAudio sound effects, debrief cards, and "fly on the other world" mode.
+P8. Educational Layer & Offline PWA: "Where does this come from?" citations, glossary, teacher lesson plan, and offline caching.
+P9. NASA Judge Audit & Deployment: Accessibility audits (axe-core / Lighthouse ≥95), final documentation, and Vercel deployment configuration.
+P10. Submission Pack: 30-second video script with subtitles and pre-filled Space Apps project form fields.
+When you are ready, paste Phase P4 (or start a new conversation and paste it) to continue with the Balance Bot.
+
+continue with the next phases then
+continue
+I'll continue with P4 now. The balance bot output shows three issues to fix:
+
+Moon Cadet Random at 73.5% (needs 25–50%)
+Mars Commander Sensible at 100% (needs 50–70%)
+Proof (c) FAIL — same best clock strategy for all tiers
+I need to tune rules.ts constants and fix the arrival block to use a proper uniform draw. Let me make all the changes systematically.
+
+Your plan's baseline quota will refresh on 11/21/2026, 4:55:20 PM. This account is ineligible for higher rate limits through a Google AI plan at this time. Learn more.

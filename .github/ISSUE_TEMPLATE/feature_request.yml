@@ -1,0 +1,36 @@
+name: Feature request
+
+description: Suggest a rule, a screen, or a teaching feature.
+
+labels: ["enhancement"]
+
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: Describe the need, not only the solution.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What would you like to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: blueprint
+    attributes:
+      label: Which blueprint section does this touch?
+      description: Section numbers from BLUEPRINT.md, if any.
+    validations:
+      required: false
+
+  - type: textarea
+    id: audience
+    attributes:
+      label: How does this help a child aged 7 to 12?
+    validations:
+      required: false
