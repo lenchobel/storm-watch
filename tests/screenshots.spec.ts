@@ -13,6 +13,7 @@ const OUT = 'screenshots'
 const SIZES = [
   { name: '360x640', width: 360, height: 640 },
   { name: '640x360', width: 640, height: 360 },
+  { name: '800x360', width: 800, height: 360 },
   { name: '1280x800', width: 1280, height: 800 },
 ]
 

@@ -99,3 +99,20 @@ test('landscape Storm Clock keeps both choices inside the screen', async ({ page
     expect(box!.y + box!.height).toBeLessThanOrEqual(360)
   }
 })
+
+test('wide landscape phone shows every bolt stepper', async ({ page }) => {
+  await page.setViewportSize({ width: 800, height: 360 })
+  await page.goto('/')
+  await page.getByTestId('start-mission').click()
+  await page.getByTestId('begin-sol').click()
+  for (const name of ['Air', 'Shield', 'Science']) {
+    const stepper = page.getByRole('button', { name: `Add bolt to ${name}` })
+    await expect(stepper).toBeVisible()
+    const box = await stepper.boundingBox()
+    expect(box!.y + box!.height).toBeLessThanOrEqual(360)
+  }
+  const end = page.getByTestId('end-day')
+  await expect(end).toBeVisible()
+  const box = await end.boundingBox()
+  expect(box!.y + box!.height).toBeLessThanOrEqual(360)
+})

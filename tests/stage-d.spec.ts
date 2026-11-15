@@ -15,6 +15,8 @@ test('3D view draws a canvas and completes a mission without console errors', as
   await page.screenshot({ path: testInfo.outputPath('moon-sol-360.png') })
   await page.setViewportSize({ width: 1280, height: 800 })
   await page.screenshot({ path: testInfo.outputPath('moon-sol-1280.png') })
+  await page.setViewportSize({ width: 800, height: 360 })
+  await page.screenshot({ path: testInfo.outputPath('moon-sol-800x360.png') })
   await page.setViewportSize({ width: 360, height: 640 })
   await playToDebrief(page, 'shelter')
   await expect(page.getByTestId('debrief')).toBeVisible()

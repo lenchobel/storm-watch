@@ -68,7 +68,8 @@
 @media (orientation: landscape) and (max-height: 600px) {
   .app-shell:has(.picker-screen),
   .app-shell:has(.screen-stack[data-testid="sol"]),
-  .app-shell:has(.screen-stack[data-testid="clock"]) {
+  .app-shell:has(.screen-stack[data-testid="clock"]),
+  .app-shell:has(.screen-stack[data-testid="briefing"]) {
     width: min(100%, 1100px);
     max-width: 1100px;
     height: 100dvh;
@@ -80,7 +81,7 @@
   .picker-screen {
     height: calc(100dvh - 66px);
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    grid-template-rows: 36px 108px minmax(0, 1fr) 52px;
+    grid-template-rows: 32px 94px minmax(0, 1fr) 52px;
     gap: 6px;
   }
 
@@ -90,12 +91,18 @@
   .picker-screen > .daily-card { grid-column: 2; grid-row: 2; }
   .picker-screen > .picker-options { grid-column: 2; grid-row: 3; }
   .picker-screen > .cta-btn { grid-column: 1 / -1; grid-row: 4; min-height: 52px; }
-  .picker-screen .daily-card { padding: 6px 8px; gap: 6px; }
+  .picker-screen .hero-header { gap: 4px; }
+  .picker-screen .brand-title { font-size: 20px; }
+  .picker-screen .tri-line-title { margin-top: 2px; }
+  .picker-screen .daily-card { padding: 6px 8px; gap: 4px; }
   .picker-screen .daily-card p,
   .picker-screen .daily-card progress { display: none; }
   .picker-screen .daily-card .h2-title { font-size: 18px; }
   .picker-screen .daily-card strong { font-size: 14px; }
   .picker-screen .daily-card .secondary-btn { width: 100%; min-height: 48px; height: 48px; }
+
+  .top-bar-left > .h2-title { font-size: 18px; }
+  .top-bar .lang-btn { font-size: 16px; }
 
   .screen-stack[data-testid="sol"] {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -108,10 +115,16 @@
   .screen-stack[data-testid="sol"] .orbi-figure { flex-direction: row; }
   .screen-stack[data-testid="sol"] .sol-controls-scroll { grid-column: 2; grid-row: 1 / 4; }
   .screen-stack[data-testid="sol"] > .cta-btn { grid-column: 2; grid-row: 4; min-height: 52px; height: 52px; }
-  .screen-stack[data-testid="sol"] .control-card { min-height: 72px; padding: 6px; }
-  .screen-stack[data-testid="sol"] .control-hint { font-size: 14px; }
-  .screen-stack[data-testid="sol"] .preset-row { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; }
-  .screen-stack[data-testid="sol"] .preset-btn { min-height: 48px; padding: 4px; font-size: 14px; }
+  .screen-stack[data-testid="sol"] .sol-controls-scroll { overflow: hidden; gap: 4px; }
+  .screen-stack[data-testid="sol"] .goal-line,
+  .screen-stack[data-testid="sol"] .preset-row { display: none; }
+  .screen-stack[data-testid="sol"] .afford-line { font-size: 16px; line-height: 20px; }
+  .screen-stack[data-testid="sol"] .controls-stack { gap: 4px; }
+  .screen-stack[data-testid="sol"] .control-card { min-height: 56px; padding: 4px 6px; }
+  .screen-stack[data-testid="sol"] .control-hint { display: none; }
+  .screen-stack[data-testid="sol"] .control-name { font-size: 16px; }
+  .screen-stack[data-testid="sol"] .control-steppers { gap: 4px; }
+  .screen-stack[data-testid="sol"] .step-btn { width: 48px; height: 48px; }
 
   .screen-stack[data-testid="clock"] {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -130,4 +143,38 @@
   .screen-stack[data-testid="clock"].clock-outcome .clock-panel { grid-column: 2; grid-row: 2; }
   .screen-stack[data-testid="clock"].clock-outcome .orbi-bubble { grid-column: 2; grid-row: 3; }
   .screen-stack[data-testid="clock"].clock-outcome > .cta-btn { grid-column: 2; grid-row: 4; min-height: 52px; }
+
+  .screen-stack[data-testid="briefing"] {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 0.62fr);
+    grid-template-rows: minmax(0, 1fr) 52px 44px;
+    height: calc(100dvh - 66px);
+    gap: 6px;
+    overflow: hidden;
+  }
+
+  .screen-stack[data-testid="briefing"] > .card {
+    grid-column: 1;
+    grid-row: 1 / 4;
+    min-height: 0;
+    overflow: auto;
+  }
+
+  .screen-stack[data-testid="briefing"] > .orbi-bubble {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: end;
+  }
+
+  .screen-stack[data-testid="briefing"] > .cta-btn {
+    grid-column: 2;
+    grid-row: 2;
+    min-height: 52px;
+  }
+
+  .screen-stack[data-testid="briefing"] > .secondary-btn {
+    grid-column: 2;
+    grid-row: 3;
+    min-height: 44px;
+  }
 }

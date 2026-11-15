@@ -225,3 +225,11 @@
 - Existing selector names and engine assertions were not changed. Test flows now open Settings and close it before the next screen; landscape checks use `end-day`, `work-block`, and `shelter-now` bounds.
 - Verified 67 unit tests, the production build, all 35 browser tests, translation key parity, mobile/desktop/landscape overflow, and zero serious or critical axe findings in covered flows.
 - Browser screenshot output was generated for English and Afaan Oromoo at 360 x 640, 640 x 360, and 1280 x 800. The native browser bridge remained unavailable, so review used Playwright captures.
+
+## 2026-11-15 — Landscape cockpit and scene direction
+
+- Phone landscape uses the viewport height, not desktop width, to select its compact cockpit. The player sees meters, the live scene, three bolt steppers, and End day at 800 x 360 without page scrolling.
+- Compact cockpit removes only duplicate goal and preset copy. Engine-backed bolt controls and 48 px touch targets remain visible.
+- The scene remains procedural and code-drawn. It uses no external art or invented NASA measurements.
+- Scene work is staged: responsive play first; then terrain, shelter, astronaut, light, stars, and solar-particle visuals; then outcome feedback. Any future radiation or thermal mechanic must be added to the pure engine with tests before the UI describes it.
+- The astronaut is a visual crew representative. The existing engine outcome controls its protected, sheltered, or caught presentation; it does not add a new loss rule.

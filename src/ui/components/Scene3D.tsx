@@ -19,12 +19,15 @@ export function Scene3D({ onContextLost, stormActive, outcome, ...props }: Scene
     if (!element) return
     let renderer: THREE.WebGLRenderer
     try {
-      renderer = new THREE.WebGLRenderer({ antialias: false, alpha: false })
+      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: 'high-performance' })
     } catch {
       onContextLost()
       return
     }
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5))
+    renderer.outputColorSpace = THREE.SRGBColorSpace
+    renderer.toneMapping = THREE.ACESFilmicToneMapping
+    renderer.toneMappingExposure = 1.1
     renderer.setSize(element.clientWidth, element.clientHeight)
     element.appendChild(renderer.domElement)
     const scene = new THREE.Scene()
