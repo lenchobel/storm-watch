@@ -1,0 +1,133 @@
+@media (min-width: 1024px) {
+  .app-shell {
+    width: min(100%, 1200px);
+    max-width: 1200px;
+    padding: 16px 20px;
+  }
+
+  .screen-stack:not(.picker-screen) { max-width: 100%; }
+
+  .screen-stack[data-testid="sol"] {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    grid-template-rows: auto minmax(480px, 1fr) auto 56px;
+  }
+
+  .screen-stack[data-testid="sol"] .hud-bar { grid-column: 1; grid-row: 1; }
+  .screen-stack[data-testid="sol"] .scene-frame { grid-column: 1; grid-row: 2; max-height: none; }
+  .screen-stack[data-testid="sol"] .orbi-bubble { grid-column: 1; grid-row: 3; }
+  .screen-stack[data-testid="sol"] .sol-controls-scroll { grid-column: 2; grid-row: 1 / 4; }
+  .screen-stack[data-testid="sol"] > .cta-btn { grid-column: 2; grid-row: 4; }
+
+  .screen-stack[data-testid="clock"] {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    grid-template-rows: auto minmax(480px, 1fr);
+  }
+
+  .screen-stack[data-testid="clock"] .hud-bar { grid-column: 1; grid-row: 1; }
+  .screen-stack[data-testid="clock"] .scene-frame { grid-column: 1; grid-row: 2; max-height: none; }
+  .screen-stack[data-testid="clock"] .clock-panel { grid-column: 2; grid-row: 1; }
+  .screen-stack[data-testid="clock"] .controls-stack { grid-column: 2; grid-row: 2; align-self: start; }
+
+  .screen-stack[data-testid="clock"].clock-outcome {
+    grid-template-rows: auto minmax(480px, 1fr) auto 56px;
+  }
+
+  .screen-stack[data-testid="clock"].clock-outcome .scene-frame { grid-column: 1; grid-row: 2 / 5; }
+  .screen-stack[data-testid="clock"].clock-outcome .orbi-bubble { grid-column: 2; grid-row: 3; align-self: center; }
+  .screen-stack[data-testid="clock"].clock-outcome > .cta-btn { grid-column: 2; grid-row: 4; }
+
+  .picker-screen {
+    height: calc(100dvh - 108px);
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    grid-template-rows: 48px 120px minmax(0, 1fr) 56px;
+  }
+
+  .picker-screen > .hero-header { grid-column: 1 / -1; grid-row: 1; }
+  .picker-screen > .picker-hero { grid-column: 1; grid-row: 2 / 4; }
+  .picker-screen > .picker-hero .scene-frame { height: 100%; min-height: 0; }
+  .picker-screen > .daily-card { grid-column: 2; grid-row: 2; }
+  .picker-screen > .picker-options { grid-column: 2; grid-row: 3; }
+  .picker-screen > .cta-btn { grid-column: 1 / -1; grid-row: 4; }
+
+  .screen-stack[data-testid="briefing"] {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 0.65fr);
+    grid-template-rows: minmax(0, 1fr) 56px 52px;
+    height: calc(100dvh - 104px);
+  }
+
+  .screen-stack[data-testid="briefing"] > .card { grid-column: 1; grid-row: 1 / 4; overflow: auto; }
+  .screen-stack[data-testid="briefing"] > .orbi-bubble { grid-column: 2; grid-row: 1; align-self: end; }
+  .screen-stack[data-testid="briefing"] > .cta-btn { grid-column: 2; grid-row: 2; }
+  .screen-stack[data-testid="briefing"] > .secondary-btn { grid-column: 2; grid-row: 3; }
+
+  .collection-screen { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .collection-screen > section { grid-column: 1 / -1; }
+}
+
+@media (orientation: landscape) and (max-height: 600px) {
+  .app-shell:has(.picker-screen),
+  .app-shell:has(.screen-stack[data-testid="sol"]),
+  .app-shell:has(.screen-stack[data-testid="clock"]) {
+    width: min(100%, 1100px);
+    max-width: 1100px;
+    height: 100dvh;
+    min-height: 0;
+    padding: 6px 10px;
+    gap: 6px;
+  }
+
+  .picker-screen {
+    height: calc(100dvh - 66px);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: 36px 108px minmax(0, 1fr) 52px;
+    gap: 6px;
+  }
+
+  .picker-screen > .hero-header { grid-column: 1 / -1; grid-row: 1; }
+  .picker-screen > .picker-hero { grid-column: 1; grid-row: 2 / 4; }
+  .picker-screen > .picker-hero .scene-frame { height: 100%; min-height: 0; }
+  .picker-screen > .daily-card { grid-column: 2; grid-row: 2; }
+  .picker-screen > .picker-options { grid-column: 2; grid-row: 3; }
+  .picker-screen > .cta-btn { grid-column: 1 / -1; grid-row: 4; min-height: 52px; }
+  .picker-screen .daily-card { padding: 6px 8px; gap: 6px; }
+  .picker-screen .daily-card p,
+  .picker-screen .daily-card progress { display: none; }
+  .picker-screen .daily-card .h2-title { font-size: 18px; }
+  .picker-screen .daily-card strong { font-size: 14px; }
+  .picker-screen .daily-card .secondary-btn { width: 100%; min-height: 48px; height: 48px; }
+
+  .screen-stack[data-testid="sol"] {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: 54px minmax(110px, 1fr) 48px 52px;
+  }
+
+  .screen-stack[data-testid="sol"] .hud-bar { grid-column: 1; grid-row: 1; min-height: 54px; }
+  .screen-stack[data-testid="sol"] .scene-frame { grid-column: 1; grid-row: 2; min-height: 110px; }
+  .screen-stack[data-testid="sol"] .orbi-bubble { grid-column: 1; grid-row: 3; min-height: 48px; padding: 4px 8px; }
+  .screen-stack[data-testid="sol"] .orbi-figure { flex-direction: row; }
+  .screen-stack[data-testid="sol"] .sol-controls-scroll { grid-column: 2; grid-row: 1 / 4; }
+  .screen-stack[data-testid="sol"] > .cta-btn { grid-column: 2; grid-row: 4; min-height: 52px; height: 52px; }
+  .screen-stack[data-testid="sol"] .control-card { min-height: 72px; padding: 6px; }
+  .screen-stack[data-testid="sol"] .control-hint { font-size: 14px; }
+  .screen-stack[data-testid="sol"] .preset-row { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; }
+  .screen-stack[data-testid="sol"] .preset-btn { min-height: 48px; padding: 4px; font-size: 14px; }
+
+  .screen-stack[data-testid="clock"] {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: 54px minmax(100px, 1fr) 56px;
+  }
+
+  .screen-stack[data-testid="clock"] .hud-bar { grid-column: 2; grid-row: 1; min-height: 54px; }
+  .screen-stack[data-testid="clock"] .scene-frame { grid-column: 1; grid-row: 1 / 4; min-height: 100px; }
+  .screen-stack[data-testid="clock"] .clock-panel { grid-column: 2; grid-row: 2; flex-direction: row; text-align: left; padding: 4px; gap: 8px; }
+  .screen-stack[data-testid="clock"] .ring-wrap svg { width: 96px; height: 96px; }
+  .screen-stack[data-testid="clock"] .controls-stack { grid-column: 2; grid-row: 3; align-self: end; gap: 6px; }
+  .screen-stack[data-testid="clock"] .controls-stack button { min-height: 52px; padding: 6px; font-size: 16px; }
+  .screen-stack[data-testid="clock"].clock-outcome .orbi-bubble { grid-column: 2; grid-row: 3; min-height: 48px; }
+  .screen-stack[data-testid="clock"].clock-outcome { grid-template-rows: 54px minmax(70px, 1fr) 48px 52px; }
+  .screen-stack[data-testid="clock"].clock-outcome .scene-frame { grid-column: 1; grid-row: 1 / 5; }
+  .screen-stack[data-testid="clock"].clock-outcome .clock-panel { grid-column: 2; grid-row: 2; }
+  .screen-stack[data-testid="clock"].clock-outcome .orbi-bubble { grid-column: 2; grid-row: 3; }
+  .screen-stack[data-testid="clock"].clock-outcome > .cta-btn { grid-column: 2; grid-row: 4; min-height: 52px; }
+}

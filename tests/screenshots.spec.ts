@@ -12,6 +12,7 @@ const OUT = 'screenshots'
 
 const SIZES = [
   { name: '360x640', width: 360, height: 640 },
+  { name: '640x360', width: 640, height: 360 },
   { name: '1280x800', width: 1280, height: 800 },
 ]
 
@@ -113,6 +114,7 @@ for (const size of SIZES) {
     await page.getByRole('button', { name: 'Pick another storm' }).click()
 
     // 1b. The sound toggle, in both states.
+    await page.getByRole('button', { name: 'Settings' }).click()
     const muteBtn = page.getByRole('button', { name: 'Mute sound' })
     await muteBtn.click()
     await expect(page.getByRole('button', { name: 'Unmute sound' })).toBeVisible()
@@ -120,6 +122,7 @@ for (const size of SIZES) {
     await page.getByRole('button', { name: 'Unmute sound' }).click()
     await expect(page.getByRole('button', { name: 'Mute sound' })).toBeVisible()
     await shot(page, `${size.name}-01c-picker-unmuted`)
+    await page.getByRole('button', { name: 'Close' }).click()
 
     // 2..6. The five info pages
     const infoButtons = [

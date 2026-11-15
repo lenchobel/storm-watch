@@ -1,0 +1,133 @@
+.screen-stack[data-testid="briefing"] {
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.screen-stack[data-testid="briefing"] > .cta-btn {
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
+}
+
+.screen-stack[data-testid="collection"],
+.screen-stack[data-testid="debrief"],
+.screen-stack[data-testid="info"] {
+  padding-bottom: 12px;
+}
+
+.app-shell:has(.screen-stack[data-testid="briefing"]),
+.app-shell:has(.screen-stack[data-testid="collection"]),
+.app-shell:has(.screen-stack[data-testid="debrief"]),
+.app-shell:has(.screen-stack[data-testid="info"]) {
+  height: auto;
+  min-height: 100dvh;
+  overflow: visible;
+}
+
+.collection-screen {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.collection-screen > section,
+.collection-screen > button {
+  grid-column: 1 / -1;
+}
+
+.collection-screen > section.card {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.collection-screen > section.card > :is(h1, p) {
+  grid-column: 1 / -1;
+}
+
+.collection-card {
+  min-width: 0;
+  padding: 12px 8px;
+  overflow-wrap: break-word;
+}
+
+.sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 12px;
+  background: #07111ddd;
+}
+
+.settings-sheet {
+  width: min(100%, 480px);
+  max-height: 85dvh;
+  overflow: auto;
+}
+
+.settings-sheet > button {
+  width: 100%;
+  justify-content: flex-start;
+}
+
+.setting-sound-row {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.setting-sound-row .icon-btn {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+}
+
+.top-bar-left > .compact-btn {
+  width: 48px;
+  flex: 0 0 48px;
+  padding: 0;
+  gap: 0;
+  font-size: 0;
+}
+
+.top-bar-left > .compact-btn::before {
+  width: 9px;
+  height: 9px;
+  border-left: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  content: '';
+  transform: rotate(45deg);
+}
+
+@media (orientation: portrait) and (max-width: 900px) {
+  .landscape-hint {
+    display: block;
+    align-self: center;
+    max-width: 100%;
+    margin: 0;
+    padding: 4px 10px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--panel);
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 16px;
+    text-align: center;
+  }
+}
+
+@media (max-height: 700px) {
+  .app-shell { padding: 8px; gap: 8px; }
+  .screen-stack { gap: 8px; }
+  .card { padding: 10px 8px; gap: 8px; }
+  .screen-stack[data-testid="sol"] .scene-frame { max-height: 150px; }
+  .screen-stack[data-testid="clock"] .scene-frame { max-height: 112px; }
+  .screen-stack[data-testid="sol"] .orbi-state { display: none; }
+}
+
+@media (min-width: 600px) and (max-width: 1023px) {
+  .app-shell { max-width: 480px; }
+}

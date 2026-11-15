@@ -214,3 +214,14 @@
 - Local Vite server on port 3000 was already occupied and inaccessible from this environment; latest edits are served on port 3001.
 
 - Landscape-first play: landscape phone layout keeps scene left and controls right; storm actions are side by side. Portrait phones show a translated rotation hint while remaining usable.
+- Responsive overrides now load last, after screen styles.
+- Sol keeps scene, meters, Orbi, and End day visible. Only controls scroll.
+- Button labels wrap at spaces to prevent broken words.
+- Test UI opens Settings before sound and Simple 2D controls.
+- The portrait rotation hint stays in normal flow; it never covers a game control.
+- Browser screenshot coverage includes 640 x 360 landscape, 360 x 640 phone, and 1280 x 800 desktop.
+- Collection returns from the shared header, so the back action stays reachable.
+- Repaired incomplete responsive CSS rules and limited desktop columns to 1024 px and wider. This restored the short-landscape picker and prevented layout overrides on phones.
+- Existing selector names and engine assertions were not changed. Test flows now open Settings and close it before the next screen; landscape checks use `end-day`, `work-block`, and `shelter-now` bounds.
+- Verified 67 unit tests, the production build, all 35 browser tests, translation key parity, mobile/desktop/landscape overflow, and zero serious or critical axe findings in covered flows.
+- Browser screenshot output was generated for English and Afaan Oromoo at 360 x 640, 640 x 360, and 1280 x 800. The native browser bridge remained unavailable, so review used Playwright captures.

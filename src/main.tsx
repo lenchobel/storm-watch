@@ -5,10 +5,12 @@ import { LanguageProvider } from './i18n'
 import { App } from './ui/App'
 import './ui/tokens.css'
 import './ui/styles.css'
-import './ui/responsive.css'
 import './ui/screens.css'
 import './ui/meters.css'
 import './ui/debrief.css'
+import './ui/responsive.css'
+import './ui/responsive-details.css'
+import './ui/responsive-wide.css'
 
 registerSW({ immediate: true })
 

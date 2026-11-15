@@ -212,6 +212,7 @@ export function SolScreen({
           </div>
         </section>
       )}
+      </section>
       <button
         type="button"
         className="cta-btn"
@@ -221,7 +222,6 @@ export function SolScreen({
       >
         {t('sol.endDay')}
       </button>
-      </section>
     </main>
   )
 }

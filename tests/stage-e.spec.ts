@@ -70,10 +70,32 @@ test('landscape keeps the scene visible while shield bolts change', async ({ pag
   const afterBox = await scene.boundingBox()
   expect(afterBox!.y).toBe(sceneBox!.y)
   await expect(page.getByTestId('end-day')).toBeVisible()
+  const endBox = await page.getByTestId('end-day').boundingBox()
+  expect(endBox!.y + endBox!.height).toBeLessThanOrEqual(360)
 })
 
 test('portrait phone explains landscape play', async ({ page }) => {
   await page.setViewportSize({ width: 360, height: 640 })
   await page.goto('/')
   await expect(page.getByRole('status').filter({ hasText: 'Turn your device sideways' })).toBeVisible()
+})
+
+test('landscape Storm Clock keeps both choices inside the screen', async ({ page }) => {
+  await page.setViewportSize({ width: 640, height: 360 })
+  await page.goto('/')
+  await page.getByTestId('start-mission').click()
+  await page.getByTestId('begin-sol').click()
+  for (let day = 0; day < 12; day++) {
+    if (await page.getByTestId('clock').isVisible().catch(() => false)) break
+    const guess = page.getByTestId('predict-unsure')
+    if (await guess.isVisible()) await guess.click()
+    await page.getByTestId('end-day').click()
+  }
+  await expect(page.getByTestId('clock')).toBeVisible()
+  for (const id of ['work-block', 'shelter-now']) {
+    const button = page.getByTestId(id)
+    await expect(button).toBeVisible()
+    const box = await button.boundingBox()
+    expect(box!.y + box!.height).toBeLessThanOrEqual(360)
+  }
 })

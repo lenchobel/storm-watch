@@ -139,7 +139,7 @@ AI assistance updated the compact settings header, responsive scene layouts, col
 The picker fit review found classroom-mode flex styles overriding its grid and a page-level scroll. AI-assisted CSS keeps its game frame fixed, scrolls choices inside, and pins Start mission.
 
 
-Follow-up screenshot review found overlapping desktop picker grid rows and a flex override. The picker grid now reserves separate rows for header, hero, daily mission, options, and launch. Only options scroll within the frame. Browser access was unavailable during this correction; final visual confirmation remains outstanding.
+Follow-up screenshot review found overlapping desktop picker grid rows and a flex override. The picker grid now reserves separate rows for header, hero, daily mission, options, and launch. Only options scroll within the frame.
 
 
 Responsive pass: applied fluid shared spacing, compact phone header and cards, tablet two-column picker, and bounded desktop scene sizing. Existing game rules and test assertions were left unchanged.
@@ -156,4 +156,10 @@ Bolt-planning update keeps the scene and meters fixed while affordability, prese
 
 The original local port 3000 was occupied, so the updated app dev server started on port 3001. This explains why earlier code changes did not appear in the existing browser tab.
 
-Landscape-first pass adds landscape-specific layouts for picker, Sol, Storm Clock, and briefing. Sol keeps the scene beside a scrollable control panel; the shield level directly updates the displayed scene. Added landscape-play browser checks. Browser automation stalled before producing test results, so visual verification remains outstanding.
+Landscape-first pass adds landscape-specific layouts for picker, Sol, Storm Clock, and briefing. Sol keeps the scene beside a scrollable control panel; the shield level directly updates the displayed scene. Added landscape-play browser checks.
+
+AI-assisted navigation pass reorders responsive styles after screen styles, pins primary actions, labels settings rows, and prevents mid-word button wrapping. Test flows open Settings before checking sound or Simple 2D.
+
+Final responsive review found unfinished CSS blocks in the responsive overrides. Repaired the rules and scoped desktop columns to 1024 px and wider. This fixed landscape sizing and kept phone layouts from inheriting desktop grids.
+
+Verification completed: 67 unit tests passed; build passed; all 35 browser tests passed; English/Afaan Oromoo have 350 keys each with matching sets and placeholders. The catalogue has 12 equal-valued translations. Axe reported zero serious or critical issues in tested flows. Screenshots were generated at 360x640, 640x360, and 1280x800; representative English and Oromo screens were visually reviewed. The build retains its existing 534.39 kB 3D chunk warning. The native Chrome/browser bridge was unavailable, so no physical-device or native-browser check was possible.

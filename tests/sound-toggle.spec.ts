@@ -10,6 +10,7 @@ test('sound toggle is an icon-only 48px button with a centred speaker glyph', as
   await page.setViewportSize({ width: 360, height: 640 })
   await page.goto('/')
   await page.getByRole('heading', { name: 'Storm Watch' }).waitFor()
+  await page.getByRole('button', { name: 'Settings' }).click()
 
   const btn = page.getByRole('button', { name: 'Mute sound' })
   await expect(btn).toBeVisible()

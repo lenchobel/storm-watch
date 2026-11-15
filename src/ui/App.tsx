@@ -29,7 +29,6 @@ export function App() {
   const { t } = useI18n()
   const [state, dispatch] = useReducer(missionReducer, undefined, createInitialState)
   const { progress, setProgress, rankUp, newBest } = useRunProgress(state)
-
   useEffect(() => {
     let active = true
     void loadStorms().then((res) => {
@@ -72,7 +71,6 @@ export function App() {
   const fullPlan: Plan = {
     sols: Array.from({ length: 7 }, (_, idx) => state.solPlans[idx] ?? DEFAULT_SOL_PLAN),
   }
-
   const handleInstall = async () => {
     if (!state.installPrompt) return
     await state.installPrompt.prompt()
@@ -96,15 +94,13 @@ export function App() {
   const handleSimpleView = () => {
     setProgress((current) => updateSettings({ simpleView: !current.settings.simpleView }))
   }
-
   return (
     <>
       <TriLine />
       <div className={`app-shell ${progress.settings.classroom ? 'classroom-mode' : ''}`}>
         <IconSprite />
         <TopBar
-        title={t(state.infoPage ? 'screen.info' : titleMap[state.screen])}
-        muted={state.muted}
+        title={t(state.infoPage ? 'screen.info' : titleMap[state.screen])} muted={state.muted}
         isOffline={state.isOffline}
         onToggleMute={handleMute}
         vibration={progress.settings.vibration}
@@ -112,21 +108,19 @@ export function App() {
         simpleView={progress.settings.simpleView}
         onToggleSimpleView={handleSimpleView}
         onClearProgress={() => setProgress(clearProgress())}
+        backLabel={state.screen === 'collection' ? t('info.back') : undefined}
         onBack={
           state.infoPage
             ? () => dispatch({ type: 'OPEN_INFO', page: null })
-            : state.screen === 'briefing'
+            : state.screen === 'briefing' || state.screen === 'collection'
               ? () => dispatch({ type: 'BACK_PICKER' })
               : undefined
         }
       />
-
       <p className="landscape-hint" role="status">{t('game.landscapeHint')}</p>
-
       {state.challengeStars !== null && state.screen !== 'picker' && (
         <p className="challenge-banner">{t('debrief.challengeBanner', { n: state.challengeStars })}</p>
       )}
-
       {state.infoPage ? (
         <InfoScreen
           page={state.infoPage}
@@ -143,7 +137,7 @@ export function App() {
           onToggleSimpleView={handleSimpleView}
         />
       ) : state.screen === 'collection' ? (
-        <CollectionScreen storms={state.storms} progress={progress} onBack={() => dispatch({ type: 'BACK_PICKER' })} />
+        <CollectionScreen storms={state.storms} progress={progress} />
       ) : state.screen === 'picker' ? (
         <PickerScreen
           storms={state.storms}

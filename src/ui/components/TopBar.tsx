@@ -85,9 +85,20 @@ export function TopBar({
       {settingsOpen && <div className="sheet-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setSettingsOpen(false) }}>
         <section className="settings-sheet card" role="dialog" aria-modal="true" aria-label={t('settings.title')}>
           <div className="row-between"><h2 className="h2-title">{t('settings.title')}</h2><button type="button" aria-label={t('common.close')} onClick={() => setSettingsOpen(false)}>×</button></div>
-          <button type="button" aria-pressed={muted} onClick={onToggleMute}><Icon name={muted ? 'speaker-off' : 'speaker'} />{muted ? t('common.unmuteSound') : t('common.muteSound')}</button>
+          <div className="setting-sound-row">
+            <span>{t('settings.sound')}</span>
+            <button
+              type="button"
+              className="icon-btn"
+              aria-label={t(muted ? 'common.unmuteSound' : 'common.muteSound')}
+              aria-pressed={muted}
+              onClick={onToggleMute}
+            >
+              <Icon name={muted ? 'speaker-off' : 'speaker'} />
+            </button>
+          </div>
           <button type="button" aria-pressed={!vibration} onClick={onToggleVibration}>{t('settings.vibration')}</button>
-          <button type="button" aria-pressed={simpleView} onClick={onToggleSimpleView}>{t('settings.simpleView')}</button>
+          <button type="button" data-testid="simple-view-toggle" aria-pressed={simpleView} onClick={onToggleSimpleView}>{t('settings.simpleView')}</button>
           <button type="button" onClick={onClearProgress}>{t('settings.clearProgress')}</button>
         </section>
       </div>}

@@ -200,6 +200,7 @@
   "saver.benefit.air": "The air would have lasted.",   "saver.benefit.safe": "The crew would have stayed safe.",
   "saver.benefit.moreScience": "You would have earned more science.",
   "saver.benefit.stars": "You would have earned {n} stars.",   "settings.title": "Settings",
+  "settings.sound": "Sound",
   "settings.vibration": "Storm vibration",   "settings.simpleView": "Simple 2D view",
   "settings.clearProgress": "Clear progress",   "common.close": "Close",
   "result.0": "The crew did not make it. Try again.",   "result.1": "Crew safe",   "result.2": "Good mission",

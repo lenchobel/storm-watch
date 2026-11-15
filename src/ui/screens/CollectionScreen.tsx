@@ -3,7 +3,7 @@ import { useI18n } from '../../i18n'
 import { bestStarsKey, type Progress } from '../progress'
 import { Icon } from '../components/Icon'
 
-export function CollectionScreen({ storms, progress, onBack }: { storms: Storm[]; progress: Progress; onBack: () => void }) {
+export function CollectionScreen({ storms, progress }: { storms: Storm[]; progress: Progress }) {
   const { t } = useI18n()
   const best = (stormId: string, site: Site) => Math.max(
     progress.bestStars[bestStarsKey(stormId, site, 'cadet')] ?? 0,
@@ -11,7 +11,7 @@ export function CollectionScreen({ storms, progress, onBack }: { storms: Storm[]
   )
   return <main className="screen-stack collection-screen" data-testid="collection">
     <section className="card">
-      <h1 className="brand-title">{t('collection.title')}</h1>
+      <h1 className="visually-hidden">{t('collection.title')}</h1>
       <p className="muted">{t('collection.forecaster', { right: progress.forecaster.right, guesses: progress.forecaster.guesses })}</p>
       <p className="muted">{t('collection.forecastNote')}</p>
       {storms.map((storm) => {
@@ -30,6 +30,5 @@ export function CollectionScreen({ storms, progress, onBack }: { storms: Storm[]
         </article>
       })}
     </section>
-    <button type="button" className="cta-btn" onClick={onBack}>{t('info.back')}</button>
   </main>
 }

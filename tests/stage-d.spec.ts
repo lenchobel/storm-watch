@@ -7,6 +7,7 @@ test('3D view draws a canvas and completes a mission without console errors', as
   const errors: string[] = []
   page.on('console', (message) => { if (message.type() === 'error') errors.push(message.text()) })
   await page.goto('/')
+  await page.getByRole('button', { name: 'Settings' }).click()
   await page.getByTestId('simple-view-toggle').click()
   await page.goto(`/?seed=1&storm=${storm}&site=moon&difficulty=cadet`)
   await expect(page.getByTestId('scene-3d').locator('canvas')).toBeVisible()
@@ -22,6 +23,7 @@ test('3D view draws a canvas and completes a mission without console errors', as
 
 test('Mars procedural scene fits phone and desktop viewports', async ({ page }, testInfo) => {
   await page.goto('/')
+  await page.getByRole('button', { name: 'Settings' }).click()
   await page.getByTestId('simple-view-toggle').click()
   await page.goto(`/?seed=1&storm=${storm}&site=mars&difficulty=cadet`)
   await expect(page.getByTestId('scene-3d').locator('canvas')).toBeVisible()
@@ -33,6 +35,7 @@ test('Mars procedural scene fits phone and desktop viewports', async ({ page }, 
 
 test('simple view switches the mission scene back to SVG', async ({ page }) => {
   await page.goto('/')
+  await page.getByRole('button', { name: 'Settings' }).click()
   const toggle = page.getByTestId('simple-view-toggle')
   await expect(toggle).toHaveAttribute('aria-pressed', 'true')
   await toggle.click()
@@ -42,6 +45,7 @@ test('simple view switches the mission scene back to SVG', async ({ page }) => {
   await expect(page.getByTestId('scene-3d').locator('canvas')).toBeVisible()
   await playToDebrief(page, 'shelter')
   await page.getByRole('button', { name: 'Pick another storm' }).click()
+  await page.getByRole('button', { name: 'Settings' }).click()
   await page.getByTestId('simple-view-toggle').click()
   await page.goto(`/?seed=1&storm=${storm}&site=moon&difficulty=cadet`)
   await expect(page.locator('.scene-frame svg')).toBeVisible()
@@ -50,6 +54,7 @@ test('simple view switches the mission scene back to SVG', async ({ page }) => {
 
 test('lost WebGL context falls back to the 2D scene', async ({ page }) => {
   await page.goto('/')
+  await page.getByRole('button', { name: 'Settings' }).click()
   await page.getByTestId('simple-view-toggle').click()
   await page.goto(`/?seed=1&storm=${storm}&site=moon&difficulty=cadet`)
   await expect(page.getByTestId('scene-3d').locator('canvas')).toBeVisible()
@@ -62,6 +67,7 @@ test('lost WebGL context falls back to the 2D scene', async ({ page }) => {
 test('3D and 2D scenes compare across storm outcomes and viewports', async ({ page }, testInfo) => {
   test.setTimeout(240_000)
   await page.goto('/')
+  await page.getByRole('button', { name: 'Settings' }).click()
   await page.getByTestId('simple-view-toggle').click()
   const sizes = [{ width: 360, height: 640 }, { width: 1280, height: 800 }]
   const capture = async (site: string, mode: string, screen: string) => {
